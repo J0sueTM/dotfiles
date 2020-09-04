@@ -1,6 +1,4 @@
-# .vimrc file by J0sueTM
-
-" by JosueTM
+" .vimrc file by J0sueTM
 
 if v:progname =~? "evim"
     finish
