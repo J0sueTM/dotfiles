@@ -1,2 +1,3 @@
-# dotfiles
-My personal dot files
+# Dot files
+
+Hi, this is a personal repository that contains my dot files
