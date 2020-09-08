@@ -5,7 +5,7 @@ if v:progname =~? "evim"
 endif
 
 " Plugins
-call plug#begin('~/vimfiles/plugged')
+call plug#begin('~/.vim/autoload/')
 
     Plug 'jremmen/vim-ripgrep'
     Plug 'https://github.com/tpope/vim-surround.git'
@@ -31,7 +31,9 @@ call plug#end()
 source $VIMRUNTIME/defaults.vim
 
 " closes the toolbar and the menubar
-set guioptions -=T
+if (has("gui_running"))
+    set guioptions -=T
+endif
 
 " no error sounds
 set noerrorbells visualbell t_vb=
@@ -53,7 +55,7 @@ set cursorline
 
 if has("gui_running")
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Ubuntu\ Mono\ 13
+        set guifont=Source\ Code\ Pro\ Semi-Bold\ 13
     elseif has("gui_macvin")
         set guifont=Menlo\ Regular:h14
     elseif has("gui_win32")
