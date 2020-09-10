@@ -1,5 +1,5 @@
 # Arch Linux Installation
-### My process to installing my favourite linux ditribution
+### My process to installing my favourite linux distribution
 
 **Create bootable pendrive**
 
