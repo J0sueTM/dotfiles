@@ -341,7 +341,7 @@ sudo pacman -S ttf-hack
 **Install visual plugins**
 ```
 sudo pacman -S compton
-sudo pacman -S nitrogen
+sudo pacman -S feh
 ```
 
 **Install GUIMP toolkit**
