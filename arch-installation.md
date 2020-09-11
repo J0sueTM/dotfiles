@@ -216,7 +216,7 @@ sudo passwd josuetm
 
 Open sudoers:
 ```
-sudo vim /etc/sudoers
+sudo EDITOR=vim visudo
 ```
 
 Add user permission: (under root)
