@@ -16,6 +16,10 @@ ip link
 
 enter iwd:
 ```
+iwctl
+```
+
+```
 device list
 ```
 
@@ -41,9 +45,9 @@ exit iwd
 
 with cfdisk, create the following partitions:
 
-- EFI System [size = 512M] minimum
-- Linux Swap [size = (RAM size)]
-- Root Partition [size = (remaining disk space)]
+- EFI System [syze = 512M] minimum
+- Linux Swap [syze = (RAM size)]
+- Root Partition [syze = (remaining disk space)]
 
 **Give partitions a file system**
 
@@ -183,6 +187,43 @@ Create grub config file:
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
+**Gksu**
+```
+sudo pacman -S gksu
+```
+
+**Users**
+
+Enable "wheel" group:
+```
+sudo EDITOR=vim visudo
+```
+
+Uncomment the following line:
+```
+# %wheel ALL=(ALL) NOPASSWD: ALL
+```
+
+Add user:
+```
+sudo useradd -m josuetm
+```
+
+Add password:
+```
+sudo passwd josuetm
+```
+
+Open sudoers:
+```
+sudo vim /etc/sudoers
+```
+
+Add user permission: (under root)
+```
+josuetm ALL=(ALL) ALL
+```
+
 ## Post Instalation
 
 **install terminal emulator**
@@ -267,6 +308,7 @@ Optional packages I use:
 - gvim: programming and file editing
 - Compton: visual effects
 - Firefox: browser
+- Git: Version Control
 
 **Install codecs/plugins**
 
@@ -316,7 +358,7 @@ sudo pacman -S arc-gtk-theme
 **Install softwares**
 
 ```
-sudo pacman -S firefox libreoffice 
+sudo pacman -S firefox libreoffice git
 ```
 
 **Install archive managers**
@@ -324,3 +366,48 @@ sudo pacman -S firefox libreoffice
 ```
 sudo pacman -S p7zip p7zip-plugins unrar tar rsync
 ```
+
+**Install yay for AUR**
+
+Clone repository:
+```
+sudo git clone https://aur.archlinux.org/yay-git.git 
+```
+
+Build:
+```
+cd yay
+makepkg -si
+```
+
+**Install snap**
+```
+yay -S snapd
+```
+
+**Install polybar**
+
+```
+yay -S polybar
+```
+
+Copy config file:
+```
+mkdir ~/.config/polybar/
+
+cp /usr/share/doc/polybar/config ~/.config/polybar/
+```
+
+Make file on ~/.config/polybar/launch.sh
+```
+touch ~/.config/polybar/launch.sh
+```
+
+Add "launch.sh" to awesome
+
+**Useful directories**
+awesome: ~/.config/awesome/
+lightdm: /etc/lightdm/
+polybar: ~/.config/polybar/
+rofi: ~/.config/rofi/
+vim: ~/.vimrc
