@@ -406,8 +406,13 @@ touch ~/.config/polybar/launch.sh
 Add "launch.sh" to awesome
 
 **Useful directories**
-awesome: ~/.config/awesome/
-lightdm: /etc/lightdm/
-polybar: ~/.config/polybar/
-rofi: ~/.config/rofi/
-vim: ~/.vimrc
+
+- awesome: ~/.config/awesome/
+
+- lightdm: /etc/lightdm/
+
+- polybar: ~/.config/polybar/
+
+- rofi: ~/.config/rofi/
+
+- vim: ~/.vimrc
