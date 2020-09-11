@@ -360,7 +360,7 @@ awful.rules.rules = {
       }, properties = { floating = true }},
 
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
+      }, properties = { titlebars_enabled = false }
     },
 
 }
