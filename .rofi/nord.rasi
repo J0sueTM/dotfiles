@@ -1,0 +1,35 @@
+* {
+    background-color: rgba(76,86,106,0.7);
+    color: #eceff4;
+    border-color: #434c5e;
+    margin: 0;
+    padding: 0;
+    font: "Roboto 12";
+    spacing: 0;
+
+    /* Enable debug red lines around everything */
+    /* border: 1px; */
+    /* border-color: red; */
+}
+
+prompt {
+    padding: 10 25;
+    background-color: #5e81ac;
+}
+
+entry {
+    padding: 10;
+}
+
+case-indicator {
+    padding: 10;
+}
+
+element {
+    padding: 10;
+    border: 1 0 0 0;
+}
+
+element selected {
+    background-color: #434c5e;
+}
