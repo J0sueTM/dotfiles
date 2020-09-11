@@ -41,9 +41,9 @@ exit iwd
 
 with cfdisk, create the following partitions:
 
-- EFI System [syze = 512M] minimum
-- Linux Swap [syze = (RAM size)]
-- Root Partition [syze = (remaining disk space)]
+- EFI System [size = 512M] minimum
+- Linux Swap [size = (RAM size)]
+- Root Partition [size = (remaining disk space)]
 
 **Give partitions a file system**
 
