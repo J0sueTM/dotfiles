@@ -371,7 +371,7 @@ sudo pacman -S p7zip p7zip-plugins unrar tar rsync
 
 Clone repository:
 ```
-sudo git clone https://aur.archlinux.org/yay-git.git 
+sudo git clone https://aur.archlinux.org/yay.git 
 ```
 
 Build:
