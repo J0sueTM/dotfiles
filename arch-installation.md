@@ -41,9 +41,9 @@ exit iwd
 
 with cfdisk, create the following partitions:
 
-1 - EFI System [syze = 512M] minimum
-2 - Linux Swap [syze = (RAM size)]
-3 - Root Partition [syze = (remaining disk space)]
+- EFI System [syze = 512M] minimum
+- Linux Swap [syze = (RAM size)]
+- Root Partition [syze = (remaining disk space)]
 
 **Give partitions a file system**
 
@@ -81,8 +81,6 @@ Mount efi:
 ```
 mount /dev/sda(number of efi partition) /boot/efi
 ```
-
-
 
 **Select mirrors**
 
@@ -192,6 +190,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
 pacman -S termite
 ```
 
+**Install base-devel pakg**
+```
+pacman -S base-devel
+```
+
 **Install xorg**
 ```
 pacman -S xorg
@@ -200,16 +203,20 @@ pacman -S xorg
 ### Install display manager
 
 **LightDM**
-I use lightdm:
 ```
 sudo pacman -S lightdm
-sudo pacman -S lightdm-gtk-greeter
+sudo pacman -S lightdm-webkit2-greeter
 ```
 
-Configure lightdm startup:
+Configure lightdm:
 ```
-systemctl start lightdm.service
-systemctl enable lightdm.service
+vim /etc/lightdm/lightdm.conf
+```
+
+Uncomment and add the following:
+```
+greeter-session = lightdm-webkit2-greeter
+user-session = awesome
 ```
 
 Install lightdm screenlocker:
@@ -217,28 +224,29 @@ Install lightdm screenlocker:
 sudo pacman -S light-locker
 ```
 
-Load lightdm:
+Enable lightdm:
 ```
 systemctl enable lightdm
 ```
 
+optional
 **gnome**
 ```
 sudo pacman -S gnome
 ```
 
-Load:
+Enable gnome:
 ```
-systemctl start gdm.service
 systemctl enable gdm.service
 ```
+optional
 
 **Load NetworkManager**
 ```
 systemctl enable NetworkManager.service
 ```
 
-**Install window manager**
+### Install window manager
 ```
 sudo pacman -S awesome
 ```
@@ -254,20 +262,11 @@ cp /etc/xdg/awesome/rc.lua ~/.config/awesome/
 ```
 
 Optional packages I use:
-- vicious: widget api
-- Naughty: notifications
 - thunar: file manager
 - rofi: file/app finder
 - gvim: programming and file editing
 - Compton: visual effects
 - Firefox: browser
-- lain: extra layouts to awesome manager
-
-**Install visual plugins**
-```
-sudo pacman -S compton
-sudo pacman -S nitrogen
-```
 
 **Install codecs/plugins**
 
@@ -280,10 +279,44 @@ or just install vlc media player that comes with all of them:
 sudo pacman -S vlc
 ```
 
+**install fonts**
+```
+sudo pacman -S ttf-proggy-clean
+sudo pacman -S adobe-source-pro-fonts
+sudo pacman -S terminus-font
+sudo pacman -S ttf-dejavu
+sudo pacman -S noto-fonts
+sudo pacman -S gnu-free-fonts
+sudo pacman -S ttf-liberation
+sudo pacman -S ttf-ubuntu-font-family
+sudo pacman -S ttf-linux-libertine
+sudo pacman -S ttf-inconsolata
+sudo pacman -S ttf-sarasa-gothic
+sudo pacman -S ttf-roboto
+sudo pacman -S ttf-hack
+```
+
+**Install visual plugins**
+```
+sudo pacman -S compton
+sudo pacman -S nitrogen
+```
+
+**Install GUIMP toolkit**
+```
+sudo pacman -S gtk2
+sudo pacman -S gtk3
+```
+
+**Install themes**
+```
+sudo pacman -S arc-gtk-theme
+```
+
 **Install softwares**
 
 ```
-sudo pacman -S firefox libreoffice
+sudo pacman -S firefox libreoffice 
 ```
 
 **Install archive managers**
