@@ -1,5 +1,5 @@
 # Arch Linux Installation
-### My process to install my favourite linux distribution
+### My process to installing my favourite linux distribution
 
 **Create bootable pendrive**
 
@@ -90,7 +90,7 @@ mount /dev/sda(number of efi partition) /boot/efi
 
 Sync package manager to the pacman repository:
 ```
-pacman -Syu
+pacman -Syy
 ```
 
 Install "reflector" for fresh and fast nearby mirrors:
@@ -216,7 +216,7 @@ sudo passwd josuetm
 
 Open sudoers:
 ```
-sudo EDITOR=vim visudo
+sudo vim /etc/sudoers
 ```
 
 Add user permission: (under root)
@@ -225,6 +225,19 @@ josuetm ALL=(ALL) ALL
 ```
 
 ## Post Instalation
+
+**Install yay for AUR**
+
+Clone repository:
+```
+sudo git clone https://aur.archlinux.org/yay-git.git 
+```
+
+Build:
+```
+cd yay
+makepkg -si
+```
 
 **install terminal emulator**
 ```
@@ -323,6 +336,13 @@ sudo pacman -S vlc
 
 **install fonts**
 ```
+sudo pacman -S xorg-font-util
+sudo pacman -S xorg-fonts-100dpi
+sudo pacman -S xorg-fonts-75dpi
+sudo pacman -S org-fonts-alias-100dpi
+sudo pacman -S xorg-fonts-alias-75dpi
+sudo pacman -S xorg-fonts-alias-cyrillic
+sudo pacman -S xorg-fonts-encodings
 sudo pacman -S ttf-proggy-clean
 sudo pacman -S adobe-source-pro-fonts
 sudo pacman -S terminus-font
@@ -336,12 +356,16 @@ sudo pacman -S ttf-inconsolata
 sudo pacman -S ttf-sarasa-gothic
 sudo pacman -S ttf-roboto
 sudo pacman -S ttf-hack
+sudo pacman -S ttf-fantasque-sans-mono
+sudo pacman -S ttf-material-design-icons
+sudo pacman -S ttf-all-the-icons
+sudo pacman -S nerd-fonts-mononoki
 ```
 
 **Install visual plugins**
 ```
 sudo pacman -S compton
-sudo pacman -S feh
+sudo pacman -S compton
 ```
 
 **Install GUIMP toolkit**
@@ -365,19 +389,6 @@ sudo pacman -S firefox libreoffice git
 
 ```
 sudo pacman -S p7zip p7zip-plugins unrar tar rsync
-```
-
-**Install yay for AUR**
-
-Clone repository:
-```
-sudo git clone https://aur.archlinux.org/yay.git 
-```
-
-Build:
-```
-cd yay
-makepkg -si
 ```
 
 **Install snap**
