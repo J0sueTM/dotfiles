@@ -90,7 +90,7 @@ mount /dev/sda(number of efi partition) /boot/efi
 
 Sync package manager to the pacman repository:
 ```
-pacman -Syy
+pacman -Syu
 ```
 
 Install "reflector" for fresh and fast nearby mirrors:
