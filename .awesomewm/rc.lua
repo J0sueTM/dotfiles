@@ -319,7 +319,8 @@ root.keys(globalkeys)
 -- {{{ Rules
 awful.rules.rules = {
     { rule = { },
-      properties = { border_width = beautiful.border_width,
+      properties = { -- border_width = beautiful.border_width,
+                     border_width = 2,
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      raise = true,
@@ -330,32 +331,32 @@ awful.rules.rules = {
      }
     },
 
-    -- Floating clients.
+    -- floating clients.
     { rule_any = {
         instance = {
-          "DTA",  -- Firefox addon DownThemAll.
-          "copyq",  -- Includes session name in class.
+          "dta",  -- firefox addon downthemall.
+          "copyq",  -- includes session name in class.
           "pinentry",
         },
         class = {
-          "Arandr",
-          "Blueman-manager",
-          "Gpick",
-          "Kruler",
-          "MessageWin",  -- kalarm.
-          "Sxiv",
-          "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-          "Wpa_gui",
+          "arandr",
+          "blueman-manager",
+          "gpick",
+          "kruler",
+          "messagewin",  -- kalarm.
+          "sxiv",
+          "tor browser", -- needs a fixed window size to avoid fingerprinting by screen size.
+          "wpa_gui",
           "veromix",
           "xtightvncviewer"},
 
         name = {
-          "Event Tester",  -- xev.
+          "event tester",  -- xev.
         },
         role = {
-          "AlarmWindow",  -- Thunderbird's calendar.
-          "ConfigManager",  -- Thunderbird's about:config.
-          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+          "alarmwindow",  -- thunderbird's calendar.
+          "configmanager",  -- thunderbird's about:config.
+          "pop-up",       -- e.g. google chrome's (detached) developer tools.
         }
       }, properties = { floating = true }},
 
@@ -366,7 +367,7 @@ awful.rules.rules = {
 }
 -- }}}
 
--- {{{ Signals
+-- {{{ signals
 client.connect_signal("manage", function (c)
     if awesome.startup
       and not c.size_hints.user_position
@@ -388,18 +389,18 @@ client.connect_signal("request::titlebars", function(c)
     )
 
     awful.titlebar(c) : setup {
-        { -- Left
+        { -- left
             layout  = wibox.layout.fixed.horizontal
         },
-        { -- Middle
-            { -- Title
+        { -- middle
+            { -- title
                 align  = "center",
                 widget = awful.titlebar.widget.titlewidget(c)
             },
             buttons = buttons,
             layout  = wibox.layout.flex.horizontal
         },
-        { -- Right
+        { -- right
             awful.titlebar.widget.floatingbutton (c),
             awful.titlebar.widget.maximizedbutton(c),
             awful.titlebar.widget.stickybutton   (c),
@@ -423,11 +424,13 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 beautiful.useless_gap = 10
 
 -- autostart feh and change background
-awful.util.spawn_with_shell("feh --bg-fill ~/Pictures/wallpaper02.jpg")
+awful.util.spawn_with_shell("feh --bg-fill --randomize ~/Pictures/wallpapers/*.jpg")
 
 
 -- autostart visual applications
 awful.spawn.with_shell("compton")
+
+awful.spawn.with_shell("polybar makebar")
 
 -- autostart audio applications with 70% sound
 awful.spawn.with_shell("pamixer --set-volume 70")

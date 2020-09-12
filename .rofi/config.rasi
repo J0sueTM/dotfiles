@@ -1,16 +1,15 @@
 configuration {
-    modi: "window,run,drun,combi";
+    modi: "window,drun,combi";
     lines: 5;
 
     display-window: ""; 
     display-combi: "";
-    display-run: "";
-    display-drun: "";
+    display-drun: "";
 
-    show-icons: false;
+    show-icons: true;
     theme: "nord";
     font: "Roboto 12";
-    combi-modi: "window,run,drun";
+    combi-modi: "window,drun";
 
     border-color:#FFFFFF;
  }
