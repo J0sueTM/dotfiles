@@ -254,12 +254,6 @@ pacman -S base-devel
 pacman -S xorg
 ```
 
-**Install intel drivers**
-```
-sudo pacman -S mesa
-sudo pacman -S xf86-video-intel
-```
-
 ### Install display manager
 
 **LightDM**
