@@ -327,7 +327,8 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
-                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
+                     placement = awful.placement.no_overlap+awful.placement.no_offscreen,
+                     opacity = 0.8
      }
     },
 
@@ -424,13 +425,13 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 beautiful.useless_gap = 10
 
 -- autostart feh and change background
-awful.util.spawn_with_shell("feh --bg-fill --randomize ~/Pictures/wallpapers/*.jpg")
-
+awful.spawn.with_shell("cd ~/.config/awesome/ && ./chwpp.sh")
 
 -- autostart visual applications
 awful.spawn.with_shell("compton")
 
-awful.spawn.with_shell("polybar makebar")
+-- activate polybar
+awful.spawn.with_shell("cd ~/.config/polybar/ && ./launch.sh")
 
 -- autostart audio applications with 70% sound
 awful.spawn.with_shell("pamixer --set-volume 70")
