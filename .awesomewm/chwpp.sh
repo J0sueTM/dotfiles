@@ -1,7 +1,7 @@
 # change feh wallpaper every 2 minutes
 
-while [ false ]
+while [ true ]
 do
     feh --bg-fill --randomize ~/Pictures/wallpapers/*.jpg
-    sleep 120
+    sleep 400
 done 
