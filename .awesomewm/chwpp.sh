@@ -1,4 +1,4 @@
-# change feh wallpaper every 2 minutes
+# change feh wallpaper every 400 seconds
 
 while [ true ]
 do
