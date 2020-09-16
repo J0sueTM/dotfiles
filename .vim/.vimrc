@@ -13,6 +13,7 @@ call plug#begin('~/.vim/autoload/')
     Plug 'https://github.com/preservim/nerdtree.git'
     Plug 'jiangmiao/auto-pairs'
     Plug 'https://github.com/itchyny/lightline.vim' 
+    Plug 'https://github.com/vbe0201/vimdiscord.git'
     
     " color shemes 
     Plug 'https://github.com/joshdick/onedark.vim.git'
@@ -33,7 +34,11 @@ source $VIMRUNTIME/defaults.vim
 " closes the toolbar and the menubar
 if (has("gui_running"))
     set guioptions -=T
+    set guioptions -=m
 endif
+
+" dvorak
+:set langmap=tj,nk,sl
 
 " no error sounds
 set noerrorbells visualbell t_vb=
@@ -55,7 +60,7 @@ set cursorline
 
 if has("gui_running")
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Source\ Code\ Pro\ Semi-Bold\ 12
+        set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
     elseif has("gui_macvin")
         set guifont=Menlo\ Regular:h14
     elseif has("gui_win32")
@@ -80,10 +85,6 @@ if !isdirectory(&undodir) | call mkdir(&undodir, "p") | endif
 if !isdirectory(&backupdir) | call mkdir(&backupdir, "p") | endif
 if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 
-
-" gh is edit mode
-inoremap GH <Esc>
-inoremap HG <Esc>
 
 map <F5> :call CompileRun()<CR>
 func! CompileRun()
