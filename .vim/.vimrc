@@ -37,7 +37,7 @@ if (has("gui_running"))
     set guioptions -=m
 endif
 
-" dvorak
+" dvorak movement
 :set langmap=tj,nk,sl
 
 " no error sounds
@@ -121,9 +121,6 @@ endfunc
 map <C-o> :NERDTreeToggle<CR>
 let g:NERDTreeWinPos = "right"
  
-" Automatically open nerdtree
-au VimEnter * NERDTree
-
 " Enable folding
 set foldmethod=indent
 set foldlevel=99
