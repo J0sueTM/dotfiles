@@ -38,7 +38,7 @@ if (has("gui_running"))
 endif
 
 " dvorak movement
-:set langmap=tj,nk,sl
+set langmap=tj,nk,sl
 
 " no error sounds
 set noerrorbells visualbell t_vb=
@@ -58,10 +58,11 @@ colo gruvbox
 
 set cursorline
 
+" set fonts
 if has("gui_running")
     if has("gui_gtk2") || has("gui_gtk3")
         set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
-    elseif has("gui_macvin")
+
         set guifont=Menlo\ Regular:h14
     elseif has("gui_win32")
         set guifont=Consolas:h11:cANSI
@@ -70,7 +71,7 @@ endif
 
 set laststatus=2
 
-" organizing swp files
+" organe vim files
 set directory^=$HOME/.vim/tmp//
 
 let &directory = expand('~/.vimdata/swap//')
@@ -85,7 +86,14 @@ if !isdirectory(&undodir) | call mkdir(&undodir, "p") | endif
 if !isdirectory(&backupdir) | call mkdir(&backupdir, "p") | endif
 if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 
+" toggle edit mode
+inoremap UH <Esc> 
+"
+" file navigation
+map <C-o> :NERDTreeToggle<CR>
+let g:NERDTreeWinPos="right"
 
+" compile
 map <F5> :call CompileRun()<CR>
 func! CompileRun()
 exec "w"
@@ -107,48 +115,23 @@ exec "!firefox %.html &"
 endif
 endfunc
 
-" compiling
-" cpp
-" autocmd filetype cpp nnoremap <F5> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-
-" python
-" autocmd filetype python nnoremap <F5> :w <bar> exec '!python3 '.shellescape(%)<CR>
-
-" java
-" autocmd filetype java nnoremap <F5> :w <bar> exec '!javac '.shellescape('%').' && java '.shellescape('%:r')<CR>
-
-" autocmd vimenter * NERDTree
-map <C-o> :NERDTreeToggle<CR>
-let g:NERDTreeWinPos = "right"
- 
-" Enable folding
+" folding
 set foldmethod=indent
 set foldlevel=99
-
-" Enable folding with the spacebar
 nnoremap <space> za
 
-set nobackup      " do not keep a backup file, use versions instead
+set nobackup
 
 if &t_Co > 2 || has("gui_running")
-  " Switch on highlighting the last used search pattern.
   set hlsearch
 endif
 
-" Put these in an autocmd group, so that we can delete them easily.
 augroup vimrcEx
   au!
 
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
+autocmd FileType text setlocal textwidth=78
 augroup END
 
-" Add optional packages.
-"
-" The matchit plugin makes the % command work better, but it is not backwards
-" compatible.
-" The ! means the package won't be loaded right away but when plugins are
-" loaded during initialization.
 if has('syntax') && has('eval')
   packadd! matchit
 endif
