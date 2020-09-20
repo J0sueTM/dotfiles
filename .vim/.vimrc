@@ -4,29 +4,29 @@ if v:progname =~? "evim"
     finish
 endif
 
-" Plugins
-call plug#begin('~/.vim/autoload/')
+" Vundle
+set rtp+=~/.vim/bundle/Vundle.vim 
+call vundle#begin('~/.vim/autoload/')
+     Plugin 'VundleVim/Vundle.vim' 
 
-    Plug 'jremmen/vim-ripgrep'
-    Plug 'https://github.com/tpope/vim-surround.git'
-    Plug 'mbbill/undotree'
-    Plug 'https://github.com/preservim/nerdtree.git'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'https://github.com/itchyny/lightline.vim' 
-    Plug 'https://github.com/vbe0201/vimdiscord.git'
-    
-    " color shemes 
-    Plug 'https://github.com/joshdick/onedark.vim.git'
-    Plug 'https://github.com/morhetz/gruvbox.git'
-    Plug 'https://github.com/jacoborus/tender.vim.git'
-    Plug 'dracula/vim', {'as':'dracula'}
-    Plug 'https://github.com/drewtempelmeyer/palenight.vim.git'
-    Plug 'https://github.com/sainnhe/sonokai.git'
-    Plug 'https://github.com/gosukiwi/vim-atom-dark.git'
-    Plug 'https://github.com/kyoz/purify.git'
-    Plug 'https://github.com/voronianski/oceanic-next-color-scheme.git'
+     Plugin 'jremmen/vim-ripgrep'
+     Plugin 'https://github.com/tpope/vim-surround.git'
+     Plugin 'mbbill/undotree'
+     Plugin 'https://github.com/preservim/nerdtree.git'
+     Plugin 'jiangmiao/auto-pairs'
+     Plugin 'https://github.com/itchyny/lightline.vim' 
+     Plugin 'https://github.com/vbe0201/vimdiscord.git'
+     
+     " color shemes 
+     Plugin 'https://github.com/joshdick/onedark.vim.git'
+     Plugin 'https://github.com/morhetz/gruvbox.git'
+     Plugin 'https://github.com/jacoborus/tender.vim.git'
+     Plugin 'https://github.com/drewtempelmeyer/palenight.vim.git'
+     Plugin 'https://github.com/sainnhe/sonokai.git'
+     Plugin 'https://github.com/gosukiwi/vim-atom-dark.git'
 
-call plug#end()
+call vundle#end()
+filetype plugin indent on
 
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
@@ -49,12 +49,11 @@ set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
-set number
 set wrap
 set smartcase
-
+set nu rnu
 set background=dark
-colo gruvbox 
+colo sonokai 
 
 set cursorline
 
@@ -87,8 +86,8 @@ if !isdirectory(&backupdir) | call mkdir(&backupdir, "p") | endif
 if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 
 " toggle edit mode
-inoremap UH <Esc> 
-"
+inoremap HL <Esc> 
+
 " file navigation
 map <C-o> :NERDTreeToggle<CR>
 let g:NERDTreeWinPos="right"
