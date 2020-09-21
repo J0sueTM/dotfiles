@@ -1,29 +1,29 @@
 " .vimrc file by J0sueTM
 
 if v:progname =~? "evim"
-    finish
+        finish
 endif
 
-" Vundle
-set rtp+=~/.vim/bundle/Vundle.vim 
+    " Vundle
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin('~/.vim/autoload/')
-     Plugin 'VundleVim/Vundle.vim' 
+    Plugin 'VundleVim/Vundle.vim' 
 
-     Plugin 'jremmen/vim-ripgrep'
-     Plugin 'https://github.com/tpope/vim-surround.git'
-     Plugin 'mbbill/undotree'
-     Plugin 'https://github.com/preservim/nerdtree.git'
-     Plugin 'jiangmiao/auto-pairs'
-     Plugin 'https://github.com/itchyny/lightline.vim' 
-     Plugin 'https://github.com/vbe0201/vimdiscord.git'
+    Plugin 'jremmen/vim-ripgrep'
+    Plugin 'https://github.com/tpope/vim-surround.git'
+    Plugin 'mbbill/undotree'
+    Plugin 'https://github.com/preservim/nerdtree.git'
+    Plugin 'jiangmiao/auto-pairs'
+    Plugin 'https://github.com/itchyny/lightline.vim' 
      
-     " color shemes 
-     Plugin 'https://github.com/joshdick/onedark.vim.git'
-     Plugin 'https://github.com/morhetz/gruvbox.git'
-     Plugin 'https://github.com/jacoborus/tender.vim.git'
-     Plugin 'https://github.com/drewtempelmeyer/palenight.vim.git'
-     Plugin 'https://github.com/sainnhe/sonokai.git'
-     Plugin 'https://github.com/gosukiwi/vim-atom-dark.git'
+    " colorschemes 
+    Plugin 'https://github.com/joshdick/onedark.vim.git'
+    Plugin 'https://github.com/morhetz/gruvbox.git'
+    Plugin 'https://github.com/jacoborus/tender.vim.git'
+    Plugin 'https://github.com/drewtempelmeyer/palenight.vim.git'
+    Plugin 'https://github.com/sainnhe/sonokai.git'
+    Plugin 'https://github.com/gosukiwi/vim-atom-dark.git'
+
 
 call vundle#end()
 filetype plugin indent on
@@ -38,7 +38,10 @@ if (has("gui_running"))
 endif
 
 " dvorak movement
-set langmap=tj,nk,sl
+set langmap=tj,nk,sl,jt,kn,ls
+" j = jump to
+" k = kick to next ;-;
+" l = eLiminate & insert'-'
 
 " no error sounds
 set noerrorbells visualbell t_vb=
@@ -60,9 +63,7 @@ set cursorline
 " set fonts
 if has("gui_running")
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
-
-        set guifont=Menlo\ Regular:h14
+        set guifont=Ubuntu\ Mono\ 12
     elseif has("gui_win32")
         set guifont=Consolas:h11:cANSI
     endif
@@ -122,15 +123,15 @@ nnoremap <space> za
 set nobackup
 
 if &t_Co > 2 || has("gui_running")
-  set hlsearch
+	set hlsearch
 endif
 
 augroup vimrcEx
-  au!
+au!
 
 autocmd FileType text setlocal textwidth=78
 augroup END
 
 if has('syntax') && has('eval')
-  packadd! matchit
+	packadd! matchit
 endif
