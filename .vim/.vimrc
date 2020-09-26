@@ -4,30 +4,6 @@ if v:progname =~? "evim"
         finish
 endif
 
-    " Vundle
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin('~/.vim/autoload/')
-    Plugin 'VundleVim/Vundle.vim' 
-
-    Plugin 'jremmen/vim-ripgrep'
-    Plugin 'https://github.com/tpope/vim-surround.git'
-    Plugin 'mbbill/undotree'
-    Plugin 'https://github.com/preservim/nerdtree.git'
-    Plugin 'jiangmiao/auto-pairs'
-    Plugin 'https://github.com/itchyny/lightline.vim' 
-     
-    " colorschemes 
-    Plugin 'https://github.com/joshdick/onedark.vim.git'
-    Plugin 'https://github.com/morhetz/gruvbox.git'
-    Plugin 'https://github.com/jacoborus/tender.vim.git'
-    Plugin 'https://github.com/drewtempelmeyer/palenight.vim.git'
-    Plugin 'https://github.com/sainnhe/sonokai.git'
-    Plugin 'https://github.com/gosukiwi/vim-atom-dark.git'
-
-
-call vundle#end()
-filetype plugin indent on
-
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
 
@@ -55,15 +31,13 @@ set smartindent
 set wrap
 set smartcase
 set nu rnu
-set background=dark
-colo sonokai 
 
 set cursorline
 
 " set fonts
 if has("gui_running")
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Ubuntu\ Mono\ 12
+        set guifont=Source\ Code\ Pro\ Semi-Bold\ 13
     elseif has("gui_win32")
         set guifont=Consolas:h11:cANSI
     endif
@@ -135,3 +109,30 @@ augroup END
 if has('syntax') && has('eval')
 	packadd! matchit
 endif
+
+" Vundle
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin('~/.vim/autoload/')
+    Plugin 'VundleVim/Vundle.vim' 
+
+    Plugin 'jremmen/vim-ripgrep'
+    Plugin 'https://github.com/tpope/vim-surround.git'
+    Plugin 'mbbill/undotree'
+    Plugin 'https://github.com/preservim/nerdtree.git'
+    Plugin 'jiangmiao/auto-pairs'
+    Plugin 'https://github.com/itchyny/lightline.vim' 
+     
+    " colorschemes 
+    Plugin 'https://github.com/joshdick/onedark.vim.git'
+    Plugin 'https://github.com/morhetz/gruvbox.git'
+    Plugin 'https://github.com/jacoborus/tender.vim.git'
+    Plugin 'https://github.com/drewtempelmeyer/palenight.vim.git'
+    Plugin 'https://github.com/sainnhe/sonokai.git'
+    Plugin 'https://github.com/gosukiwi/vim-atom-dark.git'
+
+
+call vundle#end()
+filetype plugin indent on
+
+set background=dark
+colo sonokai 
