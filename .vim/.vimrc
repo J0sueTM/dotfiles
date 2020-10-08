@@ -34,6 +34,13 @@ set nu rnu
 
 set cursorline
 
+" sightline stuff
+set laststatus=2
+
+let g:lightline = {
+    \ 'colorscheme': 'onedark'
+    \ }
+
 " set fonts
 if has("gui_running")
     if has("gui_gtk2") || has("gui_gtk3")
@@ -63,9 +70,12 @@ if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 " toggle edit mode
 inoremap HL <Esc> 
 
-" file navigation
+" NERDTree stuff
 map <C-o> :NERDTreeToggle<CR>
 let g:NERDTreeWinPos="right"
+
+" live refresh
+set autoread
 
 " compile
 map <F5> :call CompileRun()<CR>
@@ -115,12 +125,13 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin('~/.vim/autoload/')
     Plugin 'VundleVim/Vundle.vim' 
 
-    Plugin 'jremmen/vim-ripgrep'
+    Plugin 'https://github.com/jremmen/vim-ripgrep'
     Plugin 'https://github.com/tpope/vim-surround.git'
-    Plugin 'mbbill/undotree'
+    Plugin 'https://github.com/mbbill/undotree'
     Plugin 'https://github.com/preservim/nerdtree.git'
-    Plugin 'jiangmiao/auto-pairs'
-    Plugin 'https://github.com/itchyny/lightline.vim' 
+    Plugin 'https://github.com/jiangmiao/auto-pairs'
+    Plugin 'https://github.com/honza/vim-snippets.git'
+    Plugin 'https://github.com/itchyny/lightline.vim'
      
     " colorschemes 
     Plugin 'https://github.com/joshdick/onedark.vim.git'
@@ -133,6 +144,11 @@ call vundle#begin('~/.vim/autoload/')
 
 call vundle#end()
 filetype plugin indent on
+au FileType html,xhtml setl ofu=htmlcomplete#CompleteTags
+au FileType c setl ofu=ccomplete#CompleteCpp
+au FileType css setl ofu=csscomplete#CompleteCSS
 
+" visuals stuff
 set background=dark
-colo sonokai 
+colo gruvbox
+
