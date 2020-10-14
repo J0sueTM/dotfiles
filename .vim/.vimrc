@@ -44,7 +44,7 @@ let g:lightline = {
 " set fonts
 if has("gui_running")
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Source\ Code\ Pro\ Semi-Bold\ 13
+        set guifont=Source\ Code\ Pro\ Semi-Bold\ 11
     elseif has("gui_win32")
         set guifont=Consolas:h11:cANSI
     endif
@@ -151,4 +151,3 @@ au FileType css setl ofu=csscomplete#CompleteCSS
 " visuals stuff
 set background=dark
 colo gruvbox
-
