@@ -1,7 +1,7 @@
 " .vimrc file by J0sueTM
 
 if v:progname =~? "evim"
-        finish
+    finish
 endif
 
 " Get the defaults that most users want.
@@ -15,9 +15,6 @@ endif
 
 " dvorak movement
 set langmap=tj,nk,sl,jt,kn,ls
-" j = jump to
-" k = kick to next
-" l = eLiminate & insert
 
 " no error sounds
 set noerrorbells visualbell t_vb=
@@ -29,24 +26,29 @@ set shiftwidth=4
 set expandtab
 set smartindent
 set smartcase
+set cursorline
 set nu
+set nowrap
+
+" keybindings
 nnoremap <C-a> :set rnu! <CR>
 nnoremap <C-i> :set wrap! <CR>
-
-set nowrap
-set cursorline
+nnoremap <C-d><C-s> :vsplit <CR>
+nnoremap <C-d><C-h> :split <CR>
+nnoremap <C-d><C-t> :tabN <CR>
+nnoremap <C-d><C-n> :tabn <CR>
 
 " lightline stuff
 set laststatus=2
 
 let g:lightline = {
-    \ 'colorscheme': 'onedark'
+    \ 'colorscheme': 'jellybeans'
     \ }
 
 " set fonts
 if has("gui_running")
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
+        set guifont=Source\ Code\ Pro\ 10
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif
@@ -105,7 +107,6 @@ set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
 
-
 if &t_Co > 2 || has("gui_running")
 	set hlsearch
 endif
@@ -127,25 +128,38 @@ call vundle#begin('~/.vim/autoload/')
     Plugin 'VundleVim/Vundle.vim' 
 
     Plugin 'https://github.com/jremmen/vim-ripgrep'
-    Plugin 'https://github.com/tpope/vim-surround.git'
+    Plugin 'https://github.com/tpope/vim-surround'
     Plugin 'https://github.com/mbbill/undotree'
-    Plugin 'https://github.com/preservim/nerdtree.git'
+    Plugin 'https://github.com/preservim/nerdtree'
     Plugin 'https://github.com/jiangmiao/auto-pairs'
-    Plugin 'https://github.com/honza/vim-snippets.git'
+    Plugin 'https://github.com/honza/vim-snippets'
     Plugin 'https://github.com/itchyny/lightline.vim'
      
     " colorschemes 
-    Plugin 'https://github.com/joshdick/onedark.vim.git'
-    Plugin 'https://github.com/morhetz/gruvbox.git'
-    Plugin 'https://github.com/jacoborus/tender.vim.git'
-    Plugin 'https://github.com/drewtempelmeyer/palenight.vim.git'
-    Plugin 'https://github.com/sainnhe/sonokai.git'
-    Plugin 'https://github.com/gosukiwi/vim-atom-dark.git'
+    Plugin 'https://github.com/joshdick/onedark.vim'
+    Plugin 'https://github.com/morhetz/gruvbox'
+    Plugin 'https://github.com/jacoborus/tender.vim'
+    Plugin 'https://github.com/drewtempelmeyer/palenight.vim'
+    Plugin 'https://github.com/sainnhe/sonokai'
+    Plugin 'https://github.com/gosukiwi/vim-atom-dark'
+    Plugin 'https://github.com/ghifarit53/tokyonight-vim'
+    Plugin 'https://github.com/sainnhe/forest-night'
+    Plugin 'https://github.com/ayu-theme/ayu-vim'
+    Plugin 'https://github.com/glepnir/oceanic-material'
+    Plugin 'https://github.com/tomasiser/vim-code-dark'
+    Plugin 'https://github.com/franbach/miramare'
+    Plugin 'https://github.com/AlessandroYorba/Alduin'
+    Plugin 'https://github.com/nanotech/jellybeans.vim'
 
+    " personal
+    Plugin 'https://gitlab.com/betseg/vim-dcrpc'
 
 call vundle#end()
 filetype plugin indent on
 
+" vim-dcrpc stuff
+let g:dcrpc_autostart = 1
+
 " visuals stuff
 set background=dark
-colo gruvbox
+colo alduin
