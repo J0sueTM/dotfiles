@@ -7,6 +7,34 @@ endif
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
 
+set nocompatible
+" Plugins
+call plug#begin('~/.vim/plugged/')
+    Plug 'https://github.com/jremmen/vim-ripgrep'
+    Plug 'https://github.com/tpope/vim-surround'
+    Plug 'https://github.com/mbbill/undotree'
+    Plug 'https://github.com/preservim/nerdtree'
+    Plug 'https://github.com/jiangmiao/auto-pairs'
+    Plug 'https://github.com/honza/vim-snippets'
+    Plug 'https://github.com/itchyny/lightline.vim'
+     
+    Plug 'https://github.com/joshdick/onedark.vim'
+    Plug 'https://github.com/morhetz/gruvbox'
+    Plug 'https://github.com/jacoborus/tender.vim'
+    Plug 'https://github.com/drewtempelmeyer/palenight.vim'
+    Plug 'https://github.com/sainnhe/sonokai'
+    Plug 'https://github.com/gosukiwi/vim-atom-dark'
+    Plug 'https://github.com/ghifarit53/tokyonight-vim'
+    Plug 'https://github.com/sainnhe/forest-night'
+    Plug 'https://github.com/ayu-theme/ayu-vim'
+    Plug 'https://github.com/glepnir/oceanic-material'
+    Plug 'https://github.com/tomasiser/vim-code-dark'
+    Plug 'https://github.com/franbach/miramare'
+    Plug 'https://github.com/AlessandroYorba/Alduin'
+    Plug 'https://github.com/nanotech/jellybeans.vim'
+
+call plug#end()
+
 " closes the toolbar and the menubar
 if (has("gui_running"))
     set guioptions -=T
@@ -29,6 +57,8 @@ set smartcase
 set cursorline
 set nu
 set nowrap
+set background=dark
+colo alduin
 
 " keybindings
 nnoremap <C-a> :set rnu! <CR>
@@ -40,10 +70,9 @@ nnoremap <C-d><C-n> :tabn <CR>
 
 " lightline stuff
 set laststatus=2
-
 let g:lightline = {
-    \ 'colorscheme': 'jellybeans'
-    \ }
+   \ 'colorscheme': 'jellybeans'
+   \ }
 
 " set fonts
 if has("gui_running")
@@ -121,45 +150,3 @@ augroup END
 if has('syntax') && has('eval')
 	packadd! matchit
 endif
-
-" Vundle
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin('~/.vim/autoload/')
-    Plugin 'VundleVim/Vundle.vim' 
-
-    Plugin 'https://github.com/jremmen/vim-ripgrep'
-    Plugin 'https://github.com/tpope/vim-surround'
-    Plugin 'https://github.com/mbbill/undotree'
-    Plugin 'https://github.com/preservim/nerdtree'
-    Plugin 'https://github.com/jiangmiao/auto-pairs'
-    Plugin 'https://github.com/honza/vim-snippets'
-    Plugin 'https://github.com/itchyny/lightline.vim'
-     
-    " colorschemes 
-    Plugin 'https://github.com/joshdick/onedark.vim'
-    Plugin 'https://github.com/morhetz/gruvbox'
-    Plugin 'https://github.com/jacoborus/tender.vim'
-    Plugin 'https://github.com/drewtempelmeyer/palenight.vim'
-    Plugin 'https://github.com/sainnhe/sonokai'
-    Plugin 'https://github.com/gosukiwi/vim-atom-dark'
-    Plugin 'https://github.com/ghifarit53/tokyonight-vim'
-    Plugin 'https://github.com/sainnhe/forest-night'
-    Plugin 'https://github.com/ayu-theme/ayu-vim'
-    Plugin 'https://github.com/glepnir/oceanic-material'
-    Plugin 'https://github.com/tomasiser/vim-code-dark'
-    Plugin 'https://github.com/franbach/miramare'
-    Plugin 'https://github.com/AlessandroYorba/Alduin'
-    Plugin 'https://github.com/nanotech/jellybeans.vim'
-
-    " personal
-    Plugin 'https://gitlab.com/betseg/vim-dcrpc'
-
-call vundle#end()
-filetype plugin indent on
-
-" vim-dcrpc stuff
-let g:dcrpc_autostart = 1
-
-" visuals stuff
-set background=dark
-colo alduin
