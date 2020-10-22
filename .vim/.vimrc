@@ -17,6 +17,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/jiangmiao/auto-pairs'
     Plug 'https://github.com/honza/vim-snippets'
     Plug 'https://github.com/itchyny/lightline.vim'
+    Plug 'https://github.com/sheerun/vim-polyglot'
      
     Plug 'https://github.com/joshdick/onedark.vim'
     Plug 'https://github.com/morhetz/gruvbox'
@@ -32,8 +33,9 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/franbach/miramare'
     Plug 'https://github.com/AlessandroYorba/Alduin'
     Plug 'https://github.com/nanotech/jellybeans.vim'
+    Plug 'https://github.com/phanviet/vim-monokai-pro'
 
-call plug#end()
+    call plug#end()
 
 " closes the toolbar and the menubar
 if (has("gui_running"))
