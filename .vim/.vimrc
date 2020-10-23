@@ -19,6 +19,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/itchyny/lightline.vim'
     Plug 'https://github.com/sheerun/vim-polyglot'
      
+    " colorschemes
     Plug 'https://github.com/joshdick/onedark.vim'
     Plug 'https://github.com/morhetz/gruvbox'
     Plug 'https://github.com/jacoborus/tender.vim'
@@ -35,13 +36,10 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/nanotech/jellybeans.vim'
     Plug 'https://github.com/phanviet/vim-monokai-pro'
 
-    call plug#end()
+    " personal
+    Plug 'https://github.com/vbe0201/vimdiscord' 
 
-" closes the toolbar and the menubar
-if (has("gui_running"))
-    set guioptions -=T
-    set guioptions -=m
-endif
+    call plug#end()
 
 " dvorak movement
 set langmap=tj,nk,sl,jt,kn,ls
@@ -76,10 +74,14 @@ let g:lightline = {
    \ 'colorscheme': 'jellybeans'
    \ }
 
-" set fonts
+" set fonts and theme
 if has("gui_running")
+    set guioptions -=T
+    set guioptions -=m
+
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Source\ Code\ Pro\ 10
+        set guifont=Liberation\ Mono\ 10
+        colo miramare
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif
