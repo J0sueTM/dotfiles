@@ -18,6 +18,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/honza/vim-snippets'
     Plug 'https://github.com/itchyny/lightline.vim'
     Plug 'https://github.com/sheerun/vim-polyglot'
+    Plug 'https://github.com/thaerkh/vim-workspace'   
      
     " colorschemes
     Plug 'https://github.com/joshdick/onedark.vim'
@@ -36,13 +37,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/nanotech/jellybeans.vim'
     Plug 'https://github.com/phanviet/vim-monokai-pro'
 
-    " personal
-    Plug 'https://github.com/vbe0201/vimdiscord' 
-
-    call plug#end()
-
-" dvorak movement
-set langmap=tj,nk,sl,jt,kn,ls
+call plug#end()
 
 " no error sounds
 set noerrorbells visualbell t_vb=
@@ -60,7 +55,14 @@ set nowrap
 set background=dark
 colo alduin
 
+" workspaces
+let g:workspace_session_name = 'Session.vim'
+
+" dvorak movement
+set langmap=tj,nk,sl,jt,kn,ls
+
 " keybindings
+nnoremap <leader>w :ToggleWorkspace <CR>
 nnoremap <C-a> :set rnu! <CR>
 nnoremap <C-i> :set wrap! <CR>
 nnoremap <C-d><C-s> :vsplit <CR>
@@ -80,8 +82,8 @@ if has("gui_running")
     set guioptions -=m
 
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Liberation\ Mono\ 10
-        colo miramare
+        set guifont=Liberation\ Mono\ 9
+        colo codedark
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif
@@ -123,15 +125,14 @@ elseif &filetype == 'cpp'
 exec "!g++ % -o %< && ./%<"
 elseif &filetype == 'java'
 exec "!javac % && java -cp %:p:h %:t:r"
+elseif &filetype == 'assembly'
+exec "!nasm -f elf64 % -o %<.o && ld %<.o -o %<"
 elseif &filetype == 'sh'
 exec "!./%"
 elseif &filetype == 'python'
 exec "!python3 %"
 elseif &filetype == 'html'
 exec "!firefox % &"
-elseif &filetype == 'md'
-exec "!~/.vim/markdown.pl % > %.html &"
-exec "!firefox %.html &"
 endif
 endfunc
 
