@@ -37,6 +37,9 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/nanotech/jellybeans.vim'
     Plug 'https://github.com/phanviet/vim-monokai-pro'
 
+    " Personal
+    Plug 'https://github.com/J0sueTM/vimdiscord'
+
 call plug#end()
 
 " no error sounds
@@ -56,7 +59,7 @@ set background=dark
 colo alduin
 
 " workspaces
-let g:workspace_session_name = 'Session.vim'
+let g:workspace_session_name = 'Editor/Session.vim'
 
 " dvorak movement
 set langmap=tj,nk,sl,jt,kn,ls
@@ -82,8 +85,8 @@ if has("gui_running")
     set guioptions -=m
 
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Liberation\ Mono\ 9
-        colo codedark
+        set guifont=Source\ Code\ Pro\ Semi-Bold\ 12
+        colo onedark
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif
