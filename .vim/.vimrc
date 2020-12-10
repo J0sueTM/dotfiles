@@ -20,6 +20,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/sheerun/vim-polyglot'
     Plug 'https://github.com/thaerkh/vim-workspace'
     Plug 'https://github.com/bfrg/vim-cpp-modern'
+    Plug 'https://github.com/joeytwiddle/sexy_scroller.vim'
      
     " colorschemes
     Plug 'https://github.com/joshdick/onedark.vim'
@@ -78,6 +79,12 @@ let g:lightline = {
    \ 'colorscheme': 'jellybeans'
    \ }
 
+" Sexy_scroller stuff
+let g:SexyScroller_ScrollTime=50
+let g:SexyScroller_CursorTime=3
+let g:SexyScroller_MaxTime=500
+let g:SexyScroller_EasingStyle=3
+
 " set fonts and theme
 if has("gui_running")
     set guioptions =M
@@ -85,7 +92,7 @@ if has("gui_running")
 
     if has("gui_gtk2") || has("gui_gtk3")
         set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
-        colo onedark
+        colo atom-dark
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif
@@ -120,22 +127,22 @@ set autoread
 " compile
 map <F5> :call CompileRun()<CR>
 func! CompileRun()
-exec "w"
-if &filetype == 'c'
-exec "!gcc % -o %< && ./%<"
-elseif &filetype == 'cpp'
-exec "!g++ % -o %< && ./%<"
-elseif &filetype == 'java'
-exec "!javac % && java -cp %:p:h %:t:r"
-elseif &filetype == 'assembly'
-exec "!nasm -f elf64 % -o %<.o && ld %<.o -o %<"
-elseif &filetype == 'sh'
-exec "!./%"
-elseif &filetype == 'python'
-exec "!python3 %"
-elseif &filetype == 'html'
-exec "!firefox % &"
-endif
+    exec "w"
+    if &filetype == 'c'
+        exec "!gcc % -o %< && ./%<"
+    elseif &filetype == 'cpp'
+        exec "!g++ % -o %< && ./%<"
+    elseif &filetype == 'java'
+        exec "!javac % && java -cp %:p:h %:t:r"
+    elseif &filetype == 'assembly'
+        exec "!nasm -f elf64 % -o %<.o && ld %<.o -o %<"
+    elseif &filetype == 'sh'
+        exec "!./%"
+    elseif &filetype == 'python'
+        exec "!python3 %"
+    elseif &filetype == 'html'
+        exec "!firefox % &"
+    endif
 endfunc
 
 " folding
