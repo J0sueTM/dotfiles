@@ -18,7 +18,8 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/honza/vim-snippets'
     Plug 'https://github.com/itchyny/lightline.vim'
     Plug 'https://github.com/sheerun/vim-polyglot'
-    Plug 'https://github.com/thaerkh/vim-workspace'   
+    Plug 'https://github.com/thaerkh/vim-workspace'
+    Plug 'https://github.com/bfrg/vim-cpp-modern'
      
     " colorschemes
     Plug 'https://github.com/joshdick/onedark.vim'
@@ -37,9 +38,6 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/nanotech/jellybeans.vim'
     Plug 'https://github.com/phanviet/vim-monokai-pro'
 
-    " Personal
-    Plug 'https://github.com/J0sueTM/vimdiscord'
-
 call plug#end()
 
 " no error sounds
@@ -47,7 +45,8 @@ set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 
 " visual
-set tabstop=4 softtabstop=4
+set tabstop=4
+set softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
@@ -81,11 +80,11 @@ let g:lightline = {
 
 " set fonts and theme
 if has("gui_running")
+    set guioptions =M
     set guioptions -=T
-    set guioptions -=m
 
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Source\ Code\ Pro\ Semi-Bold\ 12
+        set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
         colo onedark
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
