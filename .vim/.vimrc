@@ -80,8 +80,8 @@ let g:lightline = {
    \ }
 
 " Sexy_scroller stuff
-let g:SexyScroller_ScrollTime=50
-let g:SexyScroller_CursorTime=3
+let g:SexyScroller_ScrollTime=60
+let g:SexyScroller_CursorTime=100
 let g:SexyScroller_MaxTime=500
 let g:SexyScroller_EasingStyle=3
 
@@ -91,8 +91,8 @@ if has("gui_running")
     set guioptions -=T
 
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
-        colo atom-dark
+        set guifont=Source\ Code\ Pro\ Semi-Bold\ 9
+        colo onedark
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif
