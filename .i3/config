@@ -7,12 +7,15 @@ set $mod Mod4
 font pango:monospace 8
 font pango:DejaVu Sans Mono 8
 
+# start polybar
+exec --no-startup-id killall polybar
+exec_always --no-startup-id polybar example
+
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
-exec_always --no-startup-id compton --config ~/.config/picom/picom.conf
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
 
 # volume preferences
-set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
@@ -28,6 +31,7 @@ bindsym $mod+Return exec gnome-terminal
 # kill focused window
 bindsym $mod+Shift+quotedbl kill
 
+# rofi
 bindsym $mod+Shift+r exec --no-startup-id rofi -show drun
 
 # change focus
@@ -48,21 +52,21 @@ bindsym $mod+a focus parent
 bindsym $mod+c focus child
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+Left move left
+bindsym $mod+Ctrl+h move left
+bindsym $mod+Ctrl+Left move left
 
-bindsym $mod+Shift+t move down
-bindsym $mod+Shift+Down move down
+bindsym $mod+Ctrl+t move down
+bindsym $mod+Ctrl+Down move down
 
-bindsym $mod+Shift+n move up
-bindsym $mod+Shift+Up move up
+bindsym $mod+Ctrl+n move up
+bindsym $mod+Ctrl+Up move up
 
-bindsym $mod+Shift+s move right
-bindsym $mod+Shift+Right move right
+bindsym $mod+Ctrl+s move right
+bindsym $mod+Ctrl+Right move right
 
 # split horientation
-bindsym $mod+d split h
-bindsym $mod+k split v
+bindsym $mod+Shift+h split h
+bindsym $mod+Shift+v split v
 
 # fullscreen
 bindsym $mod+f fullscreen toggle
@@ -113,10 +117,6 @@ bindsym $mod+Shift+j reload
 bindsym $mod+Shift+p restart
 bindsym $mod+Shift+period exec "i3-nagbar -t warning -m 'Exit?' -B 'Yes, exit i3' 'i3-msg exit'"
 
-# remove title bar
-for_window [class="^.*"] border pixel 1
-new_window 1pixel
-
 # resize
 mode "resize" {
         bindsym h resize shrink width 10 px or 10 ppt
@@ -137,12 +137,6 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-bar {
-        i3bar_command i3bar
-        status_command i3status
-        position top
-}
-
 # theme
 client.focused          #556064 #556064 #80FFF9 #FDF6E3
 client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
@@ -153,12 +147,18 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000
 client.background       #2B2C2B
 
 # i3-gaps
-gaps inner 6
+gaps inner 4
 gaps outer 4
 
 # specific windows
 for_window [class="terminal"] floating enable
 no_focus [class="pop-up"]
+
+# remove titlebar
+for_window [class="^.*"] border pixel 2
+
+# wallpaper
+exec_always nitrogen --set-auto ~/Pictures/24.jpg
 
 # screenshot
 bindsym --release $mod+Print exec --no-startup-id import ~/Pictures/latest-print.png
@@ -167,9 +167,9 @@ bindsym --release $mod+Print exec --no-startup-id import ~/Pictures/latest-print
 exec_always --no-startup-id xinput set-prop 12 308 1
 
 # keyboard
-bindsym $mod+Shift+d exec --no-startup-id setxkbmap us dvorak
+bindsym $mod+Shift+d exec --no-startup-id setxkbmap dvorak
 bindsym $mod+Shift+b exec --no-startup-id setxkbmap br dvorak
 
 # brightness
-bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
-bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
+bindsym XF86MonBrightnessUp exec xrandr --output eDP-1 --brightness 0.8
+bindsym XF86MonBrightnessDown exec xrandr --output eDP-1 --brightness 0.4
