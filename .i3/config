@@ -135,9 +135,19 @@ mode "resize" {
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
-        bindsym $mod+p mode "default"
 }
 bindsym $mod+r mode "resize"
+
+# change keyboard layout
+mode "keyboard layout" {
+    bindsym p exec --no-startup-id setxkbmap br dvorak 
+
+    bindsym e exec --no-startup-id setxkbmap dvorak
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Shift+l mode "keyboard layout"
 
 # theme
 client.focused          #556064 #556064 #80FFF9 #FDF6E3
