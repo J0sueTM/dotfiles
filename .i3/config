@@ -8,7 +8,6 @@ font pango:monospace 8
 font pango:DejaVu Sans Mono 8
 
 # start polybar
-exec --no-startup-id killall polybar
 exec_always --no-startup-id polybar example
 
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
