@@ -46,9 +46,9 @@ set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 
 " visual
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set expandtab
 set smartindent
 set smartcase
@@ -59,7 +59,7 @@ set background=dark
 colo alduin
 
 " workspaces
-let g:workspace_session_name = 'Editor/Session.vim'
+let g:workspace_session_name = 'Session.vim'
 
 " dvorak movement
 set langmap=tj,nk,sl,jt,kn,ls
@@ -140,6 +140,8 @@ func! CompileRun()
         exec "!./%"
     elseif &filetype == 'python'
         exec "!python3 %"
+    elseif &filetype == 'lua'
+        exec "!lua %"
     elseif &filetype == 'html'
         exec "!firefox % &"
     endif
