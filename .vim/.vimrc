@@ -21,7 +21,8 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/thaerkh/vim-workspace'
     Plug 'https://github.com/bfrg/vim-cpp-modern'
     Plug 'https://github.com/joeytwiddle/sexy_scroller.vim'
-     
+    Plug 'https://github.com/ycm-core/YouCompleteMe'
+
     " colorschemes
     Plug 'https://github.com/joshdick/onedark.vim'
     Plug 'https://github.com/morhetz/gruvbox'
