@@ -11,6 +11,7 @@ set nocompatible
 " Plugins
 call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/jremmen/vim-ripgrep'
+    Plug 'https://github.com/junegunn/fzf'
     Plug 'https://github.com/tpope/vim-surround'
     Plug 'https://github.com/mbbill/undotree'
     Plug 'https://github.com/preservim/nerdtree'
@@ -21,7 +22,8 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/thaerkh/vim-workspace'
     Plug 'https://github.com/bfrg/vim-cpp-modern'
     Plug 'https://github.com/joeytwiddle/sexy_scroller.vim'
-    Plug 'https://github.com/ycm-core/YouCompleteMe'
+    Plug 'https://github.com/vim-scripts/AutoComplPop'
+    Plug 'https://github.com/scrooloose/syntastic'
 
     " colorschemes
     Plug 'https://github.com/joshdick/onedark.vim'
@@ -79,6 +81,12 @@ set laststatus=2
 let g:lightline = {
    \ 'colorscheme': 'jellybeans'
    \ }
+
+" syntastic stuff
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " Sexy_scroller stuff
 let g:SexyScroller_ScrollTime=60
