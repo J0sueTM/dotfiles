@@ -59,6 +59,7 @@ set cursorline
 set nu
 set nowrap
 set background=dark
+set colorcolumn=80
 colo alduin
 
 " workspaces
@@ -96,12 +97,14 @@ let g:SexyScroller_EasingStyle=3
 
 " set fonts and theme
 if has("gui_running")
-    set guioptions =M
-    set guioptions -=T
+    set guioptions=M
+    set guioptions-=T
+    set guioptions=L
+    set nomousehide " was having bugs on x11
 
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Source\ Code\ Pro\ Semi-Bold\ 9
-        colo onedark
+        set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
+        colo ayu
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif
