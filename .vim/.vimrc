@@ -62,6 +62,9 @@ set background=dark
 set colorcolumn=80
 colo alduin
 
+" transparency
+hi Normal ctermbg=none
+
 " workspaces
 let g:workspace_session_name = 'Session.vim'
 
@@ -101,11 +104,11 @@ if has("gui_running")
     set guioptions=M
     set guioptions-=T
     set guioptions=L
-    set nomousehide " was having bugs on x11
+    set nomousehide " fixed bugs on x11
 
     if has("gui_gtk2") || has("gui_gtk3")
         set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
-        colo ayu
+        colo tokyonight
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif
