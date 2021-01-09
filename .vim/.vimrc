@@ -62,9 +62,6 @@ set background=dark
 set colorcolumn=80
 colo alduin
 
-" transparency
-hi Normal ctermbg=none
-
 " workspaces
 let g:workspace_session_name = 'Session.vim'
 
@@ -182,3 +179,6 @@ augroup END
 if has('syntax') && has('eval')
 	packadd! matchit
 endif
+
+" transparency
+hi Normal ctermbg=none
