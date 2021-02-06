@@ -1,0 +1,85 @@
+Config {
+
+	  -- appearance
+	  font        = "xft:Bitstream Vera Sans Mono:size=13:bold:antialias=true"
+	, bgColor     = "black"
+	, fgColor     = "#292929"
+	, position    = Top
+	, border      = BottomB
+	, borderColor = "#646464"
+
+	  -- layout
+	, sepChar  = "%"
+	, alignSep = "}{"
+	, template = "%battery% | %multicpu% | %coretemp% | %memory% | %dynnetwork% }{ %date% "
+
+	-- behaviour
+	, lowerOnStart     = False
+	, hideOnStart      = False
+	, allDesktops      = True
+	, overrideRedirect = True
+	, pickBroadest     = False
+	, persistent       = True
+   
+	-- plugins
+	, commands =
+		-- network
+		[ Run DynNetwork	[ "--template" , "<dev>: <tx>kB/s | <rx>kB/s"
+											, "--Low"			 , "1000" -- 1000 B/s
+											, "--High"		 , "5000" -- 5000 B/s
+											, "--low"			 , "darkgreen"
+											, "--normal"	 , "darkorange"
+											, "--high"		 , "darkred"
+											] 10
+		
+		-- cpu activity
+		, Run MultiCpu		[ "--template" , "Cpu: <total0>% | <total1>%"
+											, "--Low"			 , "50"
+											, "--High"		 , "80"
+											, "--low"			 , "darkgreen"
+											, "--normal"	 , "darkorange"
+											, "--high"		 , "darkred"
+											] 10
+
+		-- cpu temperature
+		, Run CoreTemp		[ "--template" , "Temp: <core0>°C | <core1>"
+											, "--Low"			 , "20"
+											, "--High"		 , "90"
+											, "--low"			 , "darkgreen"
+											, "--normal"	 , "darkorange"
+											, "--high"		 , "darkred"
+											] 50
+
+		-- memory activity
+		, Run Memory			[ "--template" , "Mem: <usedratio>%"
+											, "--Low"			 , "20"
+											, "--High"		 , "90"
+											, "--low"			 , "darkgreen"
+											, "--normal"	 , "darkorange"
+											, "--high"		 , "darkred"
+											] 10
+
+		-- battery activity
+		, Run Battery			[ "--template" , "Batt: <acstatus>"
+											, "--Low"		   , "10"
+											, "--High"	   , "80"
+											, "--low"		   , "darkred"
+											, "--normal"   , "darkorange"
+											, "--high"     , "darkgreen"
+
+											, "--"
+												-- discharging
+												, "-o"	, "<left>% (<timeleft>)" 
+
+												-- changing
+												, "-o"	, "<fc=#daa520>Charging</fc>"
+												
+												-- full
+												, "-o"	, "<fc=#00600>Charged</fc>"
+											] 50
+
+		-- date
+		, Run Date				"<fc=#ababab>%F (%a) %T</fc>" "date" 10
+
+		]
+}
