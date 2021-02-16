@@ -24,6 +24,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/joeytwiddle/sexy_scroller.vim'
     Plug 'https://github.com/vim-scripts/AutoComplPop'
     Plug 'https://github.com/scrooloose/syntastic'
+    Plug 'https://github.com/vim-scripts/darkburn'
 
     " colorschemes
     Plug 'https://github.com/joshdick/onedark.vim'
@@ -41,7 +42,6 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/AlessandroYorba/Alduin'
     Plug 'https://github.com/nanotech/jellybeans.vim'
     Plug 'https://github.com/phanviet/vim-monokai-pro'
-
 call plug#end()
 
 " no error sounds
@@ -88,7 +88,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_c_include_dirs = [getcwd() . '/include/']
+let g:syntastic_c_include_dirs = ["include", "vendor", "build/include"]
 
 " Sexy_scroller stuff
 let g:SexyScroller_ScrollTime=60
@@ -131,7 +131,8 @@ if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 inoremap HL <Esc> 
 
 " NERDTree stuff
-map <C-o> :NERDTreeToggle<CR>
+autocmd BufWinEnter * silent NERDTreeMirror
+nnoremap <C-o> :NERDTreeToggle<CR>
 let g:NERDTreeWinPos="right"
 
 " live refresh
@@ -174,11 +175,9 @@ au!
 
 autocmd FileType text setlocal textwidth=78
 au FileType cpp setl ofu=ccomplete#CompleteCpp
+au FileType c   setl ofu=ccomplete#CompleteC
 augroup END
 
 if has('syntax') && has('eval')
 	packadd! matchit
 endif
-
-" transparency
-hi Normal ctermbg=none
