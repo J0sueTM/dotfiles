@@ -8,6 +8,9 @@ font pango:FontAwesome 8
 # refresh i3status
 set $refresh_i3status killall -SIGUSR1 i3status
 
+# refresh wallpaper
+exec_always nitrogen --restore
+
 # screen lock
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
