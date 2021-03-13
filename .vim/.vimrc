@@ -15,6 +15,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/tpope/vim-surround'
     Plug 'https://github.com/mbbill/undotree'
     Plug 'https://github.com/preservim/nerdtree'
+    Plug 'https://github.com/ipod825/vim-netranger'
     Plug 'https://github.com/jiangmiao/auto-pairs'
     Plug 'https://github.com/honza/vim-snippets'
     Plug 'https://github.com/itchyny/lightline.vim'
@@ -23,8 +24,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/bfrg/vim-cpp-modern'
     Plug 'https://github.com/joeytwiddle/sexy_scroller.vim'
     Plug 'https://github.com/vim-scripts/AutoComplPop'
-    Plug 'https://github.com/scrooloose/syntastic'
-    Plug 'https://github.com/vim-scripts/darkburn'
+    Plug 'https://github.com/alvan/vim-closetag'
 
     " colorschemes
     Plug 'https://github.com/joshdick/onedark.vim'
@@ -42,11 +42,18 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/AlessandroYorba/Alduin'
     Plug 'https://github.com/nanotech/jellybeans.vim'
     Plug 'https://github.com/phanviet/vim-monokai-pro'
+    Plug 'https://github.com/ap/vim-css-color'
+    Plug 'https://github.com/cdaddr/gentooish.vim'
+    Plug 'https://github.com/dracula/vim', {'as': 'dracula'}
+    Plug 'https://github.com/evprkr/galaxian-vim'
 call plug#end()
 
 " no error sounds
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
+
+" lightline stuff
+set laststatus=2
 
 " visual
 set tabstop=2
@@ -58,9 +65,11 @@ set smartcase
 set cursorline
 set nu
 set nowrap
-set background=dark
 set colorcolumn=80
-colo alduin
+
+set termguicolors
+set background=dark
+colo miramare
 
 " workspaces
 let g:workspace_session_name = 'Session.vim'
@@ -77,18 +86,12 @@ nnoremap <C-d><C-h> :split <CR>
 nnoremap <C-d><C-t> :tabN <CR>
 nnoremap <C-d><C-n> :tabn <CR>
 
-" lightline stuff
-set laststatus=2
-let g:lightline = {
-   \ 'colorscheme': 'jellybeans'
-   \ }
 
 " syntastic stuff
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_c_include_dirs = ["include", "vendor", "build/include"]
 
 " Sexy_scroller stuff
 let g:SexyScroller_ScrollTime=60
@@ -101,11 +104,11 @@ if has("gui_running")
     set guioptions=M
     set guioptions-=T
     set guioptions=L
-    set nomousehide " fixed bugs on x11
+    set nomousehide           " fixed bugs on x11
+    set lines=999 columns=999 " always startup maximized
 
     if has("gui_gtk2") || has("gui_gtk3")
         set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
-        colo tokyonight
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif
@@ -131,8 +134,7 @@ if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 inoremap HL <Esc> 
 
 " NERDTree stuff
-autocmd BufWinEnter * silent NERDTreeMirror
-nnoremap <C-o> :NERDTreeToggle<CR>
+map <C-o> :NERDTreeToggle<CR>
 let g:NERDTreeWinPos="right"
 
 " live refresh
@@ -175,9 +177,11 @@ au!
 
 autocmd FileType text setlocal textwidth=78
 au FileType cpp setl ofu=ccomplete#CompleteCpp
-au FileType c   setl ofu=ccomplete#CompleteC
 augroup END
 
 if has('syntax') && has('eval')
 	packadd! matchit
 endif
+
+" transparency
+hi Normal ctermbg=none
