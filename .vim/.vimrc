@@ -25,8 +25,12 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/joeytwiddle/sexy_scroller.vim'
     Plug 'https://github.com/vim-scripts/AutoComplPop'
     Plug 'https://github.com/alvan/vim-closetag'
+    Plug 'https://github.com/preservim/tagbar'
+    Plug 'https://github.com/miyakogi/sidepanel.vim'
+    Plug 'https://github.com/roxma/nvim-yarp'
+    Plug 'https://github.com/roxma/vim-hug-neovim-rpc'
 
-    " colorschemes
+    " colourschemes
     Plug 'https://github.com/joshdick/onedark.vim'
     Plug 'https://github.com/morhetz/gruvbox'
     Plug 'https://github.com/jacoborus/tender.vim'
@@ -86,13 +90,6 @@ nnoremap <C-d><C-h> :split <CR>
 nnoremap <C-d><C-t> :tabN <CR>
 nnoremap <C-d><C-n> :tabn <CR>
 
-
-" syntastic stuff
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
 " Sexy_scroller stuff
 let g:SexyScroller_ScrollTime=60
 let g:SexyScroller_CursorTime=100
@@ -133,12 +130,22 @@ if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 " toggle edit mode
 inoremap HL <Esc> 
 
-" NERDTree stuff
-map <C-o> :NERDTreeToggle<CR>
-let g:NERDTreeWinPos="right"
+map <C-o> :SidePanel<CR>
 
 " live refresh
 set autoread
+
+let g:sidepanel_pos = "right"
+let g:sidepanel_width = 26
+
+" Activate plugins in SidePanel
+let g:sidepanel_config = {}
+let g:sidepanel_config['nerdtree'] = {}
+let g:sidepanel_config['tagbar'] = {}
+let g:sidepanel_config['gundo'] = {}
+let g:sidepanel_config['buffergator'] = {}
+let g:sidepanel_config['vimfiler'] = {}
+let g:sidepanel_config['defx'] = {}
 
 " compile
 map <F5> :call CompileRun()<CR>

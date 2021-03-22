@@ -2,7 +2,7 @@ set $mod Mod4
 
 # fonts
 font pango:monospace 8
-font pango:DejaVu Sans Mono 8
+font pango:Source Code Pro 8
 font pango:FontAwesome 8
 
 # refresh i3status
@@ -27,7 +27,7 @@ set $right s
 floating_modifier $mod
 
 # terminal
-bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Return exec xfce4-terminal
 
 # kill window
 bindsym $mod+c kill
@@ -96,32 +96,22 @@ gaps inner 6
 gaps outer 4
 
 # specific
-for_window [class="xfce4-terminal"] floating enable
+for_window [class="^terminal"] floating enable
 for_window [class="emacs"] floating enable
 
 # workspaces
-set $ws1  ""
-set $ws2  "(1)"
-set $ws3  "(2)"
-set $ws4  "(1)"
-set $ws5  "(2)"
-set $ws6  ""
-set $ws7  ""
-set $ws8  "(1)"
-set $ws9  "(2)"
-set $ws10 "(3)"
+set $ws1  "1: "
+set $ws2  "2: "
+set $ws3  "3: "
+set $ws4  "4: "
+set $ws5  "5: "
 
 # go to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+6 workspace $ws1
+bindsym $mod+7 workspace $ws2
+bindsym $mod+8 workspace $ws3
+bindsym $mod+9 workspace $ws4
+bindsym $mod+0 workspace $ws5
 
 # move to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -129,11 +119,6 @@ bindsym $mod+Shift+2 move container to workspace $ws2
 bindsym $mod+Shift+3 move container to workspace $ws3
 bindsym $mod+Shift+4 move container to workspace $ws4
 bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
 
 # reload
 bindsym $mod+Shift+c reload
