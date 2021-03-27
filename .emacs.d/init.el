@@ -3,6 +3,18 @@
 ;; Start with blank buffer, not welcome page
 (setq inhibit-startup-message t)
 
+;; Put backups on saves folder
+(setq make-backup-files nil)
+
+;; Set identation style
+(setq-default tab-width 2)
+;; Use spaces instead of tabs
+(setq-default ident-tabs-mode nil)
+
+;; Change identation style
+(setq-default c-default-style "bsd"
+  c-basic-offset 2)
+
 ;; Remove tool bar, menu bar and scrool bar
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -19,19 +31,28 @@
      ("melpa" . "https://melpa.org/packages/")))))
 (package-initialize)
 
-;; safe themens
+;; Do not wrap
+(set-default 'truncate-lines t)
+
+;; ctrl c ctl v
+(cua-mode) 
+
+;; safe themes
 (setq custom-file "~/.emacs.d/custom-file.el")
 (load-file custom-file)
 
 ;; plugins
-(global-display-line-numbers-mode)
+(global-display-line-numbers-mode t)
 (electric-pair-mode 1)
 
-(require 'auto-complete) ;; Auto completion
-(auto-complete)
+;; Auto completion
+(require 'auto-complete)
+(auto-complete-mode t)
 
-(require 'company) ;; Auto completion
+;; Auto completion
+(require 'company)
 (global-company-mode t)
 
-(require 'elcord) ;; Discord Rich Presence
+;; Discord Rich Presence
+(require 'elcord) 
 (elcord-mode)

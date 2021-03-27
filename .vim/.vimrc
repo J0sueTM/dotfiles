@@ -29,6 +29,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/miyakogi/sidepanel.vim'
     Plug 'https://github.com/roxma/nvim-yarp'
     Plug 'https://github.com/roxma/vim-hug-neovim-rpc'
+    Plug 'https://github.com/vim-syntastic/syntastic'
 
     " colourschemes
     Plug 'https://github.com/joshdick/onedark.vim'
@@ -73,7 +74,7 @@ set colorcolumn=80
 
 set termguicolors
 set background=dark
-colo miramare
+colo codedark
 
 " workspaces
 let g:workspace_session_name = 'Session.vim'
@@ -91,9 +92,9 @@ nnoremap <C-d><C-t> :tabN <CR>
 nnoremap <C-d><C-n> :tabn <CR>
 
 " Sexy_scroller stuff
-let g:SexyScroller_ScrollTime=60
-let g:SexyScroller_CursorTime=100
-let g:SexyScroller_MaxTime=500
+let g:SexyScroller_ScrollTime=40
+let g:SexyScroller_CursorTime=70
+let g:SexyScroller_MaxTime=200
 let g:SexyScroller_EasingStyle=3
 
 " set fonts and theme
@@ -146,6 +147,14 @@ let g:sidepanel_config['gundo'] = {}
 let g:sidepanel_config['buffergator'] = {}
 let g:sidepanel_config['vimfiler'] = {}
 let g:sidepanel_config['defx'] = {}
+
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+let g:syntastic_c_checkers = ['gcc']
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_c_include_dirs = [getcwd() . '/inc/']
+nnoremap <C-w>E :SyntasticCheck<CR>
 
 " compile
 map <F5> :call CompileRun()<CR>
