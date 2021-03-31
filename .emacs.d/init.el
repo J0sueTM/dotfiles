@@ -6,10 +6,11 @@
 ;; Put backups on saves folder
 (setq make-backup-files nil)
 
-;; Set identation style
+;; Setup identation
+(setq-default whitespace-mode t)
 (setq-default tab-width 2)
-;; Use spaces instead of tabs
-(setq-default ident-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
+(add-hook 'write-file-hooks (lambda () (untabify (point-min) (point-max))))
 
 ;; Change identation style
 (setq-default c-default-style "bsd"
@@ -35,7 +36,7 @@
 (set-default 'truncate-lines t)
 
 ;; ctrl c ctl v
-(cua-mode) 
+(cua-mode)
 
 ;; safe themes
 (setq custom-file "~/.emacs.d/custom-file.el")
@@ -54,5 +55,5 @@
 (global-company-mode t)
 
 ;; Discord Rich Presence
-(require 'elcord) 
+(require 'elcord)
 (elcord-mode)
