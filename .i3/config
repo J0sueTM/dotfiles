@@ -6,7 +6,10 @@ font pango:Source Code Pro 8
 font pango:FontAwesome 8
 
 # refresh i3status
-set $refresh_i3status killall -SIGUSR1 i3status
+#set $refresh_i3status killall -SIGUSR1 i3status
+
+# refresh compton
+exec --no-startup-id compton
 
 # refresh wallpaper
 exec_always nitrogen --restore
@@ -19,6 +22,9 @@ exec --no-startup-id nm-applet
 
 # polybar
 exec --no-startup-id polybar desktopjtm
+
+# night light
+exec --no-startup-id nightshift -l -20:-50
 
 # h t n s keybinds
 set $left h
@@ -92,15 +98,11 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 # border
-default_border pixel 0
+default_border pixel 3
 
 # gaps
 gaps inner 3
 gaps outer 3
-
-# specific
-for_window [class="xfce4-terminal"] floating enable
-for_window [class="emacs"] floating enable
 
 # workspaces
 set $ws1  "1: "
