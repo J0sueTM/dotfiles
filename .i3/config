@@ -3,10 +3,15 @@ set $mod Mod4
 # fonts
 font pango:monospace 8
 font pango:Source Code Pro 8
-font pango:FontAwesome 8
+
+# set cpu performance mode
+exec --no-startup-id echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 
 # refresh i3status
-#set $refresh_i3status killall -SIGUSR1 i3status
+set $refresh_i3status killall -SIGUSR1 i3status
+
+# set keyboard layout
+exec --no-startup-id xmodmap ~/.Xmodmap
 
 # refresh compton
 exec --no-startup-id compton
@@ -14,14 +19,8 @@ exec --no-startup-id compton
 # refresh wallpaper
 exec_always nitrogen --restore
 
-# screen lock
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
 # network manager tray gui
 exec --no-startup-id nm-applet
-
-# polybar
-exec --no-startup-id polybar desktopjtm
 
 # night light
 exec --no-startup-id nightshift -l -20:-50
@@ -31,6 +30,13 @@ set $left h
 set $down t
 set $up n
 set $right s
+
+# spotify
+bindsym $mod+Up exec dbus-send --no-startup-id --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+
+bindsym $mod+Left exec dbus-send --no-startup-id --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+
+bindsym $mod+Right exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 
 # floating window movement
 floating_modifier $mod
@@ -50,23 +56,11 @@ bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
 
-# focus with cursor keys
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
 # move with h t n s
 bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
-
-# move with cursor keys
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 # split horizontal
 bindsym $mod+g split h
@@ -144,14 +138,6 @@ mode "resize" {
         bindsym $up         resize shrink height 10 px or 10 ppt
         bindsym $right      resize grow width 10 px or 10 ppt
 
-        # shrink / grow width with cursor keys
-        bindsym Left        resize shrink width 10 px or 10 ppt
-        bindsym Down        resize grow height 10 px or 10 ppt
-
-        # shrink / grow height with cursor keys
-        bindsym Up          resize shrink height 10 px or 10 ppt
-        bindsym Right       resize grow width 10 px or 10 ppt
-
         # normal
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -159,27 +145,35 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# bar {
-#     position top
-#     
-#     font pango:font pango:monospace 12, FontAwesome 12
-#     status_command i3blocks -c ~/.config/i3/i3blocks.conf
-#     
-#     colors {
-#         separator #268bd2
-#         background #002b36
-#         statusline #839496
-#         focused_workspace #fdf6e3 #6c71c4 #fdf6e3
-#         active_workspace #fdf6e3 #6c71c4 #fdf6e3
-#         inactive_workspace #002b36 #586e75 #002b36
-#         urgent_workspace #d33682 #d33682 #fdf6e3
-#     }
-# }
+# theme
+set $bg #282828
+set $red #cc241d
+set $green #98971a
+set $yellow #d79921
+set $blue #458588
+set $purple #b16286
+set $aqua #689d68
+set $gray #a89984
+set $darkgray #1d2021
 
-# class                 border  backgr. text    indicator
-client.focused          #6c71c4 #6c71c4 #fdf6e3 #6c71c4
-client.focused_inactive #073642 #073642 #eee8d5 #6c71c4
-client.unfocused        #073642 #073642 #93a1a1 #586e75
-client.urgent           #d33682 #d33682 #fdf6e3 #dc322f
+font pango:Hack 10
+font pango:FontAwesome 9
 
-client.background       #292929
+bar {
+    position top
+    status_command i3blocks -c ~/.config/i3/i3blocks.conf
+
+    colors {
+        background $bg
+        statusline $yellow
+        focused_workspace    $aqua $aqua $darkgray
+        inactive_workspace   $darkgray $darkgray $yellow
+        active_workspace     $darkgray $darkgray $yellow
+        urgent_workspace     $red $red $bg
+    }
+}
+
+client.focused          $blue $blue $darkgray $purple $darkgray
+client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
+client.urgent           $red $red $white $red $red
