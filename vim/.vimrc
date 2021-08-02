@@ -29,6 +29,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/goballooning/vim-live-latex-preview'
     Plug 'https://github.com/wsdjeg/vim-assembly'
     Plug 'https://github.com/arcticicestudio/nord-vim'
+    Plug 'https://github.com/tribela/vim-transparent'
 
     " colourschemes
     Plug 'https://github.com/joshdick/onedark.vim'
@@ -64,14 +65,18 @@ set shiftwidth=2
 set expandtab
 set smartindent
 set smartcase
-set cursorline
+" set cursorline
 set nu
 set nowrap
-set colorcolumn=80
+" set colorcolumn=80
+set ttyfast
+set wildmenu
 
-set termguicolors
+if has("termguicolors")
+    set termguicolors
+endif
 set background=dark
-colo gruvbox
+colo nord
 
 " workspaces
 let g:workspace_session_name = 'Session.vim'
@@ -122,7 +127,7 @@ if !isdirectory(&backupdir) | call mkdir(&backupdir, "p") | endif
 if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 
 " toggle edit mode
-inoremap HL <Esc> 
+inoremap mw <Esc> 
 
 " live refresh
 set autoread

@@ -16,7 +16,7 @@ then
 fi
 
 # basic
-basic=base-devel git vim emacs curl wget
+basic=base-devel git gvim emacs curl wget
 sudo pacman -S $basic
 
 # xorg
@@ -70,5 +70,9 @@ cp i3/* ~/.config/i3/
 # xfce4 theme
 cp themes/gruvbox.theme /usr/share/xfce4/terminal/colorschemes/gruvbox.theme
 
+# alacritty
+mkdir -p ~/.config/alacritty/
+cp alacritty/* ~/.config/alacritty/
+
 # wallpaper
-nitrogen --set-zoom-fill wallpapers/gnu.png
+nitrogen --set-zoom-fill wallpapers/snow_path.jpg 
