@@ -40,8 +40,8 @@ set $right s
 floating_modifier $mod
 
 # spotify
-bindsym $mod+Up exec dbus-send --no-startup-id --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
-bindsym $mod+Left exec dbus-send --no-startup-id --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+bindsym $mod+Up    exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+bindsym $mod+Left  exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
 bindsym $mod+Right exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 
 # terminal
@@ -57,9 +57,9 @@ bindsym $mod+c kill
 bindsym $mod+d exec --no-startup-id dmenu_run
 
 # focus with h t n s
-bindsym $mod+$left focus left
-bindsym $mod+$down focus down
-bindsym $mod+$up focus up
+bindsym $mod+$left  focus left
+bindsym $mod+$down  focus down
+bindsym $mod+$up    focus up
 bindsym $mod+$right focus right
 
 # move with h t n s
@@ -98,11 +98,15 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 # border
-default_border pixel 3
+default_border pixel 0
 
 # gaps
+smart_gaps on
 gaps inner 3
 gaps outer 3
+
+# corners
+border_radius 8
 
 # workspaces
 set $ws1  "1: "
@@ -137,23 +141,21 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # resize
 mode "resize"
 {
-        # shrink / grow width with h t n s
-        bindsym $left       resize shrink width 10 px or 10 ppt
-        bindsym $down       resize grow height 10 px or 10 ppt
-        
-        # shrink / grow height with h t n s
-        bindsym $up         resize shrink height 10 px or 10 ppt
-        bindsym $right      resize grow width 10 px or 10 ppt
-        
-        # normal
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+  # shrink / grow width with h t n s
+  bindsym $left resize shrink width 10 px or 10 ppt
+  bindsym $down resize grow height 10 px or 10 ppt
+
+  # shrink / grow height with h t n s
+  bindsym $up    resize shrink height 10 px or 10 ppt
+  bindsym $right resize grow width 10 px or 10 ppt
+
+  # normal
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+r mode "default"
 }
 bindsym $mod+r mode "resize"
 
-# colours
-# Taken from
 # https://github.com/Shivshreyas/i3wm-nord-dotfiles/blob/main/i3-nord(%20withi3bar)/i3/config
 set $base00 #101218
 set $base01 #1f222d
@@ -180,28 +182,28 @@ client.placeholder      #2e3440 #2e3440 #888888 #2e3440
 client.urgent           #900000 #900000 #ffffff #900000
 client.background       #242424
 
-bar {
-        height 25
-        position top 
-        font pango: Source Code Pro Black, DejaVu Sans Mono 10
-        status_command i3status
-
-        tray_padding 1
-        strip_workspace_numbers yes
-        bindsym button4 nop
-        bindsym button5 nop
-
-        colors
-        {
-                separator $base01
-                background $base01
-                statusline #81a1c1
-
-                # borderbackground text
-                focused_workspace$base01 $base01#81a1c1 
-                active_workspace $base01 $base02$base03
-                inactive_workspace $base01 $base01#4c566a
-                urgent_workspace $base01 $base01$base08
-                binding_mode $base01 #81a1c1#2e3440
-        }
+bar
+{
+  height 20
+  position top 
+  font pango: Source Code Pro Black, DejaVu Sans Mono 10
+  i3bar_command i3bar
+   
+  tray_padding 1
+  strip_workspace_numbers yes
+  bindsym button4 nop
+  bindsym button5 nop
+   
+  colors
+  {
+    separator  $base01
+    background $base01
+    statusline #81a1c1
+     
+    focused_workspace  $base01 $base01 #81a1c1 
+    active_workspace   $base01 $base02 $base03
+    inactive_workspace $base01 $base01 #4c566a
+    urgent_workspace   $base01 $base01 $base08
+    binding_mode       $base01 #81a1c1 #2e3440
+  }
 }
