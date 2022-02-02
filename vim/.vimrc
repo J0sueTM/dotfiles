@@ -15,7 +15,6 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin('~/.vim/plugged/')
-    Plug 'https://github.com/jremmen/vim-ripgrep'
     Plug 'https://github.com/junegunn/fzf'
     Plug 'https://github.com/tpope/vim-surround'
     Plug 'https://github.com/mbbill/undotree'
@@ -29,7 +28,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/goballooning/vim-live-latex-preview'
     Plug 'https://github.com/wsdjeg/vim-assembly'
     Plug 'https://github.com/arcticicestudio/nord-vim'
-    Plug 'https://github.com/tribela/vim-transparent'
+    Plug 'https://github.com/xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 
     " colourschemes
     Plug 'https://github.com/joshdick/onedark.vim'
@@ -51,6 +50,7 @@ call plug#begin('~/.vim/plugged/')
     Plug 'https://github.com/cdaddr/gentooish.vim'
     Plug 'https://github.com/dracula/vim', {'as': 'dracula'}
     Plug 'https://github.com/evprkr/galaxian-vim'
+    Plug 'https://github.com/J0sueTM/gruber-darker-vim'
 call plug#end()
 
 " no error sounds
@@ -72,11 +72,13 @@ set nowrap
 set ttyfast
 set wildmenu
 
+set laststatus=2
+
 if has("termguicolors")
     set termguicolors
 endif
 set background=dark
-colo nord
+colo gruvbox
 
 " workspaces
 let g:workspace_session_name = 'Session.vim'
@@ -104,7 +106,7 @@ if has("gui_running")
     set lines=999 columns=999 " always startup maximized
 
     if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Source\ Code\ Pro\ Semi-Bold\ 10
+        set guifont=Iosevka\ Term\ Semibold\ 11
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif

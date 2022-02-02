@@ -15,17 +15,11 @@ set $refresh_i3status killall -SIGUSR1 i3status
 # set keyboard layout
 exec --no-startup-id setxkbmap dvorak
 
-# refresh compton
-exec --no-startup-id compton
-
 # notifications daemon
 exec --no-startup-id dunst
 
 # refresh wallpaper
-exec_always nitrogen --restore
-
-# network manager tray gui
-exec --no-startup-id nm-applet
+exec --no-startup-id paperview ~/Pictures/wallpaper 8
 
 # night light
 exec --no-startup-id nightshift -l -20:-50
@@ -48,13 +42,13 @@ bindsym $mod+Right exec --no-startup-id dbus-send --print-reply --dest=org.mpris
 bindsym $mod+Return exec alacritty
 
 # screenshot
-bindsym Print exec --no-startup-id i3-scrot
+exec --no-startup-id flameshot
 
 # kill window
 bindsym $mod+c kill
 
 # start rofi
-bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # focus with h t n s
 bindsym $mod+$left  focus left
@@ -101,12 +95,12 @@ bindsym $mod+minus scratchpad show
 default_border pixel 0
 
 # gaps
-smart_gaps on
+# smart_gaps on
 gaps inner 3
 gaps outer 3
 
 # corners
-border_radius 8
+# border_radius 8
 
 # workspaces
 set $ws1  "1: "
@@ -156,54 +150,99 @@ mode "resize"
 }
 bindsym $mod+r mode "resize"
 
-# https://github.com/Shivshreyas/i3wm-nord-dotfiles/blob/main/i3-nord(%20withi3bar)/i3/config
-set $base00 #101218
-set $base01 #1f222d
-set $base02 #252936
-set $base03 #5e81ac  
-set $base04 #C0C5CE
-set $base05 #d1d4e0
-set $base06 #C9CCDB
-set $base07 #ffffff
-set $base08 #ee829f
-set $base09 #f99170
-set $base0A #ffefcc
-set $base0B #a5ffe1
-set $base0C #97e0ff
-set $base0D #97bbf7
-set $base0E #c0b7f9
-set $base0F #fcc09e
+# THEME
+
+# Gruvbox
+# https://github.com/a-schaefers/i3-wm-gruvbox-theme/
+set $bg       #282828
+set $red      #cc241d
+set $green    #98971a
+set $yellow   #d79921
+set $blue     #458588
+set $purple   #b16286
+set $aqua     #689d68
+set $gray     #a89984
+set $darkgray #1d2021
 
 # class                 border  backgr. text    indicator
-client.focused          #81a1c1 #81a1c1 #ffffff #81a1c1
-client.unfocused        #2e3440 #2e3440 #888888 #2e3440
-client.focused_inactive #2e3440 #2e3440 #888888 #2e3440
-client.placeholder      #2e3440 #2e3440 #888888 #2e3440
-client.urgent           #900000 #900000 #ffffff #900000
-client.background       #242424
+client.focused          $green    $green    $darkgray $purple $darkgray
+client.focused_inactive $darkgray $darkgray $yellow   $purple $darkgray
+client.unfocused        $darkgray $darkgray $yellow   $purple $darkgray
+client.urgent           $red      $red      $white    $red    $red
 
-bar
-{
+bar {
   height 20
-  position top 
+  position top
   font pango: Source Code Pro Black, DejaVu Sans Mono 10
-  i3bar_command i3bar
+  status_command i3blocks
    
   tray_padding 1
   strip_workspace_numbers yes
   bindsym button4 nop
   bindsym button5 nop
-   
-  colors
-  {
-    separator  $base01
-    background $base01
-    statusline #81a1c1
-     
-    focused_workspace  $base01 $base01 #81a1c1 
-    active_workspace   $base01 $base02 $base03
-    inactive_workspace $base01 $base01 #4c566a
-    urgent_workspace   $base01 $base01 $base08
-    binding_mode       $base01 #81a1c1 #2e3440
+
+  colors {
+    background $bg
+    statusline $yellow
+
+    focused_workspace  $aqua      $aqua $darkgray
+    inactive_workspace $darkgray $darkgray $yellow
+    active_workspace   $darkgray $darkgray $yellow
+    urgent_workspace   $red      $red $bg
   }
 }
+
+# Nord
+# https://github.com/Shivshreyas/i3wm-nord-dotfiles/blob/main/i3-nord(%20withi3bar)/i3/config
+# set $base00 #101218
+# set $base01 #1f222d
+# set $base02 #252936
+# set $base03 #5e81ac  
+# set $base04 #C0C5CE
+# set $base05 #d1d4e0
+# set $base06 #C9CCDB
+# set $base07 #ffffff
+# set $base08 #ee829f
+# set $base09 #f99170
+# set $base0A #ffefcc
+# set $base0B #a5ffe1
+# set $base0C #97e0ff
+# set $base0D #97bbf7
+# set $base0E #c0b7f9
+# set $base0F #fcc09e
+# 
+# class                   border  backgr. text    indicator
+# client.focused          #81a1c1 #81a1c1 #ffffff #81a1c1
+# client.unfocused        #2e3440 #2e3440 #888888 #2e3440
+# client.focused_inactive #2e3440 #2e3440 #888888 #2e3440
+# client.placeholder      #2e3440 #2e3440 #888888 #2e3440
+# client.urgent           #900000 #900000 #ffffff #900000
+# client.background       #242424
+# 
+# bar
+# {
+#   height 20
+#   position top 
+#   font pango: Source Code Pro Black, DejaVu Sans Mono 10
+#   status_command i3blocks
+#    
+#   tray_padding 1
+#   strip_workspace_numbers yes
+#   bindsym button4 nop
+#   bindsym button5 nop
+#    
+#   colors
+#   {
+#     separator  $base01
+#     background $base01
+#     statusline #81a1c1
+#      
+#     focused_workspace  $base01 $base01 #81a1c1 
+#     active_workspace   $base01 $base02 $base03
+#     inactive_workspace $base01 $base01 #4c566a
+#     urgent_workspace   $base01 $base01 $base08
+#     binding_mode       $base01 #81a1c1 #2e3440
+#   }
+# }
+
+

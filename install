@@ -1,78 +1,82 @@
-#! /bin/bash
+#!/bin/bash -x
 
 # file: install.sh
 # author: Josue Teodoro Moreira <teodoro.josue@protonmail.ch>
 # date: Jul 16, 2021
 
-# Checks if linux is the operating system
-# Most of the apps I use are free software available on
-# the aur.
-os=uname
-if ! [[ os == "linux" ]]
+# check os
+os=$(uname)
+if ! [[ ${os} == 'Linux' ]]
 then
-  echo "$os not supported."
+  echo '${os} not supported.'
 
   exit 0
 fi
 
+dotfiles_dir=$(pwd)
+ 
+echo 'Installing base'
+ 
 # basic
-basic=base-devel git gvim emacs curl wget
-sudo pacman -S $basic
-
+basic=base-devel git vim emacs curl wget
+sudo pacman -S ${basic}
+ 
 # xorg
 x=xorg xorg-drivers xorg-fonts xorg-xinit xorg-apps
 sudo pacman -S $x
-
+ 
 # window manager and visual stuff
-wm=i3 compton nitrogen dunst xfce4-terminal
-fonts=ttf-dejavu ttf-font-awesome ttf-hack ttf-proggy-clean
-sudo pacman -S $wm
-sudo pacman -S $fonts
-
-# I mainly use perfect vga 437 font, which is quite
-# not the font everyone would download so I need
-# to install it myself.
-mkdir -p ~/.local/share/fonts/
-unzip fonts/perfect_dos_vga_437.zip ~/.local/share/fonts/
-fc-chace -rv
-
+wm=i3 dunst alacritty
+fonts=ttf-dejavu ttf-font-awesome ttf-hack ttf-iosevka-nerd
+sudo pacman -S ${wm}
+sudo pacman -S ${fonts}
+ 
 # audio stuff
 audio=alsa pulseaudio-alsa alsa-utils alsa-tools pavucontrol mpv
-sudo pacman -S $audio
+sudo pacman -S ${audio}
 pulseaudio -D
-
+ 
 # install aur
-cd ~
-mkdir Dev
-cd Dev
+cd ~/
 git clone https:///aur.archlinux.org/yay.git
-cd yay
+cd ./yay
 makepkg -si
-
-# move files
-
+ 
+# yay stuff
+yay_stuff=paperview-git nightshift
+yay -S ${yay_stuff}
+ 
+# copy files
+cd ${dotfiles_dir}
+ 
 # xorg
 sudo mkdir -p /etc/X11/xorg.conf.d/
-cp xorg/*.conf /etc/X11/xorg.conf.d/
-cp xorg/xinitrc ~/xinitrc
-
+cp ./xorg/*.conf /etc/X11/xorg.conf.d/
+cp ./xorg/.xinitrc ~/.xinitrc
+ 
 # vim
-cp vim/.vimrc ~/.vimrc
-
+cp ./vim/.vimrc ~/.vimrc
+ 
 # emacs
 mkdir -p ~/.emacs.d/
-cp emacs/init.el ~/.emacs.d/init.el
-
+cp ./emacs/init.el ~/.emacs.d/init.el
+ 
 # i3
 mkdir -p ~/.config/i3/
-cp i3/* ~/.config/i3/
-
-# xfce4 theme
-cp themes/gruvbox.theme /usr/share/xfce4/terminal/colorschemes/gruvbox.theme
-
+cp ./i3/* ~/.config/i3/
+ 
+# i3blocks
+mkdir -p ~/.config/i3blocks/
+cp ./i3blocks/* ~/.config/i3blocks/
+ 
+# i3status
+mkdir -p ~/.config/i3status
+cp ./i3status/* ~/.config/i3status/
+ 
 # alacritty
 mkdir -p ~/.config/alacritty/
-cp alacritty/* ~/.config/alacritty/
-
+cp ./alacritty/* ~/.config/alacritty/
+ 
 # wallpaper
-nitrogen --set-zoom-fill wallpapers/snow_path.jpg 
+mkdir -p ~/Pictures/wallpaper/
+cp ./wallpaper/* ~/Pictures/wallpaper/

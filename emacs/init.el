@@ -3,40 +3,60 @@
 
 ;; Emacs configuration
 ;;
-;; file: init.el
+;; file: ~/.emacs.d/init.el
 ;; author: Josue Teodoro Moreira <teodoro.josue@protonmail.ch>
 ;; date: Jul 16, 2021
 
 ;;; Code:
 
-;; Put backups on another folder
-(setq backup-directory-alist `(("." . "~/.saves")))
-(setq make-backup-files nil)
+;; ---- Packages ----
+(require 'package)
+(custom-set-variables
+ '(package-archives
+   (quote
+    (("gnu" . "https://elpa.gnu.org/packages/")
+     ("melpa" . "https://melpa.org/packages/")))))
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(package-initialize)
 
-;; Setup identation
+(require 'auto-complete)
+(require 'dashboard)
+(require 'company)
+(require 'flycheck)
+(require 'projectile)
+(require 'all-the-icons)
+(require 'gdscript-mode)
+
+;; ---- Workflow ---- ;;
+
+;; Do not create backups and lockfiles
+;; Who even needs them, just be carefull
+(setq make-backup-files nil)
+(setq create-lockfiles nil)
+
+;; Auto refresh
+(global-auto-revert-mode t)
+(setq-default auto-revert-use-notify nil)
+
+;; Identation & coding style
 (setq-default default-tab-width 2)
 (setq-default tab-width 2)
-(progn
-  (setq-default indent-tabs-mode nil))
 (setq-default tab-always-indent t)
-
-;; Change identation style for some languages
-(setq-default python-indent-offset 2)
-(setq-default css-indent-offset 2)
+(setq-default indent-tabs-mode nil)
 (setq-default c-default-style "bsd"
-              c-basic-offset 2)
-(setq-default python-default-offset 2)
-(setq-default nasm-basic-offset 2)
-(setq-default rust-indent-offset 2)
-(setq-default rust-indent-unit 2)
+              c-basic-offset 2
+              nasm-basic-offset 2
+              python-default-offset 2
+              python-indent-offset 2
+              python-default-offset 2
+              python-indent 2
+              css-indent-offset 2
+              json-encoding-default-indentation 2
+              elm-indent-offset 2
+              js-indent-level 2)
 
-;; Remove tool bar, menu bar and scrool bar
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-
-;; Highlight current line
-(global-hl-line-mode t)
+(setq gdscript-use-tab-indents nil)
+(setq gdscript-indent-offset 2)
 
 ;; Dvorak, vim-alike movement
 (define-key
@@ -47,13 +67,10 @@
   global-map (kbd "C-h") 'backward-char)
 (define-key
   global-map (kbd "C-s") 'forward-char)
-
-;; Meta
 (define-key
   global-map (kbd "M-h") 'backward-word)
 (define-key
   global-map (kbd "M-s") 'forward-word)
-
 (define-key
   global-map (kbd "C-p") 'transpose-chars)
 (define-key
@@ -61,54 +78,8 @@
 (define-key
   global-map (kbd "C-f") 'search-forward)
 
-;; Display line numbers
-(global-display-line-numbers-mode t)
-
-;; Auto closing
-(electric-pair-mode 1)
-
-;; Do not wrap
-(set-default 'truncate-lines t)
-
-;; ctrl c ctl v
-(cua-mode)
-
-(setq custom-file "~/.emacs.d/custom-file.el")
-(require 'package)
-(custom-set-variables
- '(package-archives
-   (quote
-    (("gnu" . "https://elpa.gnu.org/packages/")
-     ("melpa" . "https://melpa.org/packages/")))))
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
-
-;; Install packages if not installed
-(unless (package-installed-p 'org)
-  (package-install 'org))
-(unless (package-installed-p 'auto-complete)
-  (package-install 'auto-complete))
-(unless (package-installed-p 'company)
-  (package-install 'company))
-(unless (package-installed-p 'flycheck)
-  (package-install 'flycheck))
-(unless (package-installed-p 'projectile)
-  (package-install 'projectile))
-(unless (package-installed-p 'all-the-icons)
-  (package-install 'all-the-icons))
-(unless (package-installed-p 'elcord)
-  (package-install 'elcord))
-(unless (package-installed-p 'dashboard)
-  (package-install 'dashboard))
-(unless (package-installed-p 'doom-themes)
-  (package-install 'doom-themes))
-(unless (package-installed-p 'smooth-scrolling)
-  (package-install 'smooth-scrolling))
-
-(package-initialize)
-
+;; Org mode code evaluation
 (add-hook 'org-mode-hook 'org-bullets-mode)
-
-;; Code evaluation
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((C . t)
@@ -119,35 +90,47 @@
    (sql . t)
    (sqlite . t)))
 
-;; safe themes
-(load-file custom-file)
+;; Ctrl-c Ctrl-v
+(cua-mode)
 
-;; Smooth scrolling
-(require 'smooth-scrolling)
-(smooth-scrolling-mode t)
-
-;; Auto completion
-(require 'auto-complete)
+;; Code completion
+(global-flycheck-mode)
+(global-company-mode t)
 (auto-complete-mode t)
 
-;; Help
-(require 'company)
-(global-company-mode t)
+;; External config file
+(setq custom-file "~/.emacs.d/custom-file.el")
+(load-file custom-file)
 
-;; Syntax checking
-(require 'flycheck)
-(global-flycheck-mode)
+;; ---- Visual ---- ;;
 
-(require 'projectile)
-(require 'all-the-icons)
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  "Enables ansi colours escape codes."
+  (interactive)
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+(add-hook 'compilation-mode-hook 'display-ansi-colors)
 
-(require 'elcord)
+;; No tool bar, menu bar and scrool bar
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(hl-line-mode)
+
+;; Code
+(electric-pair-mode 1)
+(set-default 'truncate-lines t)
+(global-display-line-numbers-mode)
+
+;; Font
+(set-face-attribute 'default nil :font "Iosevka Semibold")
+(put 'downcase-region 'disabled nil)
 
 ;; Welcome page
 (require 'dashboard)
 (dashboard-setup-startup-hook)
 (setq dashboard-banner-logo-title "Welcome Back!")
-(setq dashboard-startup-banner "~/.emacs.d/gnu-ascii.txt")
 (setq dashboard-set-init-info t)
 
 (provide 'init)

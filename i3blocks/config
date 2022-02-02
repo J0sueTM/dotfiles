@@ -1,0 +1,36 @@
+# ~/.config/i3blocks/config
+# Josue Teodoro Moreira <teodoro.josue@protonmail.ch>
+# September 12, 2021
+
+separator=true
+separator_block_width=12
+
+[sound]
+label= 
+command=amixer sget Master | awk -F"[][]" '/Right:/ { print $2 }'
+interval=5
+
+[music]
+label= 
+command=dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata | sed -n '/title/{n;p}' | cut -d '"' -f 2
+interval=5
+
+[cpu]
+label= 
+command=iostat -c | sed '4q;d' | awk '{ print 100 - $6 "%" }'
+interval=5
+
+[memory]
+label= 
+command=free -mh --si | awk '/^Mem:/ { print $3 "/" $2 }'
+interval=5
+
+[date]
+label= 
+command=date '+%d-%m-%Y'
+interval=20
+
+[time]
+label= 
+command=date '+%H:%M:%S'
+interval=1
