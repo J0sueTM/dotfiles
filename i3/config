@@ -127,11 +127,11 @@ default_border pixel 0
 # border_radius 8
 
 # workspaces
-set $ws1  "α"
-set $ws2  "β"
-set $ws3  "γ"
-set $ws4  "δ"
-set $ws5  "ε"
+set $ws1 "α"
+set $ws2 "β"
+set $ws3 "γ"
+set $ws4 "δ"
+set $ws5 "ε"
 
 # go to workspace
 bindsym $mod+6 workspace $ws1
