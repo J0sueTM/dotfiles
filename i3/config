@@ -18,11 +18,30 @@ exec --no-startup-id setxkbmap dvorak
 # notifications daemon
 exec --no-startup-id dunst
 
-# refresh wallpaper
-exec --no-startup-id paperview ~/Pictures/wallpaper 8
+# monitors
+exec --no-startup-id xrandr --auto --output HDMI-1 --mode 1366x768 --left-of VGA-1
+
+# compositor
+exec picom
+
+# saturation (grayscale)
+exec vibrant-cli HDMI-1 0.0 & vibrant-cli VGA-1 0.0
+
+# wallpaper
+exec feh --bg-fill ~/Downloads/pexels-gianluca-grisenti-4215110.jpg
 
 # night light
 exec --no-startup-id nightshift -l -20:-50
+
+# screensaver
+exec --no-startup-id xscreensaver &
+bindsym $mod+Shift+L exec xscreensaver-command -lock
+
+# activity watch
+exec_always --no-startup-id ~/dev/activitywatch/aw-qt
+
+# ssh
+exec --no-startup-i eval $(ssh-agent -s)
 
 # h t n s keybinds
 set $left h
@@ -43,12 +62,13 @@ bindsym $mod+Return exec alacritty
 
 # screenshot
 exec --no-startup-id flameshot
+bindsym $mod+Shift+D exec --no-startup-id open-flameshot
 
 # kill window
 bindsym $mod+c kill
 
 # start rofi
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+d exec --no-startup-id rofi -show drun
 
 # focus with h t n s
 bindsym $mod+$left  focus left
@@ -61,6 +81,10 @@ bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
+
+# move workspace between monitors
+bindsym $mod+Ctrl+$left move workspace to output left
+bindsym $mod+Ctrl+$right move workspace to output right 
 
 # split horizontal
 bindsym $mod+g split h
@@ -96,18 +120,18 @@ default_border pixel 0
 
 # gaps
 # smart_gaps on
-gaps inner 3
-gaps outer 3
+# gaps inner 3
+# gaps outer 3
 
 # corners
 # border_radius 8
 
 # workspaces
-set $ws1  "1: "
-set $ws2  "2: "
-set $ws3  "3: "
-set $ws4  "4: "
-set $ws5  "5: "
+set $ws1  "α"
+set $ws2  "β"
+set $ws3  "γ"
+set $ws4  "δ"
+set $ws5  "ε"
 
 # go to workspace
 bindsym $mod+6 workspace $ws1

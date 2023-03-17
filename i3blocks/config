@@ -3,34 +3,34 @@
 # September 12, 2021
 
 separator=true
-separator_block_width=12
+separator_block_width=20
 
 [sound]
-label= 
+label=声音: 
 command=amixer sget Master | awk -F"[][]" '/Right:/ { print $2 }'
 interval=5
 
 [music]
-label= 
+label=音乐: 
 command=dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata | sed -n '/title/{n;p}' | cut -d '"' -f 2
 interval=5
 
 [cpu]
-label= 
+label=头: 
 command=iostat -c | sed '4q;d' | awk '{ print 100 - $6 "%" }'
 interval=5
 
 [memory]
-label= 
+label=记忆: 
 command=free -mh --si | awk '/^Mem:/ { print $3 "/" $2 }'
 interval=5
 
 [date]
-label= 
+label=日期: 
 command=date '+%d-%m-%Y'
 interval=20
 
 [time]
-label= 
+label=时间: 
 command=date '+%H:%M:%S'
 interval=1
