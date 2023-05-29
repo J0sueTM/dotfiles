@@ -15,42 +15,33 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin('~/.vim/plugged/')
-    Plug 'https://github.com/junegunn/fzf'
-    Plug 'https://github.com/tpope/vim-surround'
-    Plug 'https://github.com/mbbill/undotree'
-    Plug 'https://github.com/jiangmiao/auto-pairs'
-    Plug 'https://github.com/honza/vim-snippets'
-    Plug 'https://github.com/sheerun/vim-polyglot'
-    Plug 'https://github.com/thaerkh/vim-workspace'
-    Plug 'https://github.com/bfrg/vim-cpp-modern'
-    Plug 'https://github.com/vim-scripts/AutoComplPop'
-    Plug 'https://github.com/alvan/vim-closetag'
-    Plug 'https://github.com/goballooning/vim-live-latex-preview'
-    Plug 'https://github.com/wsdjeg/vim-assembly'
-    Plug 'https://github.com/arcticicestudio/nord-vim'
-    Plug 'https://github.com/xuhdev/vim-latex-live-preview', { 'for': 'tex' }
-
-    " colourschemes
-    Plug 'https://github.com/joshdick/onedark.vim'
-    Plug 'https://github.com/morhetz/gruvbox'
-    Plug 'https://github.com/jacoborus/tender.vim'
-    Plug 'https://github.com/drewtempelmeyer/palenight.vim'
-    Plug 'https://github.com/sainnhe/sonokai'
-    Plug 'https://github.com/gosukiwi/vim-atom-dark'
-    Plug 'https://github.com/ghifarit53/tokyonight-vim'
-    Plug 'https://github.com/sainnhe/forest-night'
-    Plug 'https://github.com/ayu-theme/ayu-vim'
-    Plug 'https://github.com/glepnir/oceanic-material'
-    Plug 'https://github.com/tomasiser/vim-code-dark'
-    Plug 'https://github.com/franbach/miramare'
-    Plug 'https://github.com/AlessandroYorba/Alduin'
-    Plug 'https://github.com/nanotech/jellybeans.vim'
-    Plug 'https://github.com/phanviet/vim-monokai-pro'
-    Plug 'https://github.com/ap/vim-css-color'
-    Plug 'https://github.com/cdaddr/gentooish.vim'
-    Plug 'https://github.com/dracula/vim', {'as': 'dracula'}
-    Plug 'https://github.com/evprkr/galaxian-vim'
-    Plug 'https://github.com/J0sueTM/gruber-darker-vim'
+  Plug 'https://github.com/ctrlpvim/ctrlp.vim'
+  Plug 'https://github.com/mbbill/undotree'
+  Plug 'https://github.com/preservim/nerdtree'
+  Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
+  Plug 'https://github.com/airblade/vim-gitgutter'
+  Plug 'https://github.com/jiangmiao/auto-pairs'
+  Plug 'https://github.com/honza/vim-snippets'
+  Plug 'https://github.com/sheerun/vim-polyglot'
+  Plug 'https://github.com/vimsence/vimsence'
+  Plug 'https://github.com/thaerkh/vim-workspace'
+  Plug 'https://github.com/bfrg/vim-cpp-modern'
+  Plug 'https://github.com/timonv/vim-cargo'
+  Plug 'https://github.com/vim-scripts/AutoComplPop'
+  Plug 'https://github.com/alvan/vim-closetag'
+  Plug 'https://github.com/goballooning/vim-live-latex-preview'
+  Plug 'https://github.com/wsdjeg/vim-assembly'
+  Plug 'https://github.com/xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+  Plug 'https://github.com/neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'https://github.com/vim-airline/vim-airline'
+  Plug 'https://github.com/vim-airline/vim-airline-themes'
+  Plug 'https://github.com/tpope/vim-fugitive'
+  Plug 'https://github.com/Lokaltog/vim-monotone'
+  Plug 'https://github.com/sdiehl/vim-ormolu'
+  Plug 'https://github.com/ollykel/v-vim'
+  Plug 'https://github.com/ayu-theme/ayu-vim'
+  Plug 'https://github.com/morhetz/gruvbox'
+  Plug 'https://github.com/olivertaylor/vacme'
 call plug#end()
 
 " no error sounds
@@ -68,16 +59,38 @@ set smartcase
 " set cursorline
 set nu
 set nowrap
-" set colorcolumn=80
+set colorcolumn=100
 set ttyfast
 set wildmenu
 
 set laststatus=2
 
+" airline
+let g:airline_powerline_fonts = 1
+
+" git
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '*'
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '-'
+let g:gitgutter_sign_modified_removed = '-'
+
+" fixes error where my cursor hides near curly brackets
+function! g:FuckMatchParen ()
+  if exists(":NoMatchParen")
+    :NoMatchParen
+  endif
+endfunction
+augroup plugin_initialize
+  autocmd!
+  autocmd VimEnter * call FuckMatchParen()
+augroup END
+
 if has("termguicolors")
     set termguicolors
 endif
 set background=dark
+let ayucolor="dark"
 colo gruvbox
 
 " workspaces
@@ -95,21 +108,29 @@ nnoremap <C-d><C-h> :split <CR>
 nnoremap <C-d><C-t> :tabN <CR>
 nnoremap <C-d><C-n> :tabn <CR>
 
+nnoremap cb :CargoBuild <CR>
+nnoremap cr :CargoRun <CR>
+
+" coc
+set signcolumn=yes
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
 " set fonts and theme
 if has("gui_running")
-    set go-=m
-    set go-=T
-    set go-=r
-    set go-=L
-    set go=c
-    set nomousehide           " fixed bugs on x11
-    set lines=999 columns=999 " always startup maximized
+  set go-=m
+  set go-=T
+  set go-=r
+  set go-=L
+  set go=c
+  set nomousehide           " fixed bugs on x11
+  set lines=999 columns=999 " always startup maximized
+	set hlsearch
 
-    if has("gui_gtk2") || has("gui_gtk3")
-        set guifont=Iosevka\ Term\ Semibold\ 11
-    elseif has("gui_win32")
-        set guifont=Consolas:h10:cANSI
-    endif
+  set guifont=JetBrains\ Mono\ 9
 endif
 
 " organize vim files
@@ -124,6 +145,19 @@ let &backupdir = expand('~/.vimdata/backup//')
 set undofile
 let &undodir = expand('~/.vimdata/undo//')
 
+let g:NERDTreeGitIndicatorMapCustom = {
+  \ "Modified"  : "*",
+  \ "Staged"    : "+",
+  \ "Untracked" : "*",
+  \ "Renamed"   : ">",
+  \ "Unmerged"  : "=",
+  \ "Deleted"   : "",
+  \ "Dirty"     : "x",
+  \ "Clean"     : "v",
+  \ 'Ignored'   : 'i',
+  \ "Unknown"   : "?"
+  \ }
+
 if !isdirectory(&undodir) | call mkdir(&undodir, "p") | endif
 if !isdirectory(&backupdir) | call mkdir(&backupdir, "p") | endif
 if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
@@ -134,37 +168,10 @@ inoremap mw <Esc>
 " live refresh
 set autoread
 
-" compile
-map <F5> :call CompileRun()<CR>
-func! CompileRun()
-    exec "w"
-    if &filetype == 'c'
-        exec "!gcc % -o %< && ./%<"
-    elseif &filetype == 'cpp'
-        exec "!g++ % -o %< && ./%<"
-    elseif &filetype == 'java'
-        exec "!javac % && java -cp %:p:h %:t:r"
-    elseif &filetype == 'assembly'
-        exec "!nasm -f elf64 % -o %<.o && ld %<.o -o %<"
-    elseif &filetype == 'sh'
-        exec "!./%"
-    elseif &filetype == 'python'
-        exec "!python3 %"
-    elseif &filetype == 'lua'
-        exec "!lua %"
-    elseif &filetype == 'html'
-        exec "!firefox % &"
-    endif
-endfunc
-
 " folding
 set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
-
-if &t_Co > 2 || has("gui_running")
-	set hlsearch
-endif
 
 augroup vimrcEx
 au!
