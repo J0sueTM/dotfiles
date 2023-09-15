@@ -1,5 +1,7 @@
 ;;; package --- Summary
-;;; Commentary: J0sueTM's Emacs configuration
+;;; Commentary:
+;;
+;; J0sueTM's Emacs configuration
 ;;
 ;; file: ~/.emacs.d/init.el
 ;; author: Josue Teodoro Moreira <teodoro.josue@protonmail.ch>
@@ -166,10 +168,6 @@
 (add-hook 'prog-mode-hook #'diff-hl-mode)
 
 (add-hook 'clojure-mode-hook #'lsp-install-save-hooks)
-
-;; Packages output
-(setq packout-file "~/.emacs.d/packout.el")
-(load-file packout-file)
 
 (set-face-attribute
  'default nil
