@@ -49,7 +49,34 @@
 (install-ifna 'random-splash-image)
 (install-ifna 'treemacs)
 (install-ifna 'clojure-mode)
+(install-ifna 'go-mode)
 (install-ifna 'elcord)
+(install-ifna 'dap-mode)
+(install-ifna 'go-dlv)
+(install-ifna 'zig-mode)
+(install-ifna 'purescript-mode)
+(install-ifna 'org-bullets)
+(install-ifna 'ox-reveal)
+(install-ifna 'htmlize)
+(install-ifna 'editorconfig)
+
+(add-to-list 'load-path "~/.emacs.d/copilot.el")
+(require 'copilot)
+(add-hook 'prog-mode-hook 'copilot-mode)
+
+(defun copilot-tab ()
+  "Run tab through the completion menu."
+  (interactive)
+  (or (copilot-accept-completion)
+      (company-yasnippet-or-completion)
+      (indent-for-tab-command)))
+
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-tab)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-tab)
+(define-key copilot-completion-map (kbd "M-r") 'copilot-next-completion)
+(define-key copilot-completion-map (kbd "M-c") 'copilot-previous-completion)
+
+(setq org-reveal-highlight-css "https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/atom-one-dark.min.css")
 
 (setq doom-modeline-support-imenu t)
 (setq doom-modeline-hud nil)
@@ -96,6 +123,11 @@
 (save-place-mode t)
 (savehist-mode t)
 (recentf-mode t)
+
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq vc-make-backup-files nil)
 
 (setq-default major-mode
               (lambda () ; guess major mode from file name
@@ -159,19 +191,37 @@
 ;; hooks
 (defun lsp-install-save-hooks ()
   "Hooks for lsp interaction."
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'after-save-hook #'lsp-organize-imports t t)
-  (lsp))
+  (progn
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'after-save-hook #'lsp-organize-imports t t)
+    (lsp)))
 
 (add-hook 'prog-mode-hook #'flymake-mode)
 (add-hook 'prog-mode-hook #'corfu-mode)
 (add-hook 'prog-mode-hook #'diff-hl-mode)
 
 (add-hook 'clojure-mode-hook #'lsp-install-save-hooks)
+(add-hook 'go-mode-hook #'lsp-install-save-hooks)
+
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-language-id-configuration
+               '(crystal-mode . "crystal"))
+  (lsp-register-client
+   (make-lsp-client :new-connection(lsp-stdio-connection '("crystalline"))
+                    :activation-fn (lsp-activate-on "crystal")
+                    :priority '1
+                    :server-id 'crystalline)))
+
+(require 'dap-dlv-go)
+(add-hook 'go-mode-hook (lambda () (require 'dap-dlv-go)))
+(setq dap-auto-configure-features '(sessions locals controls tooltip))
+
+;; escape codes on compilation buffer
+(add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
 
 (set-face-attribute
  'default nil
- :font "JetBrainsMono"
+ :font "Berkeley Mono"
  :height 90)
 (put 'downcase-region 'disabled nil)
 
