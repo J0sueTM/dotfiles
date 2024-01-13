@@ -1,9 +1,7 @@
 set $mod Mod4
 
 # fonts
-font pango:monospace 8
-font pango:Source Code Pro 8
-font pango:Hack 10
+font pango:Fantasque Sans Mono 8
 font pango:FontAwesome 9
 
 # set cpu performance mode
@@ -13,7 +11,7 @@ exec --no-startup-id echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/
 set $refresh_i3status killall -SIGUSR1 i3status
 
 # set keyboard layout
-exec --no-startup-id setxkbmap dvorak
+exec --no-startup-id setxkbmap us dvorak
 
 # notifications daemon
 exec --no-startup-id dunst
@@ -25,10 +23,10 @@ exec --no-startup-id xrandr --auto --output HDMI-1 --mode 1366x768 --left-of VGA
 exec picom
 
 # saturation (grayscale)
-exec vibrant-cli HDMI-1 0.0 & vibrant-cli VGA-1 0.0
+# exec vibrant-cli HDMI-1 0.0 & vibrant-cli VGA-1 0.0
 
 # wallpaper
-exec feh --bg-fill ~/Downloads/pexels-gianluca-grisenti-4215110.jpg
+exec feh --bg-fill ~/Downloads/image/wallpaper.jpg
 
 # night light
 exec --no-startup-id nightshift -l -20:-50
@@ -38,10 +36,10 @@ exec --no-startup-id xscreensaver &
 bindsym $mod+Shift+L exec xscreensaver-command -lock
 
 # activity watch
-exec_always --no-startup-id ~/dev/activitywatch/aw-qt
+# exec_always --no-startup-id ~/dev/activitywatch/aw-qt
 
 # ssh
-exec --no-startup-i eval $(ssh-agent -s)
+exec --no-startup-id eval $(ssh-agent -s)
 
 # h t n s keybinds
 set $left h
@@ -96,9 +94,9 @@ bindsym $mod+l split v
 bindsym $mod+f fullscreen toggle
 
 # layout
-bindsym $mod+k layout stacking
-bindsym $mod+j layout tabbed
-bindsym $mod+q layout toggle split
+bindsym $mod+Ctrl+Shift+s layout stacking
+bindsym $mod+Ctrl+Shift+t layout tabbed
+bindsym $mod+Ctrl+Shift+l layout toggle split
 
 # toggle floating / tiling
 bindsym $mod+space floating toggle
@@ -127,11 +125,11 @@ default_border pixel 0
 # border_radius 8
 
 # workspaces
-set $ws1 "α"
-set $ws2 "β"
-set $ws3 "γ"
-set $ws4 "δ"
-set $ws5 "ε"
+set $ws1 "1: α"
+set $ws2 "2: β"
+set $ws3 "3: γ"
+set $ws4 "4: δ"
+set $ws5 "5: ε"
 
 # go to workspace
 bindsym $mod+6 workspace $ws1
@@ -146,6 +144,10 @@ bindsym $mod+Shift+7 move container to workspace $ws2
 bindsym $mod+Shift+8 move container to workspace $ws3
 bindsym $mod+Shift+9 move container to workspace $ws4
 bindsym $mod+Shift+0 move container to workspace $ws5
+
+# keyboard layout
+bindsym $mod+Alt+t exec setxkbmap us dvorak
+bindsym $mod+Alt+n exec setxkbmap br dvorak
 
 # reload
 bindsym $mod+Shift+c reload
@@ -174,6 +176,48 @@ mode "resize"
 }
 bindsym $mod+r mode "resize"
 
+# mouse
+mode "mouse" {
+  set $slow 1
+  set $quick 10
+  set $fast 50
+
+  bindsym $left exec xdotool mousemove_relative -- -$fast 0
+  bindsym $down exec xdotool mousemove_relative 0 $fast
+  bindsym $up exec xdotool mousemove_relative -- 0 -$fast
+  bindsym $right exec xdotool mousemove_relative $fast 0
+
+  bindsym Ctrl+$left exec xdotool mousemove_relative -- -$quick 0
+  bindsym Ctrl+$down exec xdotool mousemove_relative 0 $quick
+  bindsym Ctrl+$up exec xdotool mousemove_relative -- 0 -$quick
+  bindsym Ctrl+$right exec xdotool mousemove_relative $quick 0
+
+  bindsym $mod+Ctrl+$left exec xdotool mousemove_relative -- -$slow 0
+  bindsym $mod+Ctrl+$down exec xdotool mousemove_relative 0 $slow
+  bindsym $mod+Ctrl+$up exec xdotool mousemove_relative -- 0 -$slow
+  bindsym $mod+Ctrl+$right exec xdotool mousemove_relative $slow 0
+
+  bindsym a exec xdotool click 1
+  bindsym o exec xdotool click 2
+  bindsym e exec xdotool click 3
+
+  bindsym Ctrl+a exec xdotool mousedown 1
+  bindsym Ctrl+o exec xdotool mousedown 2
+  bindsym Ctrl+e exec xdotool mousedown 3
+
+  bindsym Ctrl+Alt+a exec xdotool mouseup 1
+  bindsym Ctrl+Alt+o exec xdotool mouseup 2
+  bindsym Ctrl+Alt+e exec xdotool mouseup 3
+
+  bindsym Shift+t exec xdotool key Page_Up
+  bindsym Shift+n exec xdotool key Page_Down
+
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+m mode "default"
+}
+bindsym $mod+m mode "mouse"
+
 # THEME
 
 # Gruvbox
@@ -197,7 +241,7 @@ client.urgent           $red      $red      $white    $red    $red
 bar {
   height 20
   position top
-  font pango: Source Code Pro Black, DejaVu Sans Mono 10
+  font pango: Fantasque Sans Mono 10
   status_command i3blocks
    
   tray_padding 1
