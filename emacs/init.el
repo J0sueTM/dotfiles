@@ -1,10 +1,10 @@
-;;; package --- Summary
+;; package --- Summary
 ;;; Commentary:
 ;;
 ;; J0sueTM's Emacs configuration
 ;;
 ;; file: ~/.emacs.d/init.el
-;; author: Josue Teodoro Moreira <teodoro.josue@protonmail.ch>
+;; author: Josue Teodoro Moreira <teodoro.josue@pm.me>
 ;; date: Jul 16, 2021
 
 ;;; Code:
@@ -25,8 +25,7 @@
 
 (unless package-archive-contents
   (progn
-    (package-initialize)
-    (package-refresh-contents)))
+    (package-initialize)))
 
 (defun install-ifna (pkg)
   "Install PKG if not already."
@@ -34,86 +33,110 @@
     (package-install pkg)))
 
 (install-ifna 'all-the-icons)
+
 (install-ifna 'vertico)
-(install-ifna 'consult)
-(install-ifna 'corfu)
-(install-ifna 'lsp-mode)
-(install-ifna 'magit)
-(install-ifna 'diff-hl)
-(install-ifna 'avy)
-(install-ifna 'doom-themes)
-(install-ifna 'minions)
-(install-ifna 'doom-modeline)
-(install-ifna 'projectile)
-(install-ifna 'flycheck)
-(install-ifna 'random-splash-image)
-(install-ifna 'treemacs)
-(install-ifna 'clojure-mode)
-(install-ifna 'go-mode)
-(install-ifna 'elcord)
-(install-ifna 'dap-mode)
-(install-ifna 'go-dlv)
-(install-ifna 'zig-mode)
-(install-ifna 'purescript-mode)
-(install-ifna 'org-bullets)
-(install-ifna 'ox-reveal)
-(install-ifna 'htmlize)
-(install-ifna 'editorconfig)
-
-(add-to-list 'load-path "~/.emacs.d/copilot.el")
-(require 'copilot)
-(add-hook 'prog-mode-hook 'copilot-mode)
-
-(defun copilot-tab ()
-  "Run tab through the completion menu."
-  (interactive)
-  (or (copilot-accept-completion)
-      (company-yasnippet-or-completion)
-      (indent-for-tab-command)))
-
-(define-key copilot-completion-map (kbd "<tab>") 'copilot-tab)
-(define-key copilot-completion-map (kbd "TAB") 'copilot-tab)
-(define-key copilot-completion-map (kbd "M-r") 'copilot-next-completion)
-(define-key copilot-completion-map (kbd "M-c") 'copilot-previous-completion)
-
-(setq org-reveal-highlight-css "https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/atom-one-dark.min.css")
-
-(setq doom-modeline-support-imenu t)
-(setq doom-modeline-hud nil)
-(setq doom-modeline-project-detection 'auto)
-(setq doom-modeline-buffer-file-name-style 'auto)
-(setq doom-modeline-icon t)
-(setq doom-modeline-major-mode-icon t)
-(setq doom-modeline-major-mode-color-icon t)
-(setq doom-modeline-buffer-state-icon t)
-(setq doom-modeline-buffer-modification-icon t)
-(setq doom-modeline-time-icon t)
-(setq doom-modeline-unicode-fallback nil)
-(setq doom-modeline-buffer-name t)
-(setq doom-modeline-highlight-modified-buffer-name t)
-(setq doom-modeline-minor-modes nil)
-(setq doom-modeline-enable-word-count nil)
-(setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
-(setq doom-modeline-buffer-encoding t)
-(setq doom-modeline-checker-simple-format t)
-(setq doom-modeline-number-limit 10)
-(setq doom-modeline-vcs-max-length 12)
-(setq doom-modeline-workspace-name t)
-(setq doom-modeline-persp-name t)
-(setq doom-modeline-display-default-persp-name nil)
-(setq doom-modeline-persp-icon t)
-(setq doom-modeline-lsp t)
-(doom-modeline-mode 1)
-
 (vertico-mode t)
 
-(setq help-at-pt-display-when-idle t)
+(install-ifna 'consult)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key [rebind switch-to-buffer] #'consult-buffer)
+(global-set-key (kbd "C-c j") #'consult-line)
+(global-set-key (kbd "C-c i") #'consult-imenu)
 
+(install-ifna 'corfu)
+(add-hook 'prog-mode-hook #'corfu-mode)
+
+(install-ifna 'lsp-mode)
+(defun lsp-install-save-hooks ()
+  "Hooks for lsp interaction."
+  (progn
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'after-save-hook #'lsp-organize-imports t t)
+    (lsp)))
+
+(add-hook 'clojure-mode-hook #'lsp-install-save-hooks)
+(add-hook 'go-mode-hook #'lsp-install-save-hooks)
+
+(install-ifna 'cider)
+(add-hook 'clojure-mode-hook #'cider-auto-test-mode)
+(setq cider-repl-buffer-size-limit 10000)
+(setq cider-repl-use-clojure-font-lock nil)
+
+(install-ifna 'magit)
+(global-set-key (kbd "C-c g") #'magit-status)
+
+(install-ifna 'diff-hl)
+(add-hook 'prog-mode-hook #'diff-hl-mode)
+
+(install-ifna 'avy)
+(global-set-key (kbd "C-c z") #'avy-goto-word-1)
+
+(install-ifna 'counsel)
+(install-ifna 'swiper)
+
+(install-ifna 'ivy)
+(install-ifna 'ivy-posframe)
+(setq ivy-posframe-height-alist '((t . 25)))
+(setq ivy-posframe-display-functions-alist
+      '((t . ivy-posframe-display-at-frame-center)))
+(ivy-posframe-mode 1)
+
+(install-ifna 'doom-themes)
+
+(install-ifna 'minions)
+(install-ifna 'projectile)
+(install-ifna 'flycheck)
 (with-eval-after-load 'flymake
   (define-key flymake-mode-map (kbd "C-c n") #'flymake-goto-next-error)
   (define-key flymake-mode-map (kbd "C-c p") #'flymake-goto-prev-error))
 
-;; miscellaneous
+(install-ifna 'random-splash-image)
+
+(install-ifna 'treemacs)
+(setq treemacs-position 'right)
+(define-key global-map (kbd "M-t") 'treemacs)
+
+(install-ifna 'clojure-mode)
+
+(install-ifna 'go-mode)
+(install-ifna 'dap-mode)
+(install-ifna 'go-dlv)
+(add-hook 'go-mode-hook (lambda () (require 'dap-dlv-go)))
+(setq dap-auto-configure-features '(sessions locals controls tooltip))
+
+(install-ifna 'elcord)
+(install-ifna 'zig-mode)
+(install-ifna 'purescript-mode)
+(install-ifna 'org-bullets)
+
+(install-ifna 'ox-reveal)
+(install-ifna 'htmlize)
+(install-ifna 'editorconfig)
+(setq org-reveal-highlight-css "https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/atom-one-dark.min.css")
+
+(install-ifna 'dimmer)
+(require 'dimmer)
+(setq dimmer-fraction 0.6)
+(dimmer-mode t)
+
+(install-ifna 'solaire-mode)
+(solaire-global-mode +1)
+
+(install-ifna 'focus)
+(add-hook 'prog-mode-hook #'focus-mode)
+(add-hook 'text-mode-hook #'focus-mode)
+
+(install-ifna 'indent-guide)
+(indent-guide-global-mode)
+
+(install-ifna 'nano-theme)
+
+(install-ifna 'doom-modeline)
+(setq doom-modeline-height 16)
+(doom-modeline-mode 1)
+
+(setq help-at-pt-display-when-idle t)
+
 (electric-pair-mode 1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -166,9 +189,6 @@
 ;; rebindings
 (cua-mode) ;; ctrl-c ctrl-v
 
-(setq treemacs-position 'right)
-(define-key global-map (kbd "M-t") 'treemacs)
-
 ;; dvorak vim-alike movements
 (define-key global-map (kbd "C-n") 'previous-line)
 (define-key global-map (kbd "C-t") 'next-line)
@@ -178,54 +198,21 @@
 (define-key global-map (kbd "M-s") 'forward-word)
 (define-key global-map (kbd "C-p") 'transpose-chars)
 (define-key global-map (kbd "C-b") 'help)
-(define-key global-map (kbd "C-f") 'search-forward)
-
-;; consult
-(global-set-key [rebind switch-to-buffer] #'consult-buffer)
-(global-set-key (kbd "C-c j") #'consult-line)
-(global-set-key (kbd "C-c i") #'consult-imenu)
-
-(global-set-key (kbd "C-c g") #'magit-status)
-(global-set-key (kbd "C-c z") #'avy-goto-word-1)
-
-;; hooks
-(defun lsp-install-save-hooks ()
-  "Hooks for lsp interaction."
-  (progn
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'after-save-hook #'lsp-organize-imports t t)
-    (lsp)))
+(define-key global-map (kbd "C-f") 'swiper)
+(define-key global-map (kbd "C-x C-f") 'counsel-find-file)
 
 (add-hook 'prog-mode-hook #'flymake-mode)
-(add-hook 'prog-mode-hook #'corfu-mode)
-(add-hook 'prog-mode-hook #'diff-hl-mode)
-
-(add-hook 'clojure-mode-hook #'lsp-install-save-hooks)
-(add-hook 'go-mode-hook #'lsp-install-save-hooks)
-
-(with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-language-id-configuration
-               '(crystal-mode . "crystal"))
-  (lsp-register-client
-   (make-lsp-client :new-connection(lsp-stdio-connection '("crystalline"))
-                    :activation-fn (lsp-activate-on "crystal")
-                    :priority '1
-                    :server-id 'crystalline)))
-
-(require 'dap-dlv-go)
-(add-hook 'go-mode-hook (lambda () (require 'dap-dlv-go)))
-(setq dap-auto-configure-features '(sessions locals controls tooltip))
 
 ;; escape codes on compilation buffer
 (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
 
 (set-face-attribute
  'default nil
- :font "Berkeley Mono"
- :height 90)
+ :font "Fantasque Sans Mono"
+ :height 100)
 (put 'downcase-region 'disabled nil)
 
-(defvar ligatures-JetBrainsMono
+(defvar my-ligatures
   '("--" "---" "==" "===" "!=" "!==" "=!=" "=:=" "=/=" "<=" ">=" "&&" "&&&" "&=" "++" "+++"
    "***" ";;" "!!" "??" "?:" "?." "?=" "<:" ":<" ":>" ">:" "<>" "<<<" ">>>" "<<" ">>" "||" "-|"
    "_|_" "|-" "||-" "|=" "||=" "##" "###" "####" "#{" "#[" "]#" "#(" "#?" "#_" "#_(" "#:"
@@ -236,19 +223,9 @@
    "|>" "<|" "||>" "<||" "|||>" "|||>" "<|>" "..." ".." ".=" ".-" "..<" ".?" "::" ":::"
    ":=" "::=" ":?" ":?>" "//" "///" "/*" "*/" "/=" "//=" "/==" "@_" "__"))
 
-(ligature-set-ligatures 'prog-mode ligatures-JetBrainsMono)
+(ligature-set-ligatures 'prog-mode my-ligatures)
 (global-ligature-mode t)
 
 (provide 'init)
 
 ;;; init.el ends here
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
-;; ## end of OPAM user-setup addition for emacs / base ## keep this line
