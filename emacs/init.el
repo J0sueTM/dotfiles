@@ -38,7 +38,6 @@
 (vertico-mode t)
 
 (install-ifna 'consult)
-(global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key [rebind switch-to-buffer] #'consult-buffer)
 (global-set-key (kbd "C-c j") #'consult-line)
 (global-set-key (kbd "C-c i") #'consult-imenu)
@@ -71,17 +70,7 @@
 (install-ifna 'avy)
 (global-set-key (kbd "C-c z") #'avy-goto-word-1)
 
-(install-ifna 'counsel)
 (install-ifna 'swiper)
-
-(install-ifna 'ivy)
-(install-ifna 'ivy-posframe)
-(setq ivy-posframe-height-alist '((t . 25)))
-(setq ivy-posframe-display-functions-alist
-      '((t . ivy-posframe-display-at-frame-center)))
-(ivy-posframe-mode 1)
-
-(install-ifna 'doom-themes)
 
 (install-ifna 'minions)
 (install-ifna 'projectile)
@@ -97,6 +86,9 @@
 (define-key global-map (kbd "M-t") 'treemacs)
 
 (install-ifna 'clojure-mode)
+
+(install-ifna 'slime)
+(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
 
 (install-ifna 'go-mode)
 (install-ifna 'dap-mode)
@@ -129,13 +121,19 @@
 (install-ifna 'indent-guide)
 (indent-guide-global-mode)
 
-(install-ifna 'nano-theme)
-
-(install-ifna 'doom-modeline)
-(setq doom-modeline-height 16)
-(doom-modeline-mode 1)
+;; (install-ifna 'doom-modeline)
+;; (setq doom-modeline-height 16)
+;; (doom-modeline-mode 0)
 
 (setq help-at-pt-display-when-idle t)
+
+;; (install-ifna 'modus-themes)
+;; (setq modus-themes-mode-line '(borderless padded))
+;; (load-theme 'modus-vivendi t)
+
+(install-ifna 'color-theme-modern)
+(load-theme 'taylor t t)
+(enable-theme 'taylor)
 
 (electric-pair-mode 1)
 (menu-bar-mode -1)
@@ -199,7 +197,6 @@
 (define-key global-map (kbd "C-p") 'transpose-chars)
 (define-key global-map (kbd "C-b") 'help)
 (define-key global-map (kbd "C-f") 'swiper)
-(define-key global-map (kbd "C-x C-f") 'counsel-find-file)
 
 (add-hook 'prog-mode-hook #'flymake-mode)
 
@@ -212,7 +209,7 @@
  :height 100)
 (put 'downcase-region 'disabled nil)
 
-(defvar my-ligatures
+(defvar ligatures-JetBrainsMono
   '("--" "---" "==" "===" "!=" "!==" "=!=" "=:=" "=/=" "<=" ">=" "&&" "&&&" "&=" "++" "+++"
    "***" ";;" "!!" "??" "?:" "?." "?=" "<:" ":<" ":>" ">:" "<>" "<<<" ">>>" "<<" ">>" "||" "-|"
    "_|_" "|-" "||-" "|=" "||=" "##" "###" "####" "#{" "#[" "]#" "#(" "#?" "#_" "#_(" "#:"
@@ -223,7 +220,7 @@
    "|>" "<|" "||>" "<||" "|||>" "|||>" "<|>" "..." ".." ".=" ".-" "..<" ".?" "::" ":::"
    ":=" "::=" ":?" ":?>" "//" "///" "/*" "*/" "/=" "//=" "/==" "@_" "__"))
 
-(ligature-set-ligatures 'prog-mode my-ligatures)
+(ligature-set-ligatures 'prog-mode ligatures-JetBrainsMono)
 (global-ligature-mode t)
 
 (provide 'init)
