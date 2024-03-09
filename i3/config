@@ -115,9 +115,9 @@ bindsym $mod+minus scratchpad show
 default_border pixel 0
 
 # gaps
-smart_gaps inverse_outer
-gaps inner 4
-gaps outer 4
+# smart_gaps inverse_outer
+# gaps inner 4
+# gaps outer 4
 
 # corners
 # border_radius 8
@@ -242,7 +242,7 @@ bar {
   font pango: Fantasque Sans Mono Bold 10
   status_command i3blocks
    
-  padding 10px 8px 0px 6px
+  padding 10px 14px 0px 10px
   tray_output none
   strip_workspace_numbers yes
   bindsym button4 nop

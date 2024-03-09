@@ -76,10 +76,10 @@ set langmap=tj,nk,sl,jt,kn,ls
 nnoremap <leader>w :ToggleWorkspace <CR>
 nnoremap <C-a> :set rnu! <CR>
 nnoremap <C-i> :set wrap! <CR>
-nnoremap <C-h><C-s> :vsplit <CR>
-nnoremap <C-h><C-h> :split <CR>
-nnoremap <C-h><C-t> :tabN <CR>
-nnoremap <C-h><C-n> :tabn <CR>
+nnoremap gl :vsplit <CR>
+nnoremap lg :split <CR>
+nnoremap rc :tabN <CR>
+nnoremap cr :tabn <CR>
 
 " coc
 set signcolumn=yes

@@ -87,8 +87,10 @@
 
 (install-ifna 'clojure-mode)
 
-(install-ifna 'slime)
-(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+(install-ifna 'sly)
+(install-ifna 'sly-quicklisp)
+(install-ifna 'sly-asdf)
+(install-ifna 'sly-repl-ansi-color)
 
 (install-ifna 'go-mode)
 (install-ifna 'dap-mode)
@@ -127,13 +129,16 @@
 
 (setq help-at-pt-display-when-idle t)
 
-;; (install-ifna 'modus-themes)
-;; (setq modus-themes-mode-line '(borderless padded))
-;; (load-theme 'modus-vivendi t)
+(install-ifna 'modus-themes)
+(setq modus-themes-mode-line '(borderless padded))
+(load-theme 'modus-vivendi t)
 
-(install-ifna 'color-theme-modern)
-(load-theme 'taylor t t)
-(enable-theme 'taylor)
+;; (install-ifna 'color-theme-modern)
+;; (load-theme 'taylor t t)
+;; (enable-theme 'taylor)
+
+;; (install-ifna 'almost-mono-themes)
+;; (load-theme 'almost-mono-black t)
 
 (electric-pair-mode 1)
 (menu-bar-mode -1)
@@ -206,7 +211,7 @@
 (set-face-attribute
  'default nil
  :font "Fantasque Sans Mono"
- :height 100)
+ :height 150)
 (put 'downcase-region 'disabled nil)
 
 (defvar ligatures-JetBrainsMono
