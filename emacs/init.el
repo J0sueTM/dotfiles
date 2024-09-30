@@ -50,7 +50,7 @@
   (global-corfu-mode)
   :custom
   (corfu-auto t)
-  (corfu-quit-no-match nil)
+  (corfu-quit-no-match t)
   (corfu-on-exact-match nil)
   (corfu-scroll-margin 5))
 
@@ -79,9 +79,6 @@
   :ensure t)
 
 (use-package projectile
-  :ensure t)
-
-(use-package flycheck
   :ensure t)
 
 (use-package clojure-mode
@@ -195,6 +192,10 @@
  :font "JetBrains Mono Nerd Font"
  :height 150)
 (put 'downcase-region 'disabled nil)
+
+(use-package gruber-darker-theme
+  :ensure t
+  :init (load-theme 'gruber-darker))
 
 (provide 'init)
 
