@@ -4,141 +4,105 @@
 ;; J0sueTM's Emacs configuration
 ;;
 ;; file: ~/.emacs.d/init.el
-;; author: Josue Teodoro Moreira <teodoro.josue@pm.me>
+;; author: Josue Teodoro Moreira <me@j0suetm.com>
 ;; date: Jul 16, 2021
 
 ;;; Code:
 
-;; automatic customization
+;; save customization
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
 
 ;; packages
 (require 'package)
-
 (custom-set-variables
  '(package-archives
    (quote (("gnu" . "https://elpa.gnu.org/packages/")
-	         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+	   ("nongnu" . "https://elpa.nongnu.org/nongnu/")
            ("melpa" . "https://melpa.org/packages/")))))
+(package-initialize)
 
-(unless package-archive-contents
-  (progn
-    (package-initialize)))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-(defun install-ifna (pkg)
-  "Install PKG if not already."
-  (unless (package-installed-p pkg)
-    (package-install pkg)))
+(eval-when-compile
+  (setq use-package-verbose t
+	      use-package-expand-minimally nil
+	      use-package-compute-statistics t
+	      debug-on-error t)
+  (require 'use-package))
 
-(install-ifna 'all-the-icons)
+(use-package vertico
+  :ensure t)
 
-(install-ifna 'vertico)
-(vertico-mode t)
+(use-package consult
+  :ensure t
+  :bind (("C-c j" . consult-line)
+         ("C-c i" . consult-imenu))
+  :config
+  (global-set-key [rebind switch-to-buffer] #'consult-buffer))
 
-(install-ifna 'consult)
-(global-set-key [rebind switch-to-buffer] #'consult-buffer)
-(global-set-key (kbd "C-c j") #'consult-line)
-(global-set-key (kbd "C-c i") #'consult-imenu)
+(use-package corfu
+  :ensure t
+  :init
+  (global-corfu-mode)
+  :custom
+  (corfu-auto t)
+  (corfu-quit-no-match nil)
+  (corfu-on-exact-match nil)
+  (corfu-scroll-margin 5))
 
-(install-ifna 'corfu)
-(add-hook 'prog-mode-hook #'corfu-mode)
+(use-package lsp-mode
+  :ensure t
+  :hook ((before-save-hook  . lsp-format-buffer)
+	       (after-save-hook   . lsp-organize-imports)
+	       (clojure-mode-hook . lsp)))
 
-(install-ifna 'lsp-mode)
-(defun lsp-install-save-hooks ()
-  "Hooks for lsp interaction."
-  (progn
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'after-save-hook #'lsp-organize-imports t t)
-    (lsp)))
+(use-package cider
+  :ensure t
+  :hook ((clojure-mode-hook . cider-auto-test-mode))
+  :config
+  (setq cider-repl-buffer-size-limit 10000)
+  (setq cider-repl-use-clojure-font-lock nil))
 
-(add-hook 'clojure-mode-hook #'lsp-install-save-hooks)
-(add-hook 'go-mode-hook #'lsp-install-save-hooks)
+(use-package magit
+  :ensure t
+  :bind (("C-c g" . magit-status)))
 
-(install-ifna 'cider)
-(add-hook 'clojure-mode-hook #'cider-auto-test-mode)
-(setq cider-repl-buffer-size-limit 10000)
-(setq cider-repl-use-clojure-font-lock nil)
+(use-package avy
+  :ensure t
+  :bind (("C-c z" . avy-goto-word-1)))
 
-(install-ifna 'magit)
-(global-set-key (kbd "C-c g") #'magit-status)
+(use-package swiper
+  :ensure t)
 
-(install-ifna 'diff-hl)
-(add-hook 'prog-mode-hook #'diff-hl-mode)
+(use-package projectile
+  :ensure t)
 
-(install-ifna 'avy)
-(global-set-key (kbd "C-c z") #'avy-goto-word-1)
+(use-package flycheck
+  :ensure t)
 
-(install-ifna 'swiper)
+(use-package clojure-mode
+  :ensure t)
 
-(install-ifna 'minions)
-(install-ifna 'projectile)
-(install-ifna 'flycheck)
-(with-eval-after-load 'flymake
-  (define-key flymake-mode-map (kbd "C-c n") #'flymake-goto-next-error)
-  (define-key flymake-mode-map (kbd "C-c p") #'flymake-goto-prev-error))
+(use-package go-mode
+  :ensure t)
 
-(install-ifna 'random-splash-image)
+(use-package dimmer
+  :ensure t
+  :init (dimmer-mode t)
+  :config
+  (setq dimmer-fraction 0.6))
 
-(install-ifna 'treemacs)
-(setq treemacs-position 'right)
-(define-key global-map (kbd "M-t") 'treemacs)
+(use-package solaire-mode
+  :ensure t
+  :init (solaire-global-mode +1))
 
-(install-ifna 'clojure-mode)
-
-(install-ifna 'sly)
-(install-ifna 'sly-quicklisp)
-(install-ifna 'sly-asdf)
-(install-ifna 'sly-repl-ansi-color)
-
-(install-ifna 'go-mode)
-(install-ifna 'dap-mode)
-(install-ifna 'go-dlv)
-(add-hook 'go-mode-hook (lambda () (require 'dap-dlv-go)))
-(setq dap-auto-configure-features '(sessions locals controls tooltip))
-
-(install-ifna 'elcord)
-(install-ifna 'zig-mode)
-(install-ifna 'purescript-mode)
-(install-ifna 'org-bullets)
-
-(install-ifna 'ox-reveal)
-(install-ifna 'htmlize)
-(install-ifna 'editorconfig)
-(setq org-reveal-highlight-css "https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/atom-one-dark.min.css")
-
-(install-ifna 'dimmer)
-(require 'dimmer)
-(setq dimmer-fraction 0.6)
-(dimmer-mode t)
-
-(install-ifna 'solaire-mode)
-(solaire-global-mode +1)
-
-(install-ifna 'focus)
-(add-hook 'prog-mode-hook #'focus-mode)
-(add-hook 'text-mode-hook #'focus-mode)
-
-(install-ifna 'indent-guide)
-(indent-guide-global-mode)
-
-;; (install-ifna 'doom-modeline)
-;; (setq doom-modeline-height 16)
-;; (doom-modeline-mode 0)
-
-(setq help-at-pt-display-when-idle t)
-
-(install-ifna 'modus-themes)
-(setq modus-themes-mode-line '(borderless padded))
-(load-theme 'modus-vivendi t)
-
-;; (install-ifna 'color-theme-modern)
-;; (load-theme 'taylor t t)
-;; (enable-theme 'taylor)
-
-;; (install-ifna 'almost-mono-themes)
-;; (load-theme 'almost-mono-black t)
+(use-package indent-guide
+  :ensure t
+  :init (indent-guide-global-mode))
 
 (electric-pair-mode 1)
 (menu-bar-mode -1)
@@ -156,7 +120,7 @@
 (setq vc-make-backup-files nil)
 
 (setq-default major-mode
-              (lambda () ; guess major mode from file name
+	      (lambda () ; guess major mode from file name
                 (unless buffer-file-name
                   (let ((buffer-file-name (buffer-name)))
                     (set-auto-mode)))))
@@ -167,7 +131,6 @@
 (setq make-backup-files -1)
 (setq create-lockfiles -1)
 
-;; auto refresh
 (global-auto-revert-mode t)
 (setq-default auto-revert-use-notify nil)
 
@@ -208,25 +171,30 @@
 ;; escape codes on compilation buffer
 (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
 
+(use-package ligature
+  :ensure t
+  :init (global-ligature-mode t)
+  :config
+  (ligature-set-ligatures
+   'prog-mode
+   '("--" "---" "==" "===" "!=" "!==" "=!=" "=:=" "=/=" "<="
+     ">=" "&&" "&&&" "&=" "++" "+++" "***" ";;" "!!" "??" "?:"
+     "?." "?=" "<:" ":<" ":>" ">:" "<>" "<<<" ">>>" "<<" ">>" "||" "-|"
+     "_|_" "|-" "||-" "|=" "||=" "##" "###" "####" "#{" "#[" "]#" "#(" "#?"
+     "#_" "#_(" "#:" "#!" "#=" "^=" "<$>" "<$" "$>" "<+>" "<+ +>" "<*>"
+     "<* *>" "</" "</>" "/>" "<!--" "<#--" "-->" "->" "->>" "<<-" "<-"
+     "<=<" "=<<" "<<=" "<==" "<=>" "<==>" "==>" "=>" "=>>" ">=>" ">>=" ">>-"
+     ">-" ">--" "-<" "-<<" ">->" "<-<" "<-|" "<=|" "|=>" "|->" "<-" "<~~"
+     "<~" "<~>" "~~" "~~>" "~>" "~-" "-~" "~@" "[||]" "|]" "[|" "|}" "{|"
+     "[<" ">]" "|>" "<|" "||>" "<||" "|||>" "|||>" "<|>" "..." ".." ".=" ".-"
+     "..<" ".?" "::" ":::" ":=" "::=" ":?" ":?>" "//" "///" "/*" "*/" "/="
+     "//=" "/==" "@_" "__")))
+
 (set-face-attribute
  'default nil
- :font "Fantasque Sans Mono"
+ :font "JetBrains Mono Nerd Font"
  :height 150)
 (put 'downcase-region 'disabled nil)
-
-(defvar ligatures-JetBrainsMono
-  '("--" "---" "==" "===" "!=" "!==" "=!=" "=:=" "=/=" "<=" ">=" "&&" "&&&" "&=" "++" "+++"
-   "***" ";;" "!!" "??" "?:" "?." "?=" "<:" ":<" ":>" ">:" "<>" "<<<" ">>>" "<<" ">>" "||" "-|"
-   "_|_" "|-" "||-" "|=" "||=" "##" "###" "####" "#{" "#[" "]#" "#(" "#?" "#_" "#_(" "#:"
-   "#!" "#=" "^=" "<$>" "<$" "$>" "<+>" "<+ +>" "<*>" "<* *>" "</" "</>" "/>" "<!--"
-   "<#--" "-->" "->" "->>" "<<-" "<-" "<=<" "=<<" "<<=" "<==" "<=>" "<==>" "==>" "=>"
-   "=>>" ">=>" ">>=" ">>-" ">-" ">--" "-<" "-<<" ">->" "<-<" "<-|" "<=|" "|=>" "|->" "<-"
-   "<~~" "<~" "<~>" "~~" "~~>" "~>" "~-" "-~" "~@" "[||]" "|]" "[|" "|}" "{|" "[<" ">]"
-   "|>" "<|" "||>" "<||" "|||>" "|||>" "<|>" "..." ".." ".=" ".-" "..<" ".?" "::" ":::"
-   ":=" "::=" ":?" ":?>" "//" "///" "/*" "*/" "/=" "//=" "/==" "@_" "__"))
-
-(ligature-set-ligatures 'prog-mode ligatures-JetBrainsMono)
-(global-ligature-mode t)
 
 (provide 'init)
 
