@@ -44,25 +44,8 @@
   :config
   (global-set-key [rebind switch-to-buffer] #'consult-buffer))
 
-(use-package corfu
-  :ensure t
-  :init
-  (global-corfu-mode)
-  :custom
-  (corfu-auto t)
-  (corfu-quit-no-match t)
-  (corfu-on-exact-match nil)
-  (corfu-scroll-margin 5))
-
-(use-package lsp-mode
-  :ensure t
-  :hook ((before-save-hook  . lsp-format-buffer)
-	       (after-save-hook   . lsp-organize-imports)
-	       (clojure-mode-hook . lsp)))
-
 (use-package cider
   :ensure t
-  :hook ((clojure-mode-hook . cider-auto-test-mode))
   :config
   (setq cider-repl-buffer-size-limit 10000)
   (setq cider-repl-use-clojure-font-lock nil))
@@ -87,6 +70,14 @@
 (use-package go-mode
   :ensure t)
 
+(use-package vue-mode
+  :ensure t)
+
+(add-hook
+ 'mmm-mode-hook
+ (lambda ()
+   (set-face-background 'mmm-default-submode-face nil)))
+
 (use-package dimmer
   :ensure t
   :init (dimmer-mode t)
@@ -101,12 +92,41 @@
   :ensure t
   :init (indent-guide-global-mode))
 
+(use-package evil
+	:ensure t)
+
+(use-package key-chord
+  :ensure t
+  :init (key-chord-mode 1))
+
+(defun live ()
+  "Turn `evil-mode` on."
+  (interactive)
+  (evil-mode t)
+  (evil-global-set-key 'normal (kbd "t") 'evil-next-line)
+  (evil-global-set-key 'normal (kbd "n") 'evil-previous-line)
+  (evil-global-set-key 'normal (kbd "h") 'evil-backward-char)
+  (evil-global-set-key 'normal (kbd "s") 'evil-forward-char)
+
+  (evil-global-set-key 'visual (kbd "t") 'evil-next-line)
+  (evil-global-set-key 'visual (kbd "n") 'evil-previous-line)
+  (evil-global-set-key 'visual (kbd "h") 'evil-backward-char)
+  (evil-global-set-key 'visual (kbd "s") 'evil-forward-char)
+
+  (key-chord-define evil-insert-state-map "mw" 'evil-normal-state))
+
+(defun unalive ()
+  "Turn `evil-mode` off."
+  (interactive)
+  (evil-mode -1))
+
 (electric-pair-mode 1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (set-default 'truncate-lines t)
-(global-display-line-numbers-mode 1)
+(global-display-line-numbers-mode t)
+(global-display-fill-column-indicator-mode t)
 (save-place-mode t)
 (savehist-mode t)
 (recentf-mode t)
@@ -115,6 +135,7 @@
 (setq auto-save-default nil)
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq vc-make-backup-files nil)
+(setq create-lockfiles nil)
 
 (setq-default major-mode
 	      (lambda () ; guess major mode from file name
@@ -132,22 +153,26 @@
 (setq-default auto-revert-use-notify nil)
 
 ;; identation & coding style
-(setq-default default-tab-width 2)
-(setq-default tab-width 2)
-(setq-default tab-always-indent t)
-(setq-default indent-tabs-mode nil)
-(setq-default c-default-style "bsd"
+(setq-default default-tab-width 2
+			        tab-width 2
+						  tab-always-indent t
+						  indent-tabs-mode nil
+						  c-default-style "bsd"
               c-basic-offset 2
               nasm-basic-offset 2
-              python-default-offset 2
-              python-indent-offset 2
-              python-default-offset 2
-              python-indent 2
               css-indent-offset 2
               json-encoding-default-indentation 2
               elm-indent-offset 2
               js-indent-level 2
-              rust-indent-offset 2)
+              rust-indent-offset 2
+              python-indent-offset 2
+              python-default-offset 2
+              python-indent 2)
+
+;; cc-mode is too slow
+(add-to-list 'load-path "~/Dev/vendor/simpc-mode")
+(require 'simpc-mode)
+(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
 
 ;; rebindings
 (cua-mode) ;; ctrl-c ctrl-v
@@ -162,8 +187,6 @@
 (define-key global-map (kbd "C-p") 'transpose-chars)
 (define-key global-map (kbd "C-b") 'help)
 (define-key global-map (kbd "C-f") 'swiper)
-
-(add-hook 'prog-mode-hook #'flymake-mode)
 
 ;; escape codes on compilation buffer
 (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
@@ -189,13 +212,22 @@
 
 (set-face-attribute
  'default nil
- :font "JetBrains Mono Nerd Font"
- :height 150)
+ :font "mononoki"
+ :height 160)
 (put 'downcase-region 'disabled nil)
 
 (use-package gruber-darker-theme
-  :ensure t
-  :init (load-theme 'gruber-darker))
+  :ensure t)
+
+(use-package modus-themes
+  :ensure t)
+
+(use-package acme-theme
+  :ensure t)
+
+;; (global-font-lock-mode 0) ;; remove colors
+
+(use-package elfeed)
 
 (provide 'init)
 
