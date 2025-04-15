@@ -16,14 +16,13 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 call plug#begin('~/.vim/plugged/')
   Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'mbbill/undotree'
   Plug 'jiangmiao/auto-pairs'
   Plug 'sheerun/vim-polyglot'
-  Plug 'vim-scripts/AutoComplPop'
   Plug 'alvan/vim-closetag'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'tpope/vim-fugitive'
-  Plug 'Lokaltog/vim-monotone'
+  Plug 'habamax/vim-polar'
+  " Plug 'Lokaltog/vim-monotone'
+  " Plug 'drsooch/gruber-darker-vim'
 call plug#end()
 
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
@@ -43,11 +42,11 @@ set smartcase
 " set cursorline
 set nu
 set nowrap
-" set colorcolumn=100
+set colorcolumn=100
 set ttyfast
 set wildmenu
-
 set laststatus=2
+colo polar
 
 " fixes error where my cursor hides near curly brackets
 function! g:FuckMatchParen ()
@@ -60,14 +59,9 @@ augroup plugin_initialize
   autocmd VimEnter * call FuckMatchParen()
 augroup END
 
-if has("termguicolors")
-    set termguicolors
-endif
-
-colo monotone
-
-" workspaces
-let g:workspace_session_name = 'Session.vim'
+" if has("termguicolors")
+"     set termguicolors
+" endif
 
 " dvorak movement
 set langmap=tj,nk,sl,jt,kn,ls
@@ -81,14 +75,6 @@ nnoremap lg :split <CR>
 nnoremap rc :tabN <CR>
 nnoremap cr :tabn <CR>
 
-" coc
-set signcolumn=yes
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gt <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
 " set fonts and theme
 if has("gui_running")
   set go-=m
@@ -100,7 +86,7 @@ if has("gui_running")
   set lines=999 columns=999 " always startup maximized
 	set hlsearch
 
-  set guifont=JetBrains\ Mono\ 9
+  set guifont=Mononoki\ 16
 endif
 
 " organize vim files
