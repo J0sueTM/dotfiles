@@ -25,22 +25,15 @@ exec --no-startup-id redshift -l -20:-49 -b 0.8:0.4
 exec_always picom
 
 # saturation (grayscale)
-# exec vibrant-cli HDMI-1 0.0 & vibrant-cli VGA-1 0.0
+exec vibrant-cli eDP-1 0.0 & vibrant-cli HDMI-1 0.0
 
 exec feh --bg-fill ~/dev/dotfiles/wallpaper/dark.jpg
-
-# night light
-exec --no-startup-id nightshift -l -20:-50
-
-# screensaver
-exec --no-startup-id xscreensaver &
-bindsym $mod+Shift+L exec xscreensaver-command -lock
 
 # activity watch
 # exec_always --no-startup-id ~/dev/activitywatch/aw-qt
 
-# ssh
-exec --no-startup-id eval $(ssh-agent -s)
+# focus timer
+exec_always --no-startup-id bash ./scripts/focus-timer.sh
 
 # h t n s keybinds
 set $left h
