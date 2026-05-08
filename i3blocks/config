@@ -5,27 +5,17 @@
 separator=true
 separator_block_width=20
 
-[sound]
-label=🔊: 
-command=amixer sget Master | awk -F"[][]" '/Right:/ { print $2 }'
-interval=5
-
-[music]
-label=📻: 
-command=dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata | sed -n '/title/{n;p}' | cut -d '"' -f 2
-interval=5
-
 [cpu]
-label=💾: 
+label=cpu: 
 command=iostat -c | sed '4q;d' | awk '{ print 100 - $6 "%" }'
 interval=5
 
 [memory]
-label=🧠: 
+label=mem: 
 command=free -mh --si | awk '/^Mem:/ { print $3 "/" $2 }'
 interval=5
 
 [date]
-label=📅: 
+label=date: 
 command=date '+%d-%m-%Y %H:%M:%S'
 interval=1
