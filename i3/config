@@ -8,12 +8,16 @@
 set $mod Mod4
 set $scripts ~/.config/i3/scripts
 
-font pango:Mononoki Nerd Font 10
+# Titles are never drawn: windows have pixel borders, and the tab row of
+# tabbed/stacked containers is made invisible by picom, with the tabs shown in
+# polybar instead (scripts/tabs.sh). A 1pt font shrinks that row to an 8px gap.
+font pango:Mononoki Nerd Font 1
 
 # ------------------------------------------------------------------ colors
 
 set $bg      #0b0e0d
 set $surface #141918
+set $raised  #1f2726
 set $border  #2a3331
 set $muted   #6f7d78
 set $fg      #dfe3dc
@@ -21,13 +25,14 @@ set $gold    #e6b450
 set $teal    #5fb3a1
 set $red     #e5675f
 
-# class                 border    bg        text      indicator child_border
-client.focused          $gold     $surface  $fg       $teal     $gold
-client.focused_inactive $border   $surface  $muted    $border   $border
-client.unfocused        $border   $bg       $muted    $border   $border
-client.urgent           $red      $red      $bg       $red      $red
-client.placeholder      $bg       $bg       $muted    $bg       $bg
-client.background       $bg
+# class                   border    bg        text      indicator child_border
+client.focused            $raised   $raised   $gold     $teal     $gold
+client.focused_tab_title  $surface  $surface  $fg
+client.focused_inactive   $surface  $surface  $fg       $border   $border
+client.unfocused          $bg       $bg       $muted    $border   $border
+client.urgent             $red      $red      $bg       $red      $red
+client.placeholder        $bg       $bg       $muted    $bg       $bg
+client.background         $bg
 
 # --------------------------------------------------------------- appearance
 
@@ -37,12 +42,7 @@ hide_edge_borders none
 
 gaps inner 10
 gaps outer 0
-# no gaps or border when a workspace has a single window
-smart_gaps on
-smart_borders on
 
-title_align center
-for_window [class=".*"] title_format " %title "
 
 # floating by nature
 for_window [window_role="pop-up"]        floating enable
@@ -55,11 +55,15 @@ for_window [class="Arandr"]              floating enable
 
 # ------------------------------------------------------------------ startup
 
-# keyboard layout
-exec --no-startup-id setxkbmap us dvp
+# keyboard layout (ibus comes from the gnome session and resets it, and its
+# tray icon is useless here)
+exec --no-startup-id sh -c 'ibus exit; setxkbmap us dvp'
 
 # monitors, then wallpaper and bar (re-run on reload so hotplug works)
 exec_always --no-startup-id $scripts/monitors.sh
+
+# natural scrolling + tap-to-click, like gnome
+exec_always --no-startup-id $scripts/input.sh
 
 # compositor: rounded corners, shadows, fades
 exec_always --no-startup-id sh -c 'pkill -x picom; sleep 0.3; exec picom'
@@ -99,7 +103,7 @@ bindsym $mod+Shift+w exec --no-startup-id rofi -show window
 bindsym $mod+Escape exec --no-startup-id $scripts/powermenu.sh
 bindsym $mod+Ctrl+l exec --no-startup-id loginctl lock-session
 
-# screenshots: region -> clipboard + ~/Pictures/screenshots, Print -> full screen
+# screenshots: region -> clipboard (+ a copy in /tmp), Print -> full screen
 bindsym $mod+Shift+d exec --no-startup-id $scripts/screenshot.sh region
 bindsym Print exec --no-startup-id $scripts/screenshot.sh full
 

@@ -45,6 +45,6 @@ elif [[ -n $internal ]]; then
   xrandr --output "$internal" --primary
 fi
 
-feh --no-fehbg --bg-fill "$dotfiles/wallpaper/mountains.jpg"
+feh --no-fehbg --bg-fill "$dotfiles/wallpaper/lake.jpg"
 
 ~/.config/polybar/launch.sh

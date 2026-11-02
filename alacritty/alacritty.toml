@@ -8,7 +8,7 @@ decorations = "None"
 opacity = 0.94
 
 [font]
-size = 11.0
+size = 9.0
 normal = { family = "Mononoki Nerd Font", style = "Regular" }
 bold = { family = "Mononoki Nerd Font", style = "Bold" }
 italic = { family = "Mononoki Nerd Font", style = "Italic" }
