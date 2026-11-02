@@ -1,142 +1,85 @@
-# macchiato
+# ~/.config/alacritty/alacritty.toml
+# palette "forest night" (matches i3, polybar, rofi, dunst)
+
+[window]
+padding = { x = 14, y = 12 }
+dynamic_padding = true
+decorations = "None"
+opacity = 0.94
+
+[font]
+size = 11.0
+normal = { family = "Mononoki Nerd Font", style = "Regular" }
+bold = { family = "Mononoki Nerd Font", style = "Bold" }
+italic = { family = "Mononoki Nerd Font", style = "Italic" }
+bold_italic = { family = "Mononoki Nerd Font", style = "Bold Italic" }
+
+[cursor]
+style = { shape = "Block", blinking = "Off" }
+unfocused_hollow = true
+
+[selection]
+save_to_clipboard = true
+
 [colors.primary]
-background = "#24273a"
-foreground = "#cad3f5"
-dim_foreground = "#8087a2"
-bright_foreground = "#cad3f5"
+background = "#0f1312"
+foreground = "#dfe3dc"
+dim_foreground = "#9aa6a1"
+bright_foreground = "#eef1ea"
 
 [colors.cursor]
-text = "#24273a"
-cursor = "#f4dbd6"
+text = "#0f1312"
+cursor = "#e6b450"
 
 [colors.vi_mode_cursor]
-text = "#24273a"
-cursor = "#b7bdf8"
-
-[colors.search.matches]
-foreground = "#24273a"
-background = "#a5adcb"
-
-[colors.search.focused_match]
-foreground = "#24273a"
-background = "#a6da95"
-
-[colors.footer_bar]
-foreground = "#24273a"
-background = "#a5adcb"
-
-[colors.hints.start]
-foreground = "#24273a"
-background = "#eed49f"
-
-[colors.hints.end]
-foreground = "#24273a"
-background = "#a5adcb"
+text = "#0f1312"
+cursor = "#5fb3a1"
 
 [colors.selection]
-text = "#24273a"
-background = "#f4dbd6"
+text = "CellForeground"
+background = "#2a3331"
+
+[colors.search.matches]
+foreground = "#0f1312"
+background = "#5fb3a1"
+
+[colors.search.focused_match]
+foreground = "#0f1312"
+background = "#e6b450"
+
+[colors.footer_bar]
+foreground = "#dfe3dc"
+background = "#1d2423"
+
+[colors.hints.start]
+foreground = "#0f1312"
+background = "#e6b450"
+
+[colors.hints.end]
+foreground = "#0f1312"
+background = "#9aa6a1"
 
 [colors.normal]
-black = "#494d64"
-red = "#ed8796"
-green = "#a6da95"
-yellow = "#eed49f"
-blue = "#8aadf4"
-magenta = "#f5bde6"
-cyan = "#8bd5ca"
-white = "#b8c0e0"
+black = "#1d2423"
+red = "#e5675f"
+green = "#9ccf7f"
+yellow = "#e6b450"
+blue = "#74a7d1"
+magenta = "#c59ad6"
+cyan = "#5fb3a1"
+white = "#c7ccc4"
 
 [colors.bright]
-black = "#5b6078"
-red = "#ed8796"
-green = "#a6da95"
-yellow = "#eed49f"
-blue = "#8aadf4"
-magenta = "#f5bde6"
-cyan = "#8bd5ca"
-white = "#a5adcb"
+black = "#4a5653"
+red = "#f08a82"
+green = "#b5e09b"
+yellow = "#f2cc7a"
+blue = "#96bfe2"
+magenta = "#d6b4e3"
+cyan = "#85cbbd"
+white = "#eef1ea"
 
-[[colors.indexed_colors]]
-index = 16
-color = "#f5a97f"
-
-[[colors.indexed_colors]]
-index = 17
-color = "#f4dbd6"
-
-# # latte
-# [colors.primary]
-# background = "#eff1f5"
-# foreground = "#4c4f69"
-# dim_foreground = "#8c8fa1"
-# bright_foreground = "#4c4f69"
-# 
-# [colors.cursor]
-# text = "#eff1f5"
-# cursor = "#dc8a78"
-# 
-# [colors.vi_mode_cursor]
-# text = "#eff1f5"
-# cursor = "#7287fd"
-# 
-# [colors.search.matches]
-# foreground = "#eff1f5"
-# background = "#6c6f85"
-# 
-# [colors.search.focused_match]
-# foreground = "#eff1f5"
-# background = "#40a02b"
-# 
-# [colors.footer_bar]
-# foreground = "#eff1f5"
-# background = "#6c6f85"
-# 
-# [colors.hints.start]
-# foreground = "#eff1f5"
-# background = "#df8e1d"
-# 
-# [colors.hints.end]
-# foreground = "#eff1f5"
-# background = "#6c6f85"
-# 
-# [colors.selection]
-# text = "#eff1f5"
-# background = "#dc8a78"
-# 
-# [colors.normal]
-# black = "#bcc0cc"
-# red = "#d20f39"
-# green = "#40a02b"
-# yellow = "#df8e1d"
-# blue = "#1e66f5"
-# magenta = "#ea76cb"
-# cyan = "#179299"
-# white = "#5c5f77"
-# 
-# [colors.bright]
-# black = "#acb0be"
-# red = "#d20f39"
-# green = "#40a02b"
-# yellow = "#df8e1d"
-# blue = "#1e66f5"
-# magenta = "#ea76cb"
-# cyan = "#179299"
-# white = "#6c6f85"
-# 
-# [[colors.indexed_colors]]
-# index = 16
-# color = "#fe640b"
-# 
-# [[colors.indexed_colors]]
-# index = 17
-# color = "#dc8a78"
-
-# font settings
-[font.normal]
-family = "mononoki" 
-style = "Regular"
-
-[font.bold]
-family = "mononoki"
-style = "Regular"
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

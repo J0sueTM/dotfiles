@@ -1,0 +1,113 @@
+/* ~/.config/rofi/config.rasi */
+
+configuration {
+  modi: "drun,run,window";
+  show-icons: true;
+  icon-theme: "Papirus-Dark";
+  font: "Mononoki Nerd Font 11";
+  drun-display-format: "{name}";
+  display-drun: "";
+  display-run: "";
+  display-window: "";
+  matching: "fuzzy";
+  sort: true;
+  sorting-method: "fzf";
+  hover-select: true;
+  me-select-entry: "MousePrimary";
+  me-accept-entry: "!MousePrimary";
+}
+
+* {
+  bg:      #0b0e0de6;
+  surface: #141918;
+  border:  #2a3331;
+  muted:   #6f7d78;
+  fg:      #dfe3dc;
+  gold:    #e6b450;
+  teal:    #5fb3a1;
+
+  background-color: transparent;
+  text-color: @fg;
+}
+
+window {
+  width: 560px;
+  location: center;
+  anchor: center;
+  border: 1px;
+  border-color: @border;
+  border-radius: 14px;
+  background-color: @bg;
+}
+
+mainbox {
+  padding: 14px;
+  spacing: 12px;
+  children: [ inputbar, listview ];
+}
+
+inputbar {
+  padding: 10px 14px;
+  spacing: 10px;
+  border-radius: 10px;
+  background-color: @surface;
+  children: [ prompt, entry ];
+}
+
+prompt {
+  text-color: @gold;
+}
+
+entry {
+  placeholder: "search";
+  placeholder-color: @muted;
+  cursor: text;
+}
+
+listview {
+  lines: 8;
+  columns: 1;
+  spacing: 4px;
+  fixed-height: false;
+  scrollbar: false;
+}
+
+element {
+  padding: 8px 12px;
+  spacing: 12px;
+  border-radius: 8px;
+}
+
+element normal.normal, element alternate.normal {
+  background-color: transparent;
+  text-color: @fg;
+}
+
+element selected.normal {
+  background-color: @surface;
+  text-color: @gold;
+}
+
+element normal.active, element alternate.active {
+  text-color: @teal;
+}
+
+element normal.urgent, element alternate.urgent, element selected.urgent {
+  text-color: #e5675f;
+}
+
+element-icon {
+  size: 22px;
+  vertical-align: 0.5;
+}
+
+element-text {
+  text-color: inherit;
+  vertical-align: 0.5;
+}
+
+message {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: @surface;
+}

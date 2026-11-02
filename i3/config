@@ -1,60 +1,110 @@
+# ~/.config/i3/config
+# Josue Teodoro Moreira <teodoro.josue@protonmail.ch>
+#
+# palette "forest night" (shared with polybar, rofi, dunst, alacritty)
+#   bg #0b0e0d  surface #141918  border #2a3331  muted #6f7d78  fg #dfe3dc
+#   gold #e6b450  teal #5fb3a1  red #e5675f
+
 set $mod Mod4
+set $scripts ~/.config/i3/scripts
 
-# fonts
-font pango:FontAwesome 9
+font pango:Mononoki Nerd Font 10
 
-# set cpu performance mode
-exec --no-startup-id echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+# ------------------------------------------------------------------ colors
 
-# refresh i3status
-set $refresh_i3status killall -SIGUSR1 i3status
+set $bg      #0b0e0d
+set $surface #141918
+set $border  #2a3331
+set $muted   #6f7d78
+set $fg      #dfe3dc
+set $gold    #e6b450
+set $teal    #5fb3a1
+set $red     #e5675f
 
-# set keyboard layout
+# class                 border    bg        text      indicator child_border
+client.focused          $gold     $surface  $fg       $teal     $gold
+client.focused_inactive $border   $surface  $muted    $border   $border
+client.unfocused        $border   $bg       $muted    $border   $border
+client.urgent           $red      $red      $bg       $red      $red
+client.placeholder      $bg       $bg       $muted    $bg       $bg
+client.background       $bg
+
+# --------------------------------------------------------------- appearance
+
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders none
+
+gaps inner 10
+gaps outer 0
+# no gaps or border when a workspace has a single window
+smart_gaps on
+smart_borders on
+
+title_align center
+for_window [class=".*"] title_format " %title "
+
+# floating by nature
+for_window [window_role="pop-up"]        floating enable
+for_window [window_role="dialog"]        floating enable
+for_window [window_type="dialog"]        floating enable
+for_window [class="Pavucontrol"]         floating enable, resize set 720 480, move position center
+for_window [class="Nm-connection-editor"] floating enable
+for_window [class="Blueman-manager"]     floating enable, resize set 640 420, move position center
+for_window [class="Arandr"]              floating enable
+
+# ------------------------------------------------------------------ startup
+
+# keyboard layout
 exec --no-startup-id setxkbmap us dvp
 
-# notifications daemon
-exec --no-startup-id dunst
+# monitors, then wallpaper and bar (re-run on reload so hotplug works)
+exec_always --no-startup-id $scripts/monitors.sh
 
-# monitors
-exec --no-startup-id xrandr --auto --output HDMI-1 --mode 2560x1080 --above eDP-1
+# compositor: rounded corners, shadows, fades
+exec_always --no-startup-id sh -c 'pkill -x picom; sleep 0.3; exec picom'
 
-# blue light filter
-exec --no-startup-id redshift -l -20:-49 -b 0.8:0.4
+# notifications
+exec_always --no-startup-id sh -c 'pkill -x dunst; sleep 0.3; exec dunst'
 
-# compositor
-exec_always picom
+# lock on suspend / idle
+exec --no-startup-id xss-lock --transfer-sleep-lock -- $scripts/lock.sh
 
-# saturation (grayscale)
-exec vibrant-cli eDP-1 0.0 & vibrant-cli HDMI-1 0.0
+# tray applets and session helpers (wifi lives in the bar: scripts/wifi.sh)
+exec --no-startup-id blueman-applet
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id gnome-keyring-daemon --start --components=secrets,ssh
 
-exec feh --bg-fill ~/dev/dotfiles/wallpaper/dark.jpg
+# blue light filter (São Paulo)
+exec --no-startup-id redshift -l -23.5:-46.6 -t 6500:4500 -b 1.0:0.9
 
-# activity watch
-# exec_always --no-startup-id ~/dev/activitywatch/aw-qt
+# cpu performance (no sudo needed)
+exec --no-startup-id powerprofilesctl set performance
 
-# focus timer
-exec_always --no-startup-id bash ./scripts/focus-timer.sh
+# ------------------------------------------------------------------ keybinds
 
-# h t n s keybinds
+# h t n s (dvorak)
 set $left h
 set $down t
 set $up n
 set $right s
 
-# floating window movement
 floating_modifier $mod
+tiling_drag modifier titlebar
 
-# terminal
+# apps
 bindsym $mod+Return exec alacritty
+bindsym $mod+d exec --no-startup-id rofi -show drun
+bindsym $mod+Shift+w exec --no-startup-id rofi -show window
+bindsym $mod+Escape exec --no-startup-id $scripts/powermenu.sh
+bindsym $mod+Ctrl+l exec --no-startup-id loginctl lock-session
 
-# screenshot
-bindsym $mod+Shift+D exec --no-startup-id flameshot gui
+# screenshots: region -> clipboard + ~/Pictures/screenshots, Print -> full screen
+bindsym $mod+Shift+d exec --no-startup-id $scripts/screenshot.sh region
+bindsym Print exec --no-startup-id $scripts/screenshot.sh full
 
 # kill window
 bindsym $mod+c kill
-
-# start rofi
-bindsym $mod+d exec --no-startup-id dmenu_run
 
 # focus with h t n s
 bindsym $mod+$left  focus left
@@ -63,19 +113,19 @@ bindsym $mod+$up    focus up
 bindsym $mod+$right focus right
 
 # move with h t n s
-bindsym $mod+Shift+$left move left
-bindsym $mod+Shift+$down move down
-bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$left  move left
+bindsym $mod+Shift+$down  move down
+bindsym $mod+Shift+$up    move up
 bindsym $mod+Shift+$right move right
 
 # move workspace between monitors
-bindsym $mod+Ctrl+$left move workspace to output left
-bindsym $mod+Ctrl+$right move workspace to output right 
+bindsym $mod+Ctrl+$left  move workspace to output left
+bindsym $mod+Ctrl+$right move workspace to output right
+bindsym $mod+Ctrl+$up    move workspace to output up
+bindsym $mod+Ctrl+$down  move workspace to output down
 
-# split horizontal
+# split
 bindsym $mod+g split h
-
-# split vertical
 bindsym $mod+l split v
 
 # fullscreen
@@ -86,31 +136,19 @@ bindsym $mod+Ctrl+Shift+s layout stacking
 bindsym $mod+Ctrl+Shift+t layout tabbed
 bindsym $mod+Ctrl+Shift+l layout toggle split
 
-# toggle floating / tiling
+# floating
 bindsym $mod+space floating toggle
-
-# change focus between tiling / floating windows
 bindsym $mod+Shift+space focus mode_toggle
 
 # focus parent
 bindsym $mod+a focus parent
 
-# move to scratchpad
+# scratchpad
 bindsym $mod+Shift+minus move scratchpad
-
-# toggle scratchpad windows
 bindsym $mod+minus scratchpad show
 
-# border
-default_border pixel 0
-
-# gaps
-# smart_gaps inverse_outer
-# gaps inner 4
-# gaps outer 4
-
-# corners
-# border_radius 8
+# toggle gaps
+bindsym $mod+Shift+g gaps inner current toggle 10
 
 # workspaces
 set $ws1 "1:α"
@@ -119,14 +157,12 @@ set $ws3 "3:γ"
 set $ws4 "4:δ"
 set $ws5 "5:ε"
 
-# go to workspace
-bindsym $mod+equal workspace $ws1
-bindsym $mod+asterisk workspace $ws2
-bindsym $mod+parenright workspace $ws3
-bindsym $mod+plus workspace $ws4
+bindsym $mod+equal        workspace $ws1
+bindsym $mod+asterisk     workspace $ws2
+bindsym $mod+parenright   workspace $ws3
+bindsym $mod+plus         workspace $ws4
 bindsym $mod+bracketright workspace $ws5
 
-# move to workspace
 bindsym $mod+Shift+9 move container to workspace $ws1
 bindsym $mod+Shift+0 move container to workspace $ws2
 bindsym $mod+Shift+2 move container to workspace $ws3
@@ -134,28 +170,32 @@ bindsym $mod+Shift+4 move container to workspace $ws4
 bindsym $mod+Shift+6 move container to workspace $ws5
 
 # keyboard layout
-bindsym $mod+Shift+u exec setxkbmap us dvp 
-bindsym $mod+Shift+e exec setxkbmap br dvorak
-bindsym $mod+Shift+o exec setxkbmap br 
+bindsym $mod+Shift+u exec --no-startup-id setxkbmap us dvp
+bindsym $mod+Shift+e exec --no-startup-id setxkbmap br dvorak
+bindsym $mod+Shift+o exec --no-startup-id setxkbmap br
 
-# reload
+# media keys
+bindsym XF86AudioRaiseVolume  exec --no-startup-id wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume  exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute         exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute      exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86AudioPlay         exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext         exec --no-startup-id playerctl next
+bindsym XF86AudioPrev         exec --no-startup-id playerctl previous
+bindsym XF86MonBrightnessUp   exec --no-startup-id brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+# reload / restart
 bindsym $mod+Shift+c reload
-
-# restart
 bindsym $mod+Shift+r restart
 
 # resize
-mode "resize"
-{
-  # shrink / grow width with h t n s
-  bindsym $left resize shrink width 10 px or 10 ppt
-  bindsym $down resize grow height 10 px or 10 ppt
-
-  # shrink / grow height with h t n s
+mode "resize" {
+  bindsym $left  resize shrink width 10 px or 10 ppt
+  bindsym $down  resize grow height 10 px or 10 ppt
   bindsym $up    resize shrink height 10 px or 10 ppt
   bindsym $right resize grow width 10 px or 10 ppt
 
-  # normal
   bindsym Return mode "default"
   bindsym Escape mode "default"
   bindsym $mod+r mode "default"
@@ -168,19 +208,19 @@ mode "mouse" {
   set $quick 10
   set $fast 50
 
-  bindsym $left exec xdotool mousemove_relative -- -$fast 0
-  bindsym $down exec xdotool mousemove_relative 0 $fast
-  bindsym $up exec xdotool mousemove_relative -- 0 -$fast
+  bindsym $left  exec xdotool mousemove_relative -- -$fast 0
+  bindsym $down  exec xdotool mousemove_relative 0 $fast
+  bindsym $up    exec xdotool mousemove_relative -- 0 -$fast
   bindsym $right exec xdotool mousemove_relative $fast 0
 
-  bindsym Ctrl+$left exec xdotool mousemove_relative -- -$quick 0
-  bindsym Ctrl+$down exec xdotool mousemove_relative 0 $quick
-  bindsym Ctrl+$up exec xdotool mousemove_relative -- 0 -$quick
+  bindsym Ctrl+$left  exec xdotool mousemove_relative -- -$quick 0
+  bindsym Ctrl+$down  exec xdotool mousemove_relative 0 $quick
+  bindsym Ctrl+$up    exec xdotool mousemove_relative -- 0 -$quick
   bindsym Ctrl+$right exec xdotool mousemove_relative $quick 0
 
-  bindsym $mod+Ctrl+$left exec xdotool mousemove_relative -- -$slow 0
-  bindsym $mod+Ctrl+$down exec xdotool mousemove_relative 0 $slow
-  bindsym $mod+Ctrl+$up exec xdotool mousemove_relative -- 0 -$slow
+  bindsym $mod+Ctrl+$left  exec xdotool mousemove_relative -- -$slow 0
+  bindsym $mod+Ctrl+$down  exec xdotool mousemove_relative 0 $slow
+  bindsym $mod+Ctrl+$up    exec xdotool mousemove_relative -- 0 -$slow
   bindsym $mod+Ctrl+$right exec xdotool mousemove_relative $slow 0
 
   bindsym a exec xdotool click 1
@@ -204,11 +244,4 @@ mode "mouse" {
 }
 bindsym $mod+m mode "mouse"
 
-bar {
-  position top
-  status_command i3blocks
-   
-  strip_workspace_numbers yes
-  bindsym button4 nop
-  bindsym button5 nop
-}
+# the bar is polybar, started by scripts/monitors.sh

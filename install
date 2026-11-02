@@ -1,82 +1,104 @@
-#!/bin/bash -x
+#!/usr/bin/env bash
 
-# file: install.sh
+# file: install
 # author: Josue Teodoro Moreira <teodoro.josue@protonmail.ch>
-# date: Jul 16, 2021
+#
+# Ubuntu: install the i3 desktop and symlink these dotfiles into ~/.config.
+# Existing files are moved aside to <file>.bak.<timestamp>, never deleted.
+#
+#   ./install          packages, fonts and links
+#   ./install links    links only (no sudo)
 
-# check os
-os=$(uname)
-if ! [[ ${os} == 'Linux' ]]
-then
-  echo '${os} not supported.'
+set -euo pipefail
 
-  exit 0
-fi
+dotfiles=$(cd "$(dirname "$0")" && pwd)
+stamp=$(date +%Y%m%d%H%M%S)
 
-dotfiles_dir=$(pwd)
- 
-echo 'Installing base'
- 
-# basic
-basic=base-devel git vim emacs curl wget
-sudo pacman -S ${basic}
- 
-# xorg
-x=xorg xorg-drivers xorg-fonts xorg-xinit xorg-apps
-sudo pacman -S $x
- 
-# window manager and visual stuff
-wm=i3 dunst alacritty
-fonts=ttf-dejavu ttf-font-awesome ttf-hack ttf-iosevka-nerd
-sudo pacman -S ${wm}
-sudo pacman -S ${fonts}
- 
-# audio stuff
-audio=alsa pulseaudio-alsa alsa-utils alsa-tools pavucontrol mpv
-sudo pacman -S ${audio}
-pulseaudio -D
- 
-# install aur
-cd ~/
-git clone https:///aur.archlinux.org/yay.git
-cd ./yay
-makepkg -si
- 
-# yay stuff
-yay_stuff=paperview-git nightshift
-yay -S ${yay_stuff}
- 
-# copy files
-cd ${dotfiles_dir}
- 
-# xorg
-sudo mkdir -p /etc/X11/xorg.conf.d/
-cp ./xorg/*.conf /etc/X11/xorg.conf.d/
-cp ./xorg/.xinitrc ~/.xinitrc
- 
-# vim
-cp ./vim/.vimrc ~/.vimrc
- 
-# emacs
-mkdir -p ~/.emacs.d/
-cp ./emacs/init.el ~/.emacs.d/init.el
- 
-# i3
-mkdir -p ~/.config/i3/
-cp ./i3/* ~/.config/i3/
- 
-# i3blocks
-mkdir -p ~/.config/i3blocks/
-cp ./i3blocks/* ~/.config/i3blocks/
- 
-# i3status
-mkdir -p ~/.config/i3status
-cp ./i3status/* ~/.config/i3status/
- 
-# alacritty
-mkdir -p ~/.config/alacritty/
-cp ./alacritty/* ~/.config/alacritty/
- 
-# wallpaper
-mkdir -p ~/Pictures/wallpaper/
-cp ./wallpaper/* ~/Pictures/wallpaper/
+packages=(
+  # x server (ubuntu 26.04 ships wayland only) + i3
+  xserver-xorg-core xserver-xorg-input-libinput xinit x11-xserver-utils x11-xkb-utils xinput
+  i3 i3lock xss-lock
+
+  # bar, launcher, compositor, notifications, wallpaper
+  polybar rofi picom dunst libnotify-bin feh
+
+  # screenshots, clipboard, lock screen blur
+  maim xclip xdotool imagemagick
+
+  # hardware keys and audio
+  brightnessctl playerctl pulseaudio-utils pavucontrol
+
+  # network, bluetooth, displays, night light, auth prompts
+  network-manager-gnome blueman arandr autorandr redshift policykit-1-gnome
+
+  # looks
+  papirus-icon-theme fonts-noto-color-emoji lxappearance
+
+  curl unzip
+)
+
+install_packages() {
+  echo '==> apt packages'
+  sudo apt-get update
+  sudo apt-get install -y "${packages[@]}"
+
+  echo '==> touchpad tap-to-click under X'
+  sudo mkdir -p /etc/X11/xorg.conf.d
+  sudo cp "$dotfiles/xorg/30-touchpad.conf" /etc/X11/xorg.conf.d/
+}
+
+install_fonts() {
+  if fc-list | grep -qi 'Mononoki Nerd Font'; then
+    echo '==> Mononoki Nerd Font already installed'
+    return
+  fi
+  echo '==> Mononoki Nerd Font'
+  local tmp
+  tmp=$(mktemp -d)
+  curl -fsSLo "$tmp/Mononoki.zip" https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Mononoki.zip
+  mkdir -p ~/.local/share/fonts/MononokiNerd
+  unzip -oq "$tmp/Mononoki.zip" -d ~/.local/share/fonts/MononokiNerd '*.ttf'
+  rm -rf "$tmp"
+  fc-cache -f ~/.local/share/fonts
+}
+
+# link <path in repo> <target>
+link() {
+  local src=$dotfiles/$1 dst=$2
+  mkdir -p "$(dirname "$dst")"
+  if [[ -L $dst ]]; then
+    rm "$dst"
+  elif [[ -e $dst ]]; then
+    mv "$dst" "$dst.bak.$stamp"
+    echo "    moved old $dst to $dst.bak.$stamp"
+  fi
+  ln -s "$src" "$dst"
+  echo "    $dst -> $src"
+}
+
+install_links() {
+  echo '==> links'
+  link i3/config ~/.config/i3/config
+  link i3/scripts ~/.config/i3/scripts
+  link polybar ~/.config/polybar
+  link rofi/config.rasi ~/.config/rofi/config.rasi
+  link picom/picom.conf ~/.config/picom/picom.conf
+  link dunst/dunstrc ~/.config/dunst/dunstrc
+  link alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
+  link gtk/settings.ini ~/.config/gtk-3.0/settings.ini
+}
+
+case ${1:-all} in
+  links) install_links ;;
+  all)
+    install_packages
+    install_fonts
+    install_links
+    cat <<'EOF'
+
+==> done. Log out, click your name at the login screen, pick "i3" from the
+    gear in the bottom-right corner, then log in.
+EOF
+    ;;
+  *) echo "usage: $0 [links]" >&2; exit 2 ;;
+esac

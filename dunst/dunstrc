@@ -1,0 +1,65 @@
+# ~/.config/dunst/dunstrc
+
+[global]
+monitor = 0
+follow = mouse
+origin = top-right
+offset = (12, 44)
+width = (280, 380)
+height = (0, 160)
+notification_limit = 5
+gap_size = 8
+corner_radius = 10
+padding = 12
+horizontal_padding = 14
+text_icon_padding = 14
+frame_width = 1
+separator_height = 0
+
+font = Mononoki Nerd Font 10
+markup = full
+format = "<b>%s</b>\n%b"
+alignment = left
+vertical_alignment = center
+ellipsize = end
+word_wrap = yes
+show_age_threshold = 60
+stack_duplicates = true
+hide_duplicate_count = false
+
+icon_position = left
+min_icon_size = 32
+max_icon_size = 48
+icon_theme = Papirus-Dark
+enable_recursive_icon_lookup = true
+
+progress_bar = true
+progress_bar_height = 6
+progress_bar_frame_width = 0
+progress_bar_corner_radius = 3
+highlight = "#e6b450"
+
+browser = /usr/bin/xdg-open
+mouse_left_click = do_action, close_current
+mouse_middle_click = close_all
+mouse_right_click = close_current
+
+[urgency_low]
+background = "#0b0e0de6"
+foreground = "#9aa6a1"
+frame_color = "#2a3331"
+timeout = 4
+
+[urgency_normal]
+background = "#0b0e0de6"
+foreground = "#dfe3dc"
+frame_color = "#2a3331"
+highlight = "#e6b450"
+timeout = 6
+
+[urgency_critical]
+background = "#0b0e0de6"
+foreground = "#dfe3dc"
+frame_color = "#e5675f"
+highlight = "#e5675f"
+timeout = 0
