@@ -8,6 +8,7 @@
 #
 #   ./install          packages, fonts and links
 #   ./install links    links only (no sudo)
+#   ./install battery  cap charging at 80% (Acer laptops)
 
 set -euo pipefail
 
@@ -45,6 +46,49 @@ install_packages() {
   echo '==> touchpad tap-to-click under X'
   sudo mkdir -p /etc/X11/xorg.conf.d
   sudo cp "$dotfiles/xorg/30-touchpad.conf" /etc/X11/xorg.conf.d/
+}
+
+# Acer laptops have no stock-kernel charge limit; the acer-wmi-battery driver
+# (built by dkms, so it follows kernel upgrades) turns on the firmware's
+# "health mode", which stops charging at 80%. Pinned to a reviewed commit.
+battery_repo=https://github.com/frederik-h/acer-wmi-battery
+battery_commit=9f90d75cc9237aeed7964622d10dbdf4d2c7b518
+battery_wmi=/sys/bus/wmi/devices/79772EC5-04B1-4BFD-843C-61E7F77B6CC9
+
+install_battery() {
+  if [[ ! -e $battery_wmi ]]; then
+    echo '==> no Acer battery WMI interface, skipping the 80% charge limit'
+    return
+  fi
+  echo '==> 80% charge limit (acer-wmi-battery via dkms)'
+  sudo apt-get install -y dkms git "linux-headers-$(uname -r)"
+
+  local src=/usr/src/acer-wmi-battery-${battery_commit:0:7}
+  if [[ ! -d $src ]]; then
+    sudo git clone -q "$battery_repo" "$src"
+    sudo git -C "$src" checkout -q "$battery_commit"
+    sudo tee "$src/dkms.conf" >/dev/null <<CONF
+PACKAGE_NAME="acer-wmi-battery"
+PACKAGE_VERSION="${battery_commit:0:7}"
+BUILT_MODULE_NAME[0]="acer-wmi-battery"
+DEST_MODULE_LOCATION[0]="/updates/dkms"
+MAKE[0]="make -C \${kernel_source_dir} M=\${dkms_tree}/\${PACKAGE_NAME}/\${PACKAGE_VERSION}/build modules"
+CLEAN="true"
+AUTOINSTALL="yes"
+CONF
+  fi
+  sudo dkms install "acer-wmi-battery/${battery_commit:0:7}" || true # already installed is fine
+  dkms status acer-wmi-battery | grep -q installed || { echo 'dkms build failed' >&2; return 1; }
+
+  # load at boot with health mode on
+  echo acer_wmi_battery | sudo tee /etc/modules-load.d/acer-wmi-battery.conf >/dev/null
+  echo 'options acer_wmi_battery enable_health_mode=1' | sudo tee /etc/modprobe.d/acer-wmi-battery.conf >/dev/null
+
+  sudo modprobe -r acer_wmi_battery 2>/dev/null || true
+  sudo modprobe acer_wmi_battery
+  local mode=/sys/bus/wmi/drivers/acer-wmi-battery/health_mode
+  [[ $(cat "$mode" 2>/dev/null) == 1 ]] || echo 1 | sudo tee "$mode" >/dev/null
+  echo "    health_mode = $(cat "$mode")  (1 = stops at 80%)"
 }
 
 install_fonts() {
@@ -90,8 +134,10 @@ install_links() {
 
 case ${1:-all} in
   links) install_links ;;
+  battery) install_battery ;;
   all)
     install_packages
+    install_battery
     install_fonts
     install_links
     cat <<'EOF'
@@ -100,5 +146,5 @@ case ${1:-all} in
     gear in the bottom-right corner, then log in.
 EOF
     ;;
-  *) echo "usage: $0 [links]" >&2; exit 2 ;;
+  *) echo "usage: $0 [links|battery]" >&2; exit 2 ;;
 esac

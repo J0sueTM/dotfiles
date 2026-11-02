@@ -65,6 +65,9 @@ exec_always --no-startup-id $scripts/monitors.sh
 # natural scrolling + tap-to-click, like gnome
 exec_always --no-startup-id $scripts/input.sh
 
+# same top gap for tabbed/stacked layouts as for plain windows
+exec_always --no-startup-id $scripts/tabgap.sh
+
 # compositor: rounded corners, shadows, fades
 exec_always --no-startup-id sh -c 'pkill -x picom; sleep 0.3; exec picom'
 
@@ -136,7 +139,9 @@ bindsym $mod+l split v
 bindsym $mod+f fullscreen toggle
 
 # layout
-bindsym $mod+Ctrl+Shift+s layout stacking
+# stacked looks like tabbed now (tabs live in the bar) but i3 reserves 8px
+# per window above it, so stacking is just tabbed
+bindsym $mod+Ctrl+Shift+s layout tabbed
 bindsym $mod+Ctrl+Shift+t layout tabbed
 bindsym $mod+Ctrl+Shift+l layout toggle split
 
