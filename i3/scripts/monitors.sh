@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Lay out displays (external above the laptop panel, both at their highest
-# refresh rate), then paint the wallpaper and (re)start polybar.
-# Run by i3 on every start/reload, so `mod+shift+c` after plugging a monitor
+# refresh rate; scripts/power.sh drops the panel to 60Hz on battery), then
+# paint the wallpaper and (re)start polybar.
+# Run by i3 on every start/restart, so `mod+shift+r` after plugging a monitor
 # is enough.
 
 set -u

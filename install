@@ -43,6 +43,9 @@ install_packages() {
   sudo apt-get update
   sudo apt-get install -y "${packages[@]}"
 
+  echo '==> brightness control (backlight is writable by the video group)'
+  sudo usermod -aG video "$USER"
+
   echo '==> touchpad tap-to-click under X'
   sudo mkdir -p /etc/X11/xorg.conf.d
   sudo cp "$dotfiles/xorg/30-touchpad.conf" /etc/X11/xorg.conf.d/

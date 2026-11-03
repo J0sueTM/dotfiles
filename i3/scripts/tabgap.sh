@@ -7,7 +7,7 @@
 # amount with a negative top gap. Mixed rows (a tabbed column beside a plain
 # window) are left alone, since moving them would misalign the plain one.
 
-# replace the instance from before an i3 reload
+# replace the instance from before an i3 restart
 for pid in $(pgrep -xf 'bash \S*/i3/scripts/tabgap\.sh'); do
   ((pid != $$)) && kill "$pid" 2>/dev/null
 done
