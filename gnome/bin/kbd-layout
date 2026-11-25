@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Switch GNOME to a specific input source, the way `setxkbmap` did under i3.
+# GNOME has no "activate source X" setting, but when the source list shrinks
+# to a single entry that entry becomes active. Restoring the full list right
+# away makes GNOME (50+) fall back to the first source, so restore it with the
+# target first, then put the original order back; the active source survives
+# a plain reorder.
+#
+# usage: kbd-layout us+dvp | br+dvorak | br
+
+set -euo pipefail
+
+target="('xkb', '$1')"
+key=org.gnome.desktop.input-sources
+all=$(gsettings get $key sources)
+
+if [[ $all != *"$target"* ]]; then
+  echo "kbd-layout: '$1' is not in $key sources: $all" >&2
+  exit 1
+fi
+
+rest=$(sed -e "s/$target//" -e 's/^\[//' -e 's/\]$//' -e 's/^, //' -e 's/, , /, /' -e 's/, $//' <<<"$all")
+
+gsettings set $key sources "[$target]"
+sleep 0.2
+gsettings set $key sources "[$target${rest:+, $rest}]"
+sleep 0.2
+gsettings set $key sources "$all"
