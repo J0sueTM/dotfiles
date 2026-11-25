@@ -133,6 +133,7 @@ install_links() {
   link dunst/dunstrc ~/.config/dunst/dunstrc
   link alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
   link gtk/settings.ini ~/.config/gtk-3.0/settings.ini
+  link tmux/.tmux.conf ~/.tmux.conf
   link claude/settings.json ~/.claude/settings.json
   link claude/hooks ~/.claude/hooks
   link claude/mods/i3-polish ~/.claude/mods/i3-polish
