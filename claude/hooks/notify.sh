@@ -14,9 +14,10 @@ message=$(jq -r '.message // .last_assistant_message // empty' <<<"$input" | tr 
 project=$(basename "$(jq -r '.cwd // empty' <<<"$input")")
 
 case "$event" in
-  Notification) sound=/usr/share/sounds/freedesktop/stereo/window-question.oga; category=claude.ask;  title="Claude needs you" ;;
-  *)            sound=/usr/share/sounds/freedesktop/stereo/complete.oga;        category=claude.done; title="Claude is done" ;;
+  Notification) sound=ask.ogg;  category=claude.ask;  title="Claude needs you" ;;
+  *)            sound=done.ogg; category=claude.done; title="Claude is done" ;;
 esac
+sound="$(dirname "$(readlink -f "$0")")/sounds/$sound"   # soft notes, built by sounds/make.sh
 [ -z "$message" ] && message="Waiting for input"
 # dunst renders markup: keep Claude's text literal
 message=${message//&/&amp;}; message=${message//</&lt;}; message=${message//>/&gt;}
