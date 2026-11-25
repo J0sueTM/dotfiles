@@ -63,3 +63,15 @@ foreground = "#dfe3dc"
 frame_color = "#e5675f"
 highlight = "#e5675f"
 timeout = 0
+
+# Claude Code sessions (claude/hooks/notify.sh): teal when a turn is done,
+# gold when a session needs an answer
+[claude_done]
+appname = "Claude Code"
+category = "claude.done"
+frame_color = "#5fb3a1"
+
+[claude_ask]
+appname = "Claude Code"
+category = "claude.ask"
+frame_color = "#e6b450"

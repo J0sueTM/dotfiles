@@ -8,15 +8,18 @@
 # Skips 2 and 3 when you are already looking at that pane.
 
 input=$(cat)
+[ -n "${CLAUDE_HOOKS_QUIET:-}" ] && exit 0   # scripted sessions stay silent
 event=$(jq -r '.hook_event_name // empty' <<<"$input")
 message=$(jq -r '.message // .last_assistant_message // empty' <<<"$input" | tr '\n' ' ' | cut -c1-200)
 project=$(basename "$(jq -r '.cwd // empty' <<<"$input")")
 
 case "$event" in
-  Notification) sound=/usr/share/sounds/freedesktop/stereo/window-question.oga; urgency=normal;   title="Claude needs you" ;;
-  *)            sound=/usr/share/sounds/freedesktop/stereo/complete.oga;        urgency=normal;   title="Claude is done" ;;
+  Notification) sound=/usr/share/sounds/freedesktop/stereo/window-question.oga; category=claude.ask;  title="Claude needs you" ;;
+  *)            sound=/usr/share/sounds/freedesktop/stereo/complete.oga;        category=claude.done; title="Claude is done" ;;
 esac
 [ -z "$message" ] && message="Waiting for input"
+# dunst renders markup: keep Claude's text literal
+message=${message//&/&amp;}; message=${message//</&lt;}; message=${message//>/&gt;}
 
 where=""
 if [ -n "${TMUX_PANE:-}" ]; then
@@ -46,8 +49,9 @@ fi
 
 # 2. notification; click it to jump to the window (runs detached so the hook returns immediately)
 (
-  action=$(notify-send -a "Claude Code" -u "$urgency" -t 15000 -i dialog-information \
-    -A default=Jump "$title${project:+ · $project}" "${where:+[$where] }$message" 2>/dev/null)
+  action=$(notify-send -a "Claude Code" -c "$category" -t 15000 -i utilities-terminal \
+    -A default=Jump "$title${project:+ · $project}" "$message${where:+
+<span foreground='#6f7d78'>$where</span>}" 2>/dev/null)
   if [ "$action" = default ] && [ -n "${TMUX_PANE:-}" ]; then
     i3-msg '[urgent=latest] focus' >/dev/null 2>&1
     tmux switch-client -t "$TMUX_PANE" 2>/dev/null

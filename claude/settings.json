@@ -6,7 +6,8 @@
     "padding": 0
   },
   "env": {
-    "CLAUDE_CODE_PLUGIN_DIRS": "~/.claude/mods/i3-polish"
+    "CLAUDE_CODE_PLUGIN_DIRS": "~/.claude/mods/i3-polish",
+    "CLAUDE_CODE_TMUX_TRUECOLOR": "1"
   },
   "hooks": {
     "UserPromptSubmit": [

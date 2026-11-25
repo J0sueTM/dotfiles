@@ -12,10 +12,10 @@ test('an edit draws a card with the file name and counts', async $ => {
         structuredPatch: patch, userModified: false, replaceAll: false },
     },
   })
-  expect(await ui.find({ type: 'Code' })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: 'more' })).toBeDefined()
   expect(await ui.find({ type: 'Text', text: 'main.ts' })).toBeDefined()
   expect(await ui.find({ type: 'Text', text: '+2' })).toBeDefined()
-  expect(await ui.find({ type: 'Text', text: ' -1' })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: ' −1' })).toBeDefined()
   await ui.unmount()
 })
 
@@ -24,6 +24,6 @@ test('a prompt draws as a bubble, a turn as a divider', async $ => {
   expect(await msg.find({ type: 'Text', text: 'hello there' })).toBeDefined()
   await msg.unmount()
   const turn = await $.ui.mount({ ...base, component: 'TurnDuration', props: { word: 'Baked', durationMs: 130000, isExpanded: false } })
-  expect(await turn.find({ type: 'Text', text: ' Worked for 2m 10s ' })).toBeDefined()
+  expect(await turn.find({ type: 'Text', text: 'Worked for 2m 10s ' })).toBeDefined()
   await turn.unmount()
 })

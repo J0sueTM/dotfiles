@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Show the Claude session state in its tmux tab: ⚙ working, ● waiting for you, ? needs approval.
+# Record the Claude session's state on its tmux window: working, waiting (for you) or ask
+# (needs approval). tmux.conf turns @claude into an icon and color in the tab.
 cat >/dev/null
 [ -z "${TMUX_PANE:-}" ] && exit 0
 case "$1" in
-  working) mark='⚙ ' ;;
-  waiting) mark='● ' ;;
-  ask)     mark='? ' ;;
-  clear)   tmux set -wu -t "$TMUX_PANE" @claude 2>/dev/null; tmux set -wu -t "$TMUX_PANE" @claude_title 2>/dev/null; exit 0 ;;
+  working|waiting|ask) tmux set -w -t "$TMUX_PANE" @claude "$1" 2>/dev/null ;;
+  clear)
+    tmux set -wu -t "$TMUX_PANE" @claude 2>/dev/null
+    tmux set -wu -t "$TMUX_PANE" @claude_title 2>/dev/null ;;
 esac
-tmux set -w -t "$TMUX_PANE" @claude "$mark" 2>/dev/null
 exit 0
