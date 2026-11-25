@@ -18,6 +18,7 @@ configuration {
 }
 
 * {
+  /* >>> theme colours: generated from theme/palette.sh by ./install theme */
   bg:      #0b0e0de6;
   surface: #141918;
   border:  #2a3331;
@@ -25,6 +26,8 @@ configuration {
   fg:      #dfe3dc;
   gold:    #e6b450;
   teal:    #5fb3a1;
+  red:     #e5675f;
+  /* <<< theme colours */
 
   background-color: transparent;
   text-color: @fg;
@@ -93,7 +96,7 @@ element normal.active, element alternate.active {
 }
 
 element normal.urgent, element alternate.urgent, element selected.urgent {
-  text-color: #e5675f;
+  text-color: @red;
 }
 
 element-icon {

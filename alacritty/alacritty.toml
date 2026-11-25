@@ -1,5 +1,5 @@
 # ~/.config/alacritty/alacritty.toml
-# palette "forest night" (matches i3, polybar, rofi, dunst)
+# palette "forest night": defined once in theme/palette.sh (./install theme)
 
 [window]
 padding = { x = 14, y = 12 }
@@ -21,6 +21,7 @@ unfocused_hollow = true
 [selection]
 save_to_clipboard = true
 
+# >>> theme colours: generated from theme/palette.sh by ./install theme
 [colors.primary]
 background = "#0f1312"
 foreground = "#dfe3dc"
@@ -78,6 +79,7 @@ blue = "#96bfe2"
 magenta = "#d6b4e3"
 cyan = "#85cbbd"
 white = "#eef1ea"
+# <<< theme colours
 
 [[keyboard.bindings]]
 key = "Return"

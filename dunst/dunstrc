@@ -37,7 +37,6 @@ progress_bar = true
 progress_bar_height = 6
 progress_bar_frame_width = 0
 progress_bar_corner_radius = 3
-highlight = "#e6b450"
 
 browser = /usr/bin/xdg-open
 mouse_left_click = do_action, close_current
@@ -45,33 +44,23 @@ mouse_middle_click = close_all
 mouse_right_click = close_current
 
 [urgency_low]
-background = "#0b0e0de6"
-foreground = "#9aa6a1"
-frame_color = "#2a3331"
 timeout = 4
 
 [urgency_normal]
-background = "#0b0e0de6"
-foreground = "#dfe3dc"
-frame_color = "#2a3331"
-highlight = "#e6b450"
 timeout = 6
 
 [urgency_critical]
-background = "#0b0e0de6"
-foreground = "#dfe3dc"
-frame_color = "#e5675f"
-highlight = "#e5675f"
 timeout = 0
+
+# Colours are in dunstrc.d/50-colours.conf, generated from theme/palette.sh
+# (./install theme).
 
 # Claude Code sessions (claude/hooks/notify.sh): teal when a turn is done,
 # gold when a session needs an answer
 [claude_done]
 appname = "Claude Code"
 category = "claude.done"
-frame_color = "#5fb3a1"
 
 [claude_ask]
 appname = "Claude Code"
 category = "claude.ask"
-frame_color = "#e6b450"

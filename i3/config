@@ -1,9 +1,7 @@
 # ~/.config/i3/config
 # Josue Teodoro Moreira <teodoro.josue@protonmail.ch>
 #
-# palette "forest night" (shared with polybar, rofi, dunst, alacritty)
-#   bg #0b0e0d  surface #141918  border #2a3331  muted #6f7d78  fg #dfe3dc
-#   gold #e6b450  teal #5fb3a1  red #e5675f
+# palette "forest night": defined once in theme/palette.sh (./install theme)
 
 set $mod Mod4
 set $scripts ~/.config/i3/scripts
@@ -15,6 +13,7 @@ font pango:Mononoki Nerd Font 1
 
 # ------------------------------------------------------------------ colors
 
+# >>> theme colours: generated from theme/palette.sh by ./install theme
 set $bg      #0b0e0d
 set $surface #141918
 set $raised  #1f2726
@@ -24,6 +23,7 @@ set $fg      #dfe3dc
 set $gold    #e6b450
 set $teal    #5fb3a1
 set $red     #e5675f
+# <<< theme colours
 
 # class                   border    bg        text      indicator child_border
 client.focused            $raised   $raised   $gold     $teal     $gold

@@ -1,0 +1,215 @@
+#!/usr/bin/env bash
+# Writes the colours from theme/palette.sh into every config, then reloads
+# what is running. Run it as:  ./install theme
+#
+# Most configs get a generated block between two marker lines
+# (">>> theme colours" ... "<<< theme colours"); only that block is rewritten.
+# dunst and the Claude mod get a generated file of their own. The shell
+# scripts (i3/scripts, claude/hooks) source palette.sh and need nothing here.
+
+set -euo pipefail
+
+dotfiles=$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)
+cd "$dotfiles"
+# shellcheck source=palette.sh
+. theme/palette.sh
+
+note='generated from theme/palette.sh by ./install theme'
+
+# block <file>: replace what is between the file's marker lines with stdin
+block() {
+  local file=$1 tmp
+  grep -q '>>> theme colours' "$file" && grep -q '<<< theme colours' "$file" ||
+    { echo "theme: no marker lines in $file" >&2; exit 1; }
+  tmp=$(mktemp)
+  awk '
+    FNR == NR { body = body $0 "\n"; next }
+    index($0, ">>> theme colours") { print; printf "%s", body; skip = 1; next }
+    index($0, "<<< theme colours") { skip = 0 }
+    !skip
+  ' /dev/stdin "$file" >"$tmp"
+  cat "$tmp" >"$file" # keep the file itself: it may be a link target
+  rm "$tmp"
+  echo "    $file"
+}
+
+echo '==> colours'
+
+block i3/config <<CONF
+set \$bg      $bg
+set \$surface $surface
+set \$raised  $raised
+set \$border  $border
+set \$muted   $muted
+set \$fg      $fg
+set \$gold    $gold
+set \$teal    $teal
+set \$red     $red
+CONF
+
+block polybar/config.ini <<CONF
+bg      = $bg
+surface = $surface
+border  = $border
+muted   = $muted
+fg      = $fg
+gold    = $gold
+teal    = $teal
+green   = $green
+red     = $red
+CONF
+
+block rofi/config.rasi <<CONF
+  bg:      ${bg}e6;
+  surface: $surface;
+  border:  $border;
+  muted:   $muted;
+  fg:      $fg;
+  gold:    $gold;
+  teal:    $teal;
+  red:     $red;
+CONF
+
+block tmux/.tmux.conf <<CONF
+set -g @theme_bg     '$bg'
+set -g @theme_raised '$raised'
+set -g @theme_border '$border'
+set -g @theme_muted  '$muted'
+set -g @theme_fg     '$fg'
+set -g @theme_gold   '$gold'
+set -g @theme_teal   '$teal'
+set -g @theme_red    '$red'
+CONF
+
+block alacritty/alacritty.toml <<CONF
+[colors.primary]
+background = "$term_bg"
+foreground = "$fg"
+dim_foreground = "$fg_dim"
+bright_foreground = "$fg_bright"
+
+[colors.cursor]
+text = "$term_bg"
+cursor = "$gold"
+
+[colors.vi_mode_cursor]
+text = "$term_bg"
+cursor = "$teal"
+
+[colors.selection]
+text = "CellForeground"
+background = "$border"
+
+[colors.search.matches]
+foreground = "$term_bg"
+background = "$teal"
+
+[colors.search.focused_match]
+foreground = "$term_bg"
+background = "$gold"
+
+[colors.footer_bar]
+foreground = "$fg"
+background = "$black"
+
+[colors.hints.start]
+foreground = "$term_bg"
+background = "$gold"
+
+[colors.hints.end]
+foreground = "$term_bg"
+background = "$fg_dim"
+
+[colors.normal]
+black = "$black"
+red = "$red"
+green = "$green"
+yellow = "$gold"
+blue = "$blue"
+magenta = "$magenta"
+cyan = "$teal"
+white = "$white"
+
+[colors.bright]
+black = "$bright_black"
+red = "$bright_red"
+green = "$bright_green"
+yellow = "$bright_gold"
+blue = "$bright_blue"
+magenta = "$bright_magenta"
+cyan = "$bright_teal"
+white = "$fg_bright"
+CONF
+
+# dunst has no variables: its colours live in a drop-in that overrides dunstrc
+mkdir -p dunst/dunstrc.d
+cat >dunst/dunstrc.d/50-colours.conf <<CONF
+# $note: do not edit
+
+[global]
+highlight = "$gold"
+
+[urgency_low]
+background = "${bg}e6"
+foreground = "$fg_dim"
+frame_color = "$border"
+
+[urgency_normal]
+background = "${bg}e6"
+foreground = "$fg"
+frame_color = "$border"
+highlight = "$gold"
+
+[urgency_critical]
+background = "${bg}e6"
+foreground = "$fg"
+frame_color = "$red"
+highlight = "$red"
+
+[claude_done]
+frame_color = "$teal"
+
+[claude_ask]
+frame_color = "$gold"
+CONF
+echo '    dunst/dunstrc.d/50-colours.conf'
+
+cat >claude/mods/i3-polish/hooks/palette.ts <<CONF
+// $note: do not edit
+export const C = {
+  surface: '$surface',
+  raised: '$raised',
+  bubble: '$bubble', // your own messages
+  border: '$border',
+  muted: '$muted',
+  fg: '$fg',
+  gold: '$gold',
+  teal: '$teal',
+  green: '$green',
+  red: '$red',
+  // diff rows: soft tints of green and red over the surface
+  addBg: '$add_bg',
+  addGutter: '$add_gutter',
+  delBg: '$del_bg',
+  delGutter: '$del_gutter',
+  delText: '$del_text',
+  context: '$context',
+  gutter: '$bright_black',
+}
+CONF
+echo '    claude/mods/i3-polish/hooks/palette.ts'
+
+# ------------------------------------------------------------------ reload
+# alacritty reloads by itself when its file changes; polybar does the same and
+# restarts its scripts. Claude Code picks the colours up when a session starts.
+
+echo '==> reloading what is running'
+if [[ -n ${DISPLAY:-} ]]; then
+  pgrep -x i3 >/dev/null && i3-msg -q reload && echo '    i3'
+  pgrep -x dunst >/dev/null && dunstctl reload >/dev/null 2>&1 && echo '    dunst'
+  touch polybar/config.ini alacritty/alacritty.toml
+fi
+if tmux list-sessions >/dev/null 2>&1; then
+  tmux source-file ~/.tmux.conf && echo '    tmux'
+fi
+exit 0

@@ -48,11 +48,12 @@ fi
 # 3. sound
 (paplay "$sound" >/dev/null 2>&1 &)
 
+. "$(dirname "$(readlink -f "$0")")/../../theme/palette.sh"   # the colours
 # 2. notification; click it to jump to the window (runs detached so the hook returns immediately)
 (
   action=$(notify-send -a "Claude Code" -c "$category" -t 15000 -i utilities-terminal \
     -A default=Jump "$title${project:+ · $project}" "$message${where:+
-<span foreground='#6f7d78'>$where</span>}" 2>/dev/null)
+<span foreground='$muted'>$where</span>}" 2>/dev/null)
   if [ "$action" = default ] && [ -n "${TMUX_PANE:-}" ]; then
     i3-msg '[urgent=latest] focus' >/dev/null 2>&1
     tmux switch-client -t "$TMUX_PANE" 2>/dev/null

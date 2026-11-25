@@ -10,8 +10,7 @@
 names=('1:α' '2:β' '3:γ' '4:δ' '5:ε')
 sup=(' ' '¹' '²' '³' '⁴' '⁵' '⁶' '⁷' '⁸' '⁹')
 
-gold=#e6b450 gold_dim=#a8843c teal=#5fb3a1 red=#e5675f
-fg=#dfe3dc muted=#6f7d78 empty=#2f3936
+. "$(dirname "$(readlink -f "$0")")/../../theme/palette.sh"   # the colours
 
 mode=''
 
@@ -56,7 +55,7 @@ render() {
     esac
   done < <(query)
 
-  [[ -n $mode ]] && out+="  %{B$gold}%{F#0b0e0d} $mode %{F-}%{B-}"
+  [[ -n $mode ]] && out+="  %{B$gold}%{F$bg} $mode %{F-}%{B-}"
   echo "%{A4:i3-msg -q workspace prev_on_output:}%{A5:i3-msg -q workspace next_on_output:}$out %{A}%{A}"
 }
 

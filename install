@@ -8,6 +8,7 @@
 #
 #   ./install          packages, fonts and links
 #   ./install links    links only (no sudo)
+#   ./install theme    write the colours from theme/palette.sh into every config
 #   ./install battery  cap charging at 80% (Acer laptops)
 
 set -euo pipefail
@@ -131,6 +132,7 @@ install_links() {
   link rofi/config.rasi ~/.config/rofi/config.rasi
   link picom/picom.conf ~/.config/picom/picom.conf
   link dunst/dunstrc ~/.config/dunst/dunstrc
+  link dunst/dunstrc.d ~/.config/dunst/dunstrc.d
   link alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
   link gtk/settings.ini ~/.config/gtk-3.0/settings.ini
   link tmux/.tmux.conf ~/.tmux.conf
@@ -141,6 +143,7 @@ install_links() {
 
 case ${1:-all} in
   links) install_links ;;
+  theme) "$dotfiles/theme/apply" ;;
   battery) install_battery ;;
   all)
     install_packages
@@ -153,5 +156,5 @@ case ${1:-all} in
     gear in the bottom-right corner, then log in.
 EOF
     ;;
-  *) echo "usage: $0 [links|battery]" >&2; exit 2 ;;
+  *) echo "usage: $0 [links|theme|battery]" >&2; exit 2 ;;
 esac

@@ -2,12 +2,13 @@
 # Lock with a pixelated, darkened shot of the screen. Used by xss-lock, so it
 # must block (--nofork) until unlocked.
 
+. "$(dirname "$(readlink -f "$0")")/../../theme/palette.sh"   # the colours
 img=${XDG_RUNTIME_DIR:-/tmp}/lock.png
 im=$(command -v magick || command -v convert)
 
-args=(--nofork --ignore-empty-password --show-failed-attempts --color=0b0e0d)
+args=(--nofork --ignore-empty-password --show-failed-attempts --color="${bg#\#}")
 if maim --hidecursor "$img" 2>/dev/null && [[ -n $im ]] &&
-  "$im" "$img" -scale 4% -scale 2500% -fill '#0b0e0d' -colorize 45% "$img"; then
+  "$im" "$img" -scale 4% -scale 2500% -fill "$bg" -colorize 45% "$img"; then
   args+=(--image="$img")
 fi
 

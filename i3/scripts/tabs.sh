@@ -6,7 +6,7 @@
 # the active one underlined in gold, the rest muted. Click a title to focus it.
 # Prints an empty line otherwise, so the module disappears.
 
-gold=#e6b450 fg=#dfe3dc muted=#6f7d78 border=#2a3331
+. "$(dirname "$(readlink -f "$0")")/../../theme/palette.sh"   # the colours
 
 # prints "<con id>|<1 if active>|<title>" per tab of the focused container
 query() {
