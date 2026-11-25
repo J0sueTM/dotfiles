@@ -151,6 +151,8 @@ bindsym $mod+Shift+space focus mode_toggle
 
 # focus parent
 bindsym $mod+a focus parent
+# Jump to the most recent urgent window (e.g. a Claude session that rang)
+bindsym $mod+u [urgent=latest] focus
 
 # scratchpad
 bindsym $mod+Shift+minus move scratchpad
